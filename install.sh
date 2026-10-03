@@ -159,6 +159,11 @@ for c in "${CHOSEN[@]}"; do
     info "$c"
 done
 
+# nvim writes a plugin lock file next to our init.lua: remember if the user already had one (uninstall keeps it)
+if [ -z "$UPDATE" ] && [[ " ${CHOSEN[*]} " == *" nvim "* ]] && [ -e "$CONFIG_DST/nvim/nvim-pack-lock.json" ]; then
+    manifest_has "keep nvim/nvim-pack-lock.json" || manifest_add "keep nvim/nvim-pack-lock.json"
+fi
+
 # an old hyprland.conf next to hyprland.lua would be confusing: keep it in the backup
 if [ -e "$CONFIG_DST/hypr/hyprland.conf" ]; then
     backup "hypr/hyprland.conf"; manifest_add "moved hypr/hyprland.conf"
