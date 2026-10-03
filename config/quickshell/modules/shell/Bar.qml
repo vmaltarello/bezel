@@ -298,6 +298,7 @@ PanelWindow {
                 onScrolled: delta => Audio.step(delta > 0 ? 0.05 : -0.05)
             }
             BarButton {
+                visible: Net.available
                 panel: "net"
                 icon: Net.ethernet ? "lan" : !Net.connected ? "wifi_off"
                     : Net.strength >= 75 ? "signal_wifi_4_bar" : Net.strength >= 50 ? "network_wifi_3_bar"

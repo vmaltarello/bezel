@@ -11,9 +11,11 @@ Singleton {
     readonly property var wiredDev: devices.find(d => d.type === DeviceType.Wired && d.connected) ?? null
     readonly property var wifi: wifiDev?.networks.values.find(n => n.connected) ?? null
 
+    // false when NetworkManager isn't running (network managed by something else): the bar hides the button
+    readonly property bool available: devices.length > 0
     readonly property bool ethernet: wiredDev != null
     readonly property bool connected: ethernet || wifi != null
-    readonly property string name: ethernet ? (wiredDev.name ?? "cavo") : (wifi?.name ?? "")
+    readonly property string name: ethernet ? (wiredDev.name ?? "wired") : (wifi?.name ?? "")
     readonly property int strength: Math.round((wifi?.signalStrength ?? 0) * 100)
     readonly property bool wifiEnabled: Networking.wifiEnabled
 }
