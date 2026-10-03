@@ -1,0 +1,86 @@
+# btop — default theme colors
+# Based on the Kanagawa-wave theme by philikarus
+
+# Main bg
+theme[main_bg]="#0b1012"
+
+# Main text color
+theme[main_fg]="#dfe4e5"
+
+# Title color for boxes
+theme[title]="#dfe4e5"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#D95757"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#1A2A30"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#e6b450"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#899395"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#8fd1bd"
+
+# Cpu box outline color
+theme[cpu_box]="#899395"
+
+# Memory/disks box outline color
+theme[mem_box]="#899395"
+
+# Net up/down box outline color
+theme[net_box]="#899395"
+
+# Processes box outline color
+theme[proc_box]="#899395"
+
+# Box divider line and small boxes line color
+theme[div_line]="#899395"
+
+# Temperature graph colors
+theme[temp_start]="#9ECE6A"
+theme[temp_mid]="#e6b450"
+theme[temp_end]="#F07178"
+
+# CPU graph colors
+theme[cpu_start]="#9ECE6A"
+theme[cpu_mid]="#e6b450"
+theme[cpu_end]="#F07178"
+
+# Mem/Disk free meter
+theme[free_start]="#F07178"
+theme[free_mid]="#D95757"
+theme[free_end]="#F07178"
+
+# Mem/Disk cached meter
+theme[cached_start]="#D6A443"
+theme[cached_mid]="#e6b450"
+theme[cached_end]="#ff9e64"
+
+# Mem/Disk available meter
+theme[available_start]="#C39FF0"
+theme[available_mid]="#d2a6ff"
+theme[available_end]="#C5CED0"
+
+# Mem/Disk used meter
+theme[used_start]="#7fbbb3"
+theme[used_mid]="#59c2ff"
+theme[used_end]="#95E6CB"
+
+# Download graph colors
+theme[download_start]="#59c2ff"
+theme[download_mid]="#C39FF0"
+theme[download_end]="#d2a6ff"
+
+# Upload graph colors
+theme[upload_start]="#e6b450"
+theme[upload_mid]="#E6B450"
+theme[upload_end]="#F07178"
+
+# Process box color gradient for threads, mem and cpu usage
+theme[process_start]="#9ECE6A"
+theme[process_mid]="#e6b450"
+theme[process_end]="#D95757"

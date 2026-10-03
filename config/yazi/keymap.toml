@@ -1,0 +1,73 @@
+# yazi — extra keys (added to the defaults; F1 or ~ shows the full list)
+
+# Enter / l: enter the folder or open the file
+[[mgr.prepend_keymap]]
+on   = "<Enter>"
+run  = "plugin smart-enter"
+desc = "Enter folder or open file"
+
+[[mgr.prepend_keymap]]
+on   = "l"
+run  = "plugin smart-enter"
+desc = "Enter folder or open file"
+
+# p: paste into the hovered folder (or the current one)
+[[mgr.prepend_keymap]]
+on   = "p"
+run  = "plugin smart-paste"
+desc = "Paste into hovered folder"
+
+# Bookmarks: m save, ' jump, bd delete
+[[mgr.prepend_keymap]]
+on   = "m"
+run  = "plugin bookmarks save"
+desc = "Save bookmark"
+
+[[mgr.prepend_keymap]]
+on   = "'"
+run  = "plugin bookmarks jump"
+desc = "Go to a bookmark"
+
+[[mgr.prepend_keymap]]
+on   = ["b", "d"]
+run  = "plugin bookmarks delete"
+desc = "Delete bookmark"
+
+# M: USB sticks and disks (mount / unmount / eject)
+[[mgr.prepend_keymap]]
+on   = "M"
+run  = "plugin mount"
+desc = "Mount / unmount disks"
+
+# cm: permissions
+[[mgr.prepend_keymap]]
+on   = ["c", "m"]
+run  = "plugin chmod"
+desc = "Change permissions"
+
+# T: toggle maximized preview
+[[mgr.prepend_keymap]]
+on   = "T"
+run  = "plugin toggle-pane max-preview"
+desc = "Maximize or restore the preview"
+
+# Folder shortcuts (g + letter)
+[[mgr.prepend_keymap]]
+on   = ["g", "p"]
+run  = "cd ~/Pictures"
+desc = "Go to Pictures"
+
+[[mgr.prepend_keymap]]
+on   = ["g", "w"]
+run  = "cd ~/Pictures/Wallpapers"
+desc = "Go to wallpapers"
+
+[[mgr.prepend_keymap]]
+on   = ["g", "t"]
+run  = "cd ~/.local/share/Trash/files"
+desc = "Go to trash"
+
+[[mgr.prepend_keymap]]
+on   = ["g", "m"]
+run  = "cd /run/media/$USER"
+desc = "Go to mounted disks"

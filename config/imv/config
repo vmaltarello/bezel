@@ -1,0 +1,12 @@
+# imv — image viewer. arrows: previous/next · +/-: zoom · f: fullscreen · q: quit
+[options]
+background = 1e2430
+overlay = false
+overlay_font = JetBrainsMono Nerd Font:11
+overlay_text_color = dad2b1
+overlay_background_color = 151923
+overlay_background_alpha = e6
+title_text = imv · $imv_current_file
+
+[binds]
+i = overlay

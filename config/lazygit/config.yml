@@ -1,0 +1,17 @@
+# lazygit — default theme colors
+gui:
+  nerdFontsVersion: "3"
+  border: rounded
+  theme:
+    activeBorderColor: ["#e6b450", bold]
+    inactiveBorderColor: ["#4f5a5c"]
+    searchingActiveBorderColor: ["#9fd3dc", bold]
+    optionsTextColor: ["#e6b450"]
+    selectedLineBgColor: ["#232c2e"]
+    inactiveViewSelectedLineBgColor: ["#1A2A30"]
+    cherryPickedCommitFgColor: ["#95e6cb"]
+    cherryPickedCommitBgColor: ["#1f3640"]
+    markedBaseCommitFgColor: ["#95e6cb"]
+    markedBaseCommitBgColor: ["#9fd3dc"]
+    unstagedChangesColor: ["#f07178"]
+    defaultFgColor: ["#dfe4e5"]

@@ -1,0 +1,18 @@
+/* Default theme palette — accents and surfaces for libadwaita */
+@define-color accent_color #e6b450;
+@define-color accent_bg_color #e6b450;
+@define-color accent_fg_color #0f1416;
+@define-color window_bg_color #0f1416;
+@define-color window_fg_color #dfe4e5;
+@define-color view_bg_color #0f1416;
+@define-color view_fg_color #dfe4e5;
+@define-color headerbar_bg_color #0b1012;
+@define-color headerbar_fg_color #dfe4e5;
+@define-color sidebar_bg_color #0b1012;
+@define-color card_bg_color #232c2e;
+@define-color popover_bg_color #232c2e;
+@define-color dialog_bg_color #0f1416;
+@define-color destructive_bg_color #f07178;
+@define-color success_bg_color #9ece6a;
+@define-color warning_bg_color #ff9e64;
+@define-color error_bg_color #f07178;

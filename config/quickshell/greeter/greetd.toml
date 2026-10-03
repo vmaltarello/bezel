@@ -1,0 +1,9 @@
+# greetd — login screen: the Quickshell greeter inside a minimal Hyprland.
+# Install: sudo cp greetd.toml /etc/greetd/config.toml (after running install.sh)
+# No autologin: a password is required at boot.
+[terminal]
+vt = 1
+
+[default_session]
+command = "start-hyprland -- -c /etc/quickshell-greeter/hyprland.lua"
+user = "greeter"

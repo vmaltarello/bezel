@@ -1,0 +1,35 @@
+# zathura — PDF viewer. j/k scroll · J/K page · /search · d: two pages · ctrl+r: dark mode
+set selection-clipboard clipboard
+set adjust-open          "best-fit"
+set scroll-page-aware    true
+set smooth-scroll        true
+set font                 "JetBrainsMono Nerd Font 10"
+set guioptions           ""
+
+set default-bg           "#1e2430"
+set default-fg           "#dad2b1"
+set statusbar-bg         "#151923"
+set statusbar-fg         "#b9b29a"
+set inputbar-bg          "#151923"
+set inputbar-fg          "#dad2b1"
+set notification-bg      "#283043"
+set notification-fg      "#dad2b1"
+set notification-error-bg "#283043"
+set notification-error-fg "#d0736f"
+set notification-warning-bg "#283043"
+set notification-warning-fg "#9aa8c6"
+set highlight-color      "rgba(230,195,132,0.35)"
+set highlight-active-color "rgba(111,134,182,0.45)"
+set completion-bg        "#1e2430"
+set completion-fg        "#dad2b1"
+set completion-highlight-bg "#3a4560"
+set completion-highlight-fg "#dad2b1"
+set index-bg             "#1e2430"
+set index-fg             "#dad2b1"
+set index-active-bg      "#3a4560"
+set index-active-fg      "#dad2b1"
+
+# ctrl+r: recolor pages with the theme colors (nice at night)
+set recolor-lightcolor   "#1e2430"
+set recolor-darkcolor    "#dad2b1"
+set recolor-keephue      true

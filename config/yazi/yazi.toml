@@ -1,0 +1,25 @@
+# yazi — https://yazi-rs.github.io/docs/configuration/yazi
+[mgr]
+ratio          = [1, 3, 4]   # columns: parent / current / preview
+sort_by        = "natural"
+sort_dir_first = true
+show_hidden    = true         # "." toggles them
+linemode       = "size_and_mtime"  # size + modification date (defined in init.lua)
+scrolloff      = 5
+
+# text and config files open in nvim in the same window; everything else with the default app (xdg-open)
+[opener]
+edit = [
+    { run = 'nvim %s', block = true, desc = "nvim", for = "unix" },
+]
+
+# git plugin: shows file status inside repositories
+[[plugin.prepend_fetchers]]
+url   = "*"
+run   = "git"
+group = "git"
+
+[[plugin.prepend_fetchers]]
+url   = "*/"
+run   = "git"
+group = "git"

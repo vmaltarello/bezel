@@ -1,0 +1,44 @@
+# bezel — core packages (all from the official Arch repos)
+# compositor and shell
+hyprland
+quickshell
+hypridle
+hyprlock
+hyprpolkitagent
+hyprshutdown
+hyprpwcenter
+xdg-desktop-portal-hyprland
+# wallpaper, clipboard, screenshots, notifications
+awww
+cliphist
+wl-clipboard
+grim
+imagemagick
+satty
+libnotify
+jq
+xdg-utils
+# hardware services shown in the bar
+brightnessctl
+pipewire
+pipewire-pulse
+wireplumber
+networkmanager
+bluez
+bluez-utils
+bluetui
+upower
+power-profiles-daemon
+pacman-contrib
+# terminal, fonts, cursor, GTK/Qt theming
+kitty
+ttf-jetbrains-mono-nerd
+ttf-material-symbols-variable
+inter-font
+capitaine-cursors
+adw-gtk-theme
+papirus-icon-theme
+kvantum
+qt6ct
+qt6-svg
+qt6-imageformats

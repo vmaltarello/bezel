@@ -1,0 +1,92 @@
+# starship — https://starship.rs/config/
+"$schema" = 'https://starship.rs/config-schema.json'
+
+palette = "default"
+add_newline = true
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$python\
+$rust\
+$golang\
+$java\
+$docker_context\
+$cmd_duration
+$character"""
+
+[directory]
+style = "bold lavender"
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = " "
+style = "bold mauve"
+
+[git_status]
+style = "bold red"
+
+[cmd_duration]
+min_time = 2000
+format = "[took $duration]($style) "
+style = "yellow"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[nodejs]
+symbol = " "
+style = "bold green"
+
+[python]
+symbol = " "
+style = "bold yellow"
+
+[rust]
+symbol = " "
+style = "bold peach"
+
+[golang]
+symbol = " "
+style = "bold sky"
+
+[java]
+symbol = " "
+style = "bold red"
+
+[docker_context]
+symbol = " "
+style = "bold blue"
+
+# palette (kept the previous color names so the styles above stay valid)
+[palettes.default]
+rosewater = "#ff9e64"
+flamingo = "#ff9e64"
+pink = "#9fd3dc"
+mauve = "#9fd3dc"
+red = "#f07178"
+maroon = "#f07178"
+peach = "#ff9e64"
+yellow = "#9fd3dc"
+green = "#9ece6a"
+teal = "#95e6cb"
+sky = "#e6b450"
+sapphire = "#e6b450"
+blue = "#e6b450"
+lavender = "#e6b450"
+text = "#dfe4e5"
+subtext1 = "#dfe4e5"
+subtext0 = "#b9c3c5"
+overlay2 = "#c39ff0"
+overlay1 = "#899395"
+overlay0 = "#4f5a5c"
+surface2 = "#4f5a5c"
+surface1 = "#2E3739"
+surface0 = "#232c2e"
+base = "#0f1416"
+mantle = "#0b1012"
+crust = "#12181a"

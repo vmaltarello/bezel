@@ -1,0 +1,13 @@
+# bezel — optional apps themed to match (installed only with their component)
+# component  package
+yazi       yazi
+yazi       fd
+yazi       ffmpegthumbnailer
+btop       btop
+lazygit    lazygit
+starship   starship
+zathura    zathura
+zathura    zathura-pdf-mupdf
+imv        imv
+nvim       neovim
+greeter    greetd
