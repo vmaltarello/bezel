@@ -136,6 +136,10 @@ including GTK settings and the previous display manager. Packages are kept unles
 
 Touchpad: three fingers left/right switch workspace, up/down open and close the overview.
 
+## Contributing
+
+Bug reports, ideas and pull requests are welcome — please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+
 ## Credits
 
 Built with [Hyprland](https://hypr.land) and [Quickshell](https://quickshell.org).
