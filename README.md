@@ -75,6 +75,13 @@ The installer asks a few questions, then:
 
 Then log in to a Hyprland session. Press `SUPER+H` to see every shortcut.
 
+> [!IMPORTANT]
+> **Already using Hyprland?** bezel **replaces** your configuration: your `hyprland.conf`/`hyprland.lua`,
+> Quickshell config, kitty, GTK/Qt theme and the other files of the components you choose are moved to
+> `~/.local/state/bezel/backup/` (nothing is deleted). Your monitors, keybindings and autostart apps are
+> **not** carried over: copy what you need from the backup into the new `~/.config/hypr/hyprland.lua`.
+> `./uninstall.sh` puts all of it back exactly as it was. Packages you already had are never removed.
+
 | Option | |
 |---|---|
 | `--yes` | take the default answer everywhere |
