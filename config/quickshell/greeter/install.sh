@@ -29,6 +29,8 @@ rm -rf "$tmp"
 # background folder (real install only)
 if [ "$dst" = /etc/quickshell-greeter ]; then
     sudo install -d -m 755 -o "$USER" -g "$(id -gn)" /var/lib/quickshell-greeter
-    install -m 644 "$bg" /var/lib/quickshell-greeter/background.jpg
+    # on a fresh install there is no wallpaper yet: wallpaper.sh copies it here when one is set
+    if [ -f "$bg" ]; then install -m 644 "$bg" /var/lib/quickshell-greeter/background.jpg
+    else echo "no wallpaper yet: the login screen gets its background when you set one"; fi
 fi
 echo "ok: $dst"
