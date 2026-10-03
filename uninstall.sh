@@ -61,6 +61,11 @@ for d in $(printf '%s\n' "${dirs[@]}" | sort -u | awk '{ print length, $0 }' | s
         d=$(dirname "$d")
     done
 done
+# data the theme writes while running (launcher usage, current wallpaper link, blurred lock copy, nvim plugin lock)
+rm -f "${XDG_STATE_HOME:-$HOME/.local/state}/quickshell/launches.json" "${XDG_STATE_HOME:-$HOME/.local/state}/wallpaper"
+rm -rf "${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper"
+grep -qx "component nvim" "$MANIFEST" && rm -f "$CONFIG_DST/nvim/nvim-pack-lock.json"
+rmdir "${XDG_STATE_HOME:-$HOME/.local/state}/quickshell" "$CONFIG_DST/nvim" 2>/dev/null || true
 info "theme files removed"
 
 # ---------- GTK settings ----------
@@ -77,11 +82,11 @@ if [ -f "$STATE/greeter" ]; then
         sudo install -m 644 "$STATE/greetd-config.toml" /etc/greetd/config.toml
     fi
     sudo rm -rf /etc/quickshell-greeter /var/lib/quickshell-greeter
-    if [ "$prev" != none ] && [ "$prev" != greetd.service ]; then
-        sudo systemctl enable -f "$prev" >/dev/null 2>&1 && info "display manager back to $prev"
-    elif [ ! -f "$STATE/greetd-config.toml" ]; then
+    if [ "$prev" = none ]; then
         sudo systemctl disable greetd.service >/dev/null 2>&1 || true
-        warn "no display manager was enabled before bezel: you will log in from the console"
+        info "greetd disabled: login from the console, as before bezel"
+    elif [ "$prev" != greetd.service ]; then
+        sudo systemctl enable -f "$prev" >/dev/null 2>&1 && info "display manager back to $prev"
     fi
 fi
 

@@ -69,7 +69,7 @@ if [ -z "$NO_PKGS" ]; then
     else
         info "missing: $(echo $missing)"
         if ask "Install them with pacman?" y; then
-            sudo pacman -S --needed $missing
+            sudo pacman -S --needed ${ASSUME_YES:+--noconfirm} $missing
             mkdir -p "$STATE"
             for p in $missing; do grep -qx "$p" "$STATE/packages" 2>/dev/null || echo "$p" >> "$STATE/packages"; done
         else
@@ -191,8 +191,11 @@ fi
 if [ -n "$GREETER" ]; then
     step "Login screen (greetd)"
     if [ ! -f "$STATE/greeter" ]; then
-        prev=$(basename "$(readlink -f /etc/systemd/system/display-manager.service 2>/dev/null)" 2>/dev/null || true)
-        echo "${prev:-none}" > "$STATE/greeter"
+        # display manager enabled before bezel ("none" = console login)
+        prev=none
+        dm=/etc/systemd/system/display-manager.service
+        [ -L "$dm" ] && prev=$(basename "$(readlink -f "$dm")")
+        echo "$prev" > "$STATE/greeter"
         [ -f /etc/greetd/config.toml ] && cp /etc/greetd/config.toml "$STATE/greetd-config.toml"
     fi
     "$CONFIG_SRC/quickshell/greeter/install.sh" >/dev/null
