@@ -134,6 +134,10 @@ return function(o)
         },
         -- XWayland apps at native resolution (no blurry upscale at 1.5):
         -- they scale themselves (e.g. JetBrains IDEs with -Dide.ui.scale)
+        -- no "Hyprland updated" window after upgrades (release notes: github.com/hyprwm/Hyprland/releases)
+        ecosystem = {
+            no_update_news = true,
+        },
         xwayland = {
             force_zero_scaling = true,
         },
