@@ -48,15 +48,17 @@ return function(o)
                 color_inactive = "rgba(00000000)",
             },
 
-            -- light blur: only where there is transparency (kitty)
+            -- light blur: only where there is transparency (kitty).
+            -- 1 pass halves the GPU cost of every terminal redraw; a bigger size keeps a similar look
+            -- (size only spreads the samples, it costs nothing)
             blur = {
                 enabled  = true,
-                size     = 6,
-                passes   = 2,
+                size     = 9,
+                passes   = 1,
                 noise    = 0.02,
                 contrast = 1.1,
                 vibrancy = 0.2,
-                popups   = true,
+                popups   = false,   -- popups/menus are opaque: nothing to blur
             },
         },
 
