@@ -91,4 +91,4 @@ Hyprland --verify-config -c ~/.config/hypr/hyprland.lua
 
 ## License
 
-By contributing you agree that your work is released under the project's [MIT License](LICENSE).
+By contributing you agree that your work is released under the project's [GPL-3.0-or-later license](LICENSE).

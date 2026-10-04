@@ -153,4 +153,4 @@ Built with [Hyprland](https://hypr.land) and [Quickshell](https://quickshell.org
 
 ## License
 
-[MIT](LICENSE).
+[GPL-3.0-or-later](LICENSE). Copyright (C) 2026 Vladimir Alberto Maltarello.
