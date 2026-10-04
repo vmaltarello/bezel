@@ -40,11 +40,11 @@ dirs=()
 while read -r kind rel; do
     case $kind in
         file)
-            rm -f "${CONFIG_DST:?}/$rel"
-            # inside a folder the theme owns, the whole folder is restored below (from its own backup)
+            # inside a folder the theme owns, the whole folder is removed and restored below (from its own
+            # backup); never rm through it: with --link it is a symlink to the repo
             in_owned=
             for d in $OWNED_DIRS; do [[ $rel == "$d"/* ]] && in_owned=1; done
-            [ -n "$in_owned" ] || restore "$rel"
+            [ -n "$in_owned" ] || { rm -f "${CONFIG_DST:?}/$rel"; restore "$rel"; }
             dirs+=("$(dirname "$rel")") ;;
         dir)
             rm -rf "${CONFIG_DST:?}/$rel"

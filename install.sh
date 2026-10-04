@@ -7,7 +7,8 @@
 #   ./install.sh --only a,b      only these optional components (core is always installed)
 #   ./install.sh --greeter       also install the login screen (greetd, needs sudo)
 #   ./install.sh --no-packages   don't install packages, only the config files
-#   ./install.sh --link          symlink files to this repo instead of copying (for development)
+#   ./install.sh --link          symlink to this repo instead of copying (for development;
+#                                theme-owned folders like quickshell/ are linked whole)
 #
 # Everything it replaces is saved first: ./uninstall.sh puts it back.
 set -euo pipefail
@@ -22,7 +23,7 @@ while [ $# -gt 0 ]; do
         --greeter) GREETER=1 ;;
         --no-packages) NO_PKGS=1 ;;
         --link) LINK=1 ;;
-        -h|--help) sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+        -h|--help) sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
         *) die "unknown option: $1 (see --help)" ;;
     esac
     shift
@@ -143,15 +144,28 @@ install_file() {
 for c in "${CHOSEN[@]}"; do
     for rel in $(component_paths "$c"); do
         rel=${rel%/}
+        linked=()
         # folders owned by the theme: the old one goes to the backup whole, ours is rebuilt on update
         for d in $OWNED_DIRS; do
             [[ $d == "$rel" || $d == "$rel"/* ]] || continue
             if manifest_has "dir $d"; then rm -rf "${CONFIG_DST:?}/$d"
             else backup "$d"; manifest_add "dir $d"; fi
+            # --link: the whole folder is one symlink, so files added to the repo show up without reinstalling
+            # (not when it holds templates: those must be real files)
+            if [ -n "$LINK" ] && ! grep -rqE "$PLACEHOLDERS" "$CONFIG_SRC/$d"; then
+                mkdir -p "$(dirname "$CONFIG_DST/$d")"
+                ln -s "$CONFIG_SRC/$d" "$CONFIG_DST/$d"
+                grep -vF "file $d/" "$MANIFEST" > "$MANIFEST.tmp" || true   # its files are not tracked one by one
+                mv "$MANIFEST.tmp" "$MANIFEST"
+                linked+=("$d")
+            fi
         done
         if [ -d "$CONFIG_SRC/$rel" ]; then
-            while IFS= read -r f; do install_file "${f#"$CONFIG_SRC"/}"; done \
-                < <(find "$CONFIG_SRC/$rel" -type f ! -name '*.bak*')
+            while IFS= read -r f; do
+                f=${f#"$CONFIG_SRC"/}
+                for d in "${linked[@]}"; do [[ $f == "$d"/* ]] && continue 2; done
+                install_file "$f"
+            done < <(find "$CONFIG_SRC/$rel" -type f ! -name '*.bak*')
         else
             install_file "$rel"
         fi
