@@ -9,6 +9,5 @@ return function(o)
         -- clipboard history: text and images (cliphist, ~2 MB of RAM)
         hl.exec_cmd("wl-paste --type text --watch cliphist -max-items 200 store")
         hl.exec_cmd("wl-paste --type image --watch cliphist -max-items 200 store")
-        hl.exec_cmd("systemctl --user start hyprpolkitagent")   -- password prompts for graphical apps
     end)
 end

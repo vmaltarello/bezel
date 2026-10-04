@@ -51,7 +51,7 @@ return function(o)
     -- utility windows (btop, nmtui, mixer...): floating, centered, fixed size
     hl.window_rule({
         name   = "utility-float",
-        match  = { class = "^(kitty-float|nm-connection-editor|hyprpolkitagent|hyprpwcenter)$" },
+        match  = { class = "^(kitty-float|nm-connection-editor|hyprpwcenter)$" },
         float  = true,
         center = true,
         size   = "1100 720",

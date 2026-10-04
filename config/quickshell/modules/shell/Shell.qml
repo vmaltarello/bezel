@@ -34,5 +34,7 @@ Scope {
     LazyLoader { active: Events.loaded; Osd { screen: root.focused } }
     LazyLoader { active: Shot.active; Screenshot { screen: root.focused } }
     Lock {}
+    // password prompt for apps asking admin rights (polkit agent)
+    LazyLoader { active: Polkit.active; PolkitDialog { screen: root.focused } }
     LazyLoader { active: Notifs.loaded; Notifications { screen: root.focused } }
 }

@@ -4,7 +4,6 @@ hyprland
 quickshell
 hypridle
 hyprlock
-hyprpolkitagent
 hyprshutdown
 hyprpwcenter
 xdg-desktop-portal-hyprland
