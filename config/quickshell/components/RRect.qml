@@ -17,10 +17,6 @@ Item {
         property color color: "transparent"
     }
     readonly property Border border: Border {}
-    // optional left-to-right gradient (like Gradient.Horizontal)
-    property color gradientFrom: "transparent"
-    property color gradientTo: "transparent"
-    readonly property bool hasGradient: gradientFrom.a > 0 || gradientTo.a > 0
 
     Shape {
         anchors.fill: parent
@@ -28,8 +24,7 @@ Item {
         ShapePath {
             id: sp
             readonly property real bw: root.border.width
-            fillColor: root.hasGradient ? "transparent" : root.color
-            fillGradient: root.hasGradient ? grad : null
+            fillColor: root.color
             strokeColor: bw > 0 ? root.border.color : "transparent"
             strokeWidth: bw > 0 ? bw : -1
             // hand-written path (like the frame fillets): PathRectangle isn't drawn by the software renderer
@@ -45,11 +40,5 @@ Item {
                 path: `M${b + tl},${b} H${b + w - tr} A${tr},${tr} 0 0 1 ${b + w},${b + tr} V${b + h - br} A${br},${br} 0 0 1 ${b + w - br},${b + h} H${b + bl} A${bl},${bl} 0 0 1 ${b},${b + h - bl} V${b + tl} A${tl},${tl} 0 0 1 ${b + tl},${b} Z`
             }
         }
-    }
-    LinearGradient {
-        id: grad
-        x1: 0; y1: 0; x2: root.width; y2: 0
-        GradientStop { position: 0; color: root.gradientFrom }
-        GradientStop { position: 1; color: root.gradientTo }
     }
 }

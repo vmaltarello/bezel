@@ -83,6 +83,7 @@ PanelWindow {
         ["power_settings_new", "Shut down", ["hyprshutdown", "-t", "Shutting down...", "-p", "systemctl poweroff"]]
     ]
     readonly property var results: {
+        if (!active) return [];      // closed: no list, so no delegates or icons kept in memory
         const q = query.trim().toLowerCase();
         if (kind === "calc") {
             const r = calc(query);

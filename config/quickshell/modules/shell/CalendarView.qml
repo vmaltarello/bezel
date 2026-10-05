@@ -1,4 +1,4 @@
-// Calendar: ‹ › change month (wheel too), click on the month = back to today, click on a day = select it.
+// Calendar: ‹ › change month (wheel too), click on the month = back to today. Only today is highlighted.
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -9,11 +9,9 @@ import qs.components
 ColumnLayout {
     id: root
     property date shown: new Date()
-    property date selected: new Date()
     spacing: 4
 
     function shift(n) { shown = new Date(shown.getFullYear(), shown.getMonth() + n, 1); }
-    function same(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
 
     RowLayout {
         Layout.fillWidth: true
@@ -21,7 +19,7 @@ ColumnLayout {
         Txt {
             Layout.fillWidth: true; horizontalAlignment: Text.AlignHCenter
             text: Time.loc.toString(root.shown, "MMMM yyyy"); font.capitalization: Font.Capitalize; font.bold: true; color: Theme.c.blue
-            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { root.shown = new Date(); root.selected = new Date(); } }
+            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: root.shown = new Date() }
         }
         MIcon { text: "chevron_right"; color: Theme.m.outline; font.pixelSize: 20; MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: root.shift(1) } }
     }
@@ -36,22 +34,18 @@ ColumnLayout {
         month: root.shown.getMonth(); year: root.shown.getFullYear()
         locale: Time.loc
         spacing: 1
-        delegate: RRect {
+        // plain cells: the rounded shape is created only for today
+        delegate: Item {
             id: day
             required property var model
-            readonly property bool isSel: root.same(model.date, root.selected)
-            radius: 6; antialiasing: true
-            color: model.today ? Theme.c.blue : dayArea.containsMouse ? Theme.c.ink4 : "transparent"
-            border.width: isSel && !model.today ? 1 : 0
-            border.color: Theme.c.blue
-            Txt {
-                anchors.centerIn: parent; text: day.model.day; font.pixelSize: 13; font.bold: day.model.today || day.isSel
-                color: day.model.today ? Theme.c.ink1 : day.model.month === grid.month ? Theme.c.fg : Theme.c.dim
+            Loader {
+                anchors.fill: parent
+                active: day.model.today
+                sourceComponent: RRect { radius: 6; antialiasing: true; color: Theme.c.blue }
             }
-            MouseArea {
-                id: dayArea
-                anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                onClicked: { root.selected = day.model.date; if (day.model.month !== grid.month) root.shown = new Date(day.model.year, day.model.month, 1); }
+            Txt {
+                anchors.centerIn: parent; text: day.model.day; font.pixelSize: 13; font.bold: day.model.today
+                color: day.model.today ? Theme.c.ink1 : day.model.month === grid.month ? Theme.c.fg : Theme.c.dim
             }
         }
     }
