@@ -42,7 +42,7 @@ and one amber accent marks what matters. Every dependency comes from the officia
 - **Lock and login screens** — the same design for both (the login screen is optional).
 - **Notifications, OSD, do not disturb, caffeine** — built into the shell, no extra daemons.
 - **One palette everywhere** — kitty, GTK and Qt apps, yazi, btop, lazygit, starship, zathura, imv, Zed and neovim.
-- **Light on resources** — the shell renders in software (~150 MB RAM) and stops refreshing what you can't see.
+- **Light on resources** — the shell renders in software (~180 MB RAM) and stops refreshing what you can't see.
 
 ## Requirements
 
@@ -115,6 +115,8 @@ Run the command for the channel you installed from, inside the `bezel` folder:
 To switch channel: `git checkout main` moves a release install to `main`, `git checkout <tag>` does the opposite.
 
 Theme files are replaced; `~/.config/hypr/hyprland.lua` is yours and is never overwritten.
+
+kitty doesn't reload its config by itself (that would keep an extra ~20 MB watcher process running): after an update, or after editing `kitty.conf`, press `Ctrl+Shift+F5` in kitty (or close every kitty window and start it again).
 
 ## Uninstall
 
