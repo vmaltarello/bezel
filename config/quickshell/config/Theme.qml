@@ -54,9 +54,6 @@ Singleton {
         // Not translucent: a thin frame and a wide bar over different parts of the wallpaper never match.
         readonly property color barGlass:     "#080b0d"
         readonly property color glass:        Qt.rgba(15 / 255, 20 / 255, 22 / 255, 0.50) // desktop widgets: surface you can see through
-        // 1px light on the inner frame edge: off. With a solid bar/frame it only made the right side of the bar
-        // look narrower and left small seams where it met the window corners.
-        readonly property color edge:         "transparent"
     }
 
     // ---- fonts ----

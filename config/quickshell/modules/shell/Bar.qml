@@ -23,9 +23,6 @@ PanelWindow {
     WlrLayershell.namespace: "quickshell-bar"
     Rectangle { anchors.fill: parent; color: Theme.m.barGlass }
 
-    // right edge: same thin light line as the frame
-    Rectangle { x: parent.width - 1; y: Theme.size.frameRadius; width: 1; height: parent.height - 2 * Theme.size.frameRadius; color: Theme.m.edge }
-
     // caffeine: blocks lock/suspend (hypridle respects the inhibitor)
     IdleInhibitor { window: bar; enabled: Caffeine.active }
 
@@ -226,27 +223,6 @@ PanelWindow {
                     text: modelData
                     font.pixelSize: 17; font.bold: true
                     color: Theme.m.fgPrimary
-                }
-            }
-            // music playing: four small bars (explicit positions, shared baseline)
-            Item {
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: Media.playing
-                width: 4 * 3 + 3 * 2; height: 12
-                Repeater {
-                    model: 4
-                    Rectangle {
-                        required property int index
-                        x: index * 5; width: 3
-                        height: 3; y: parent.height - height
-                        color: Theme.m.fgPrimary
-                        SequentialAnimation on height {
-                            running: Media.playing; loops: Animation.Infinite
-                            PauseAnimation { duration: index * 110 }
-                            NumberAnimation { to: 10; duration: 340; easing.type: Easing.InOutSine }
-                            NumberAnimation { to: 3; duration: 340; easing.type: Easing.InOutSine }
-                        }
-                    }
                 }
             }
         }
