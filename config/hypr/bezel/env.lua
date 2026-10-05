@@ -11,8 +11,9 @@ return function(o)
 
     -- no accessibility bus (at-spi, ~15 MB in 3 processes): GTK 4 and GTK 3 apps don't start it.
     -- Remove these two lines if you use a screen reader.
-    hl.env("GTK_A11Y", "none")
-    hl.env("NO_AT_BRIDGE", "1")
+    -- `true` exports them to systemd/D-Bus too: portals are activated there and would start at-spi otherwise.
+    hl.env("GTK_A11Y", "none", true)
+    hl.env("NO_AT_BRIDGE", "1", true)
 
     -- editor for apps launched by Hyprland (yazi, git…): shells set it only inside terminals
     if o.editor then
