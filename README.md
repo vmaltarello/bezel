@@ -4,6 +4,13 @@
 
 **A Hyprland + Quickshell desktop for Arch Linux.**
 
+[![Release](https://img.shields.io/github/v/release/vmaltarello/bezel-hyprland?style=flat-square&logo=git&logoColor=white&color=e6b450)](https://github.com/vmaltarello/bezel-hyprland/releases)
+[![License](https://img.shields.io/github/license/vmaltarello/bezel-hyprland?style=flat-square&logo=gnu&logoColor=white&color=blue)](LICENSE)
+[![Hyprland](https://img.shields.io/badge/Hyprland-0.56%2B-58E1FF?style=flat-square&logo=hyprland&logoColor=white)](https://hyprland.org)
+[![Quickshell](https://img.shields.io/badge/Quickshell-QML-41CD52?style=flat-square&logo=qt&logoColor=white)](https://quickshell.org)
+[![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=flat-square&logo=archlinux&logoColor=white)](https://archlinux.org)
+[![Stars](https://img.shields.io/github/stars/vmaltarello/bezel-hyprland?style=flat-square&logo=github&logoColor=white&color=yellow)](https://github.com/vmaltarello/bezel-hyprland/stargazers)
+
 A dark frame wraps the screen like a monitor bezel, a vertical bar holds everything you need,
 and one amber accent marks what matters. Every dependency comes from the official Arch repositories.
 
@@ -15,28 +22,12 @@ and one amber accent marks what matters. Every dependency comes from the officia
 
 ## Screenshots
 
-| | |
-|---|---|
-| ![Desktop widgets](docs/screenshots/desktop.webp) | ![Launcher (`SUPER+Space`)](docs/screenshots/launcher.webp) |
-| Desktop widgets | Launcher (`SUPER+Space`) |
-| ![Calculator (`SUPER+C`)](docs/screenshots/calculator.webp) | ![Clipboard history (`SUPER+V`)](docs/screenshots/clipboard.webp) |
-| Calculator (`SUPER+C`) | Clipboard history (`SUPER+V`) |
-| ![Wallpaper picker (`SUPER+W`)](docs/screenshots/wallpapers.webp) | ![Every shortcut (`SUPER+H`)](docs/screenshots/shortcuts.webp) |
-| Wallpaper picker (`SUPER+W`) | Every shortcut (`SUPER+H`) |
-| ![Audio menu](docs/screenshots/menu-audio.webp) | ![Battery and power profile](docs/screenshots/menu-battery.webp) |
-| Audio menu | Battery and power profile |
-| ![Session menu](docs/screenshots/menu-power.webp) | ![Notifications](docs/screenshots/notification.webp) |
-| Session menu | Notifications |
-| ![Volume OSD](docs/screenshots/osd-volume.webp) | ![Brightness OSD](docs/screenshots/osd-brightness.webp) |
-| Volume OSD | Brightness OSD |
-| ![Tiling](docs/screenshots/windows.webp) | ![Focus mode (`SUPER+Z`)](docs/screenshots/focus-mode.webp) |
-| Tiling | Focus mode (`SUPER+Z`) |
-| ![Overview (`SUPER+Tab`)](docs/screenshots/overview.webp) | ![Peek at the desktop (tap `SUPER`)](docs/screenshots/peek.webp) |
-| Overview (`SUPER+Tab`) | Peek at the desktop (tap `SUPER`) |
-| ![Screenshot tool (`Print`)](docs/screenshots/screenshot.webp) | ![Wallpaper transition](docs/screenshots/wallpaper-change.webp) |
-| Screenshot tool (`Print`) | Wallpaper transition |
-| ![Lock screen](docs/screenshots/lock.webp) | ![Login screen (optional)](docs/screenshots/login.webp) |
-| Lock screen | Login screen (optional) |
+| | | |
+|---|---|---|
+| ![Desktop widgets](docs/screenshots/desktop.webp) | ![Launcher (`SUPER+Space`)](docs/screenshots/launcher.webp) | ![Overview (`SUPER+Tab`)](docs/screenshots/overview.webp) |
+| Desktop widgets | Launcher (`SUPER+Space`) | Overview (`SUPER+Tab`) |
+
+**[→ All screenshots](docs/SCREENSHOTS.md)** — menus, OSD, lock and login screens, screenshot tool and more.
 
 <sub>Wallpapers: "underwater" and "minimal landscape" from [D3Ext/aesthetic-wallpapers](https://github.com/D3Ext/aesthetic-wallpapers) — not included in bezel.</sub>
 
@@ -61,14 +52,29 @@ and one amber accent marks what matters. Every dependency comes from the officia
 
 ## Install
 
+Pick one of the two channels:
+
+### Stable release (recommended)
+
+A tagged version, tested before release. The newest one is on the [Releases](https://github.com/vmaltarello/bezel-hyprland/releases) page.
+
+```sh
+git clone --branch v0.1.0 https://github.com/vmaltarello/bezel-hyprland.git bezel
+cd bezel
+./install.sh
+```
+
+### Latest from `main`
+
+The newest changes as soon as they are pushed — may be less polished.
+
 ```sh
 git clone https://github.com/vmaltarello/bezel-hyprland.git bezel
 cd bezel
 ./install.sh
 ```
 
-This installs the latest code from `main`. To stay on a tested version instead, run
-`git checkout v0.1.0` (or the newest tag from [Releases](https://github.com/vmaltarello/bezel-hyprland/releases)) before `./install.sh`.
+### What the installer does
 
 The installer asks a few questions, then:
 
@@ -99,11 +105,14 @@ Optional: `yazi`, `btop`, `lazygit`, `starship`, `zathura`, `imv`, `zed`, `nvim`
 
 ## Update
 
-```sh
-git pull && ./install.sh
-```
+Run the command for the channel you installed from, inside the `bezel` folder:
 
-On a release tag: `git fetch --tags && git checkout <new-tag> && ./install.sh`.
+| Channel | Command |
+|---|---|
+| Stable release | `git fetch --tags && git checkout <new-tag> && ./install.sh` (e.g. `v0.2.0`) |
+| `main` | `git pull && ./install.sh` |
+
+To switch channel: `git checkout main` moves a release install to `main`, `git checkout <tag>` does the opposite.
 
 Theme files are replaced; `~/.config/hypr/hyprland.lua` is yours and is never overwritten.
 
