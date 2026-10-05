@@ -115,10 +115,10 @@ backup() {  # move ~/.config/<rel> into the backup, once
     note "saved your $rel"
 }
 
-PLACEHOLDERS='@(HOME|SCALE|KB_LAYOUT|KB_VARIANT)@'   # only these; other @WORDS@ (e.g. wpctl's @DEFAULT_AUDIO_SINK@) are left alone
+PLACEHOLDERS='@(HOME|CONFIG|SCALE|KB_LAYOUT|KB_VARIANT)@'   # only these; other @WORDS@ (e.g. wpctl's @DEFAULT_AUDIO_SINK@) are left alone
 
 render() {  # copy with placeholders filled in, same permissions as the source
-    sed -e "s|@HOME@|$HOME|g" -e "s|@SCALE@|auto|g" \
+    sed -e "s|@HOME@|$HOME|g" -e "s|@CONFIG@|$CONFIG_DST|g" -e "s|@SCALE@|auto|g" \
         -e "s|@KB_LAYOUT@|${kb_layout:-us}|g" -e "s|@KB_VARIANT@|${kb_variant:-}|g" "$1" > "$2"
     chmod --reference="$1" "$2"
 }
@@ -186,6 +186,7 @@ fi
 # yazi plugins listed in package.toml
 if [[ " ${CHOSEN[*]} " == *" yazi "* ]] && command -v ya >/dev/null; then
     [ -d "$CONFIG_DST/yazi/plugins" ] || manifest_add "dir yazi/plugins"
+    [ -d "$CACHE_DST/yazi/packages" ] || manifest_add "cache yazi/packages"   # ya's download cache
     ya pkg install >/dev/null 2>&1 && info "yazi plugins" || warn "yazi plugins: run 'ya pkg install' later (needs network)"
 fi
 

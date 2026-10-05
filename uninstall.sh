@@ -52,6 +52,9 @@ while read -r kind rel; do
             dirs+=("$(dirname "$rel")") ;;
         moved)
             restore "$rel" ;;
+        cache)
+            rm -rf "${CACHE_DST:?}/$rel"
+            rmdir -p "$(dirname "$CACHE_DST/$rel")" 2>/dev/null || true ;;
     esac
 done < <(tac "$MANIFEST")
 # remove folders left empty, deepest first
@@ -63,7 +66,7 @@ for d in $(printf '%s\n' "${dirs[@]}" | sort -u | awk '{ print length, $0 }' | s
 done
 # data the theme writes while running (launcher usage, current wallpaper link, blurred lock copy, nvim plugin lock)
 rm -f "${XDG_STATE_HOME:-$HOME/.local/state}/quickshell/launches.json" "${XDG_STATE_HOME:-$HOME/.local/state}/wallpaper"
-rm -rf "${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper"
+rm -rf "$CACHE_DST/wallpaper"
 grep -qx "component nvim" "$MANIFEST" && ! grep -qx "keep nvim/nvim-pack-lock.json" "$MANIFEST" && rm -f "$CONFIG_DST/nvim/nvim-pack-lock.json"
 rmdir "${XDG_STATE_HOME:-$HOME/.local/state}/quickshell" "$CONFIG_DST/nvim" 2>/dev/null || true
 info "theme files removed"
