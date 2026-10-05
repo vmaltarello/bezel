@@ -62,7 +62,7 @@ and one amber accent marks what matters. Every dependency comes from the officia
 ## Install
 
 ```sh
-git clone https://github.com/vmaltarello/bezel.git
+git clone https://github.com/vmaltarello/bezel-hyprland.git bezel
 cd bezel
 ./install.sh
 ```
