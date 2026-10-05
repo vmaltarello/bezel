@@ -1,6 +1,6 @@
 # Contributing to bezel
 
-Thanks for helping! bezel is a small project with a clear goal: a calm, developer-focused desktop
+Thanks for helping! bezel is a small project with a clear goal: a Hyprland desktop
 that installs cleanly on Arch Linux and uninstalls just as cleanly. These rules keep it that way.
 
 ## Before you start

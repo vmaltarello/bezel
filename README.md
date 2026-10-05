@@ -2,7 +2,7 @@
 
 # bezel
 
-**A calm, developer-focused desktop for Arch Linux — Hyprland + Quickshell.**
+**A Hyprland + Quickshell desktop for Arch Linux.**
 
 A dark frame wraps the screen like a monitor bezel, a vertical bar holds everything you need,
 and one amber accent marks what matters. Every dependency comes from the official Arch repositories.
@@ -67,6 +67,9 @@ cd bezel
 ./install.sh
 ```
 
+This installs the latest code from `main`. To stay on a tested version instead, run
+`git checkout v0.1.0` (or the newest tag from [Releases](https://github.com/vmaltarello/bezel-hyprland/releases)) before `./install.sh`.
+
 The installer asks a few questions, then:
 
 1. installs the missing packages with `pacman` (it lists them first),
@@ -99,6 +102,8 @@ Optional: `yazi`, `btop`, `lazygit`, `starship`, `zathura`, `imv`, `zed`, `nvim`
 ```sh
 git pull && ./install.sh
 ```
+
+On a release tag: `git fetch --tags && git checkout <new-tag> && ./install.sh`.
 
 Theme files are replaced; `~/.config/hypr/hyprland.lua` is yours and is never overwritten.
 
