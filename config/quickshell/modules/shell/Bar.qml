@@ -203,13 +203,13 @@ PanelWindow {
         }
     }
 
-    // ---------- center: clock (click = peek at desktop) ----------
+    // ---------- center: clock ----------
     RRect {
         id: clock
         anchors.centerIn: parent
         width: bar.unit; height: clockCol.implicitHeight + 18
         radius: Ui.panel === "peek" ? 12 : 8; antialiasing: true
-        color: clockArea.containsMouse ? Qt.lighter(Theme.m.primary, 1.06) : Theme.m.primary
+        color: Theme.m.primary
         Behavior on radius { NumberAnimation { duration: Theme.anim.normal; easing.type: Easing.OutBack } }
         Column {
             id: clockCol
@@ -226,7 +226,6 @@ PanelWindow {
                 }
             }
         }
-        MouseArea { id: clockArea; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: Ui.toggle("peek") }
     }
 
     // ---------- bottom: tray + status + power ----------
