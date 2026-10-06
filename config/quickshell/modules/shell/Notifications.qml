@@ -1,7 +1,11 @@
 // On-screen notifications: top right inside the frame, stacked, sliding in from the right.
+// Card lighter than the windows, no border; critical ones: a red stripe on the left.
+// In: the card opens its room (others slide down) while it slides in from the right with a light spring.
+// Out: it slides back out fading, then its room closes (others slide up); only then it's dismissed.
 // Bottom line = time left (pauses on hover). Click or ✕ = dismiss. No history.
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Shapes
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Widgets
@@ -28,11 +32,11 @@ PanelWindow {
         id: stack
         x: 20
         width: win.w
-        spacing: 8
+        spacing: 0         // the gap is inside each card's room, so it closes along with it
 
         Repeater {
             model: Notifs.list
-            RRect {
+            Item {
                 id: card
                 required property var modelData
                 readonly property var n: modelData
@@ -42,57 +46,102 @@ PanelWindow {
                 readonly property string icon: n.image || (n.appIcon ? Quickshell.iconPath(n.appIcon, true) : "")
                     || Workspaces.icon(n.desktopEntry || n.appName)
 
+                readonly property real fullH: content.implicitHeight + 28
+                property real room: 0            // 0..1: share of its height (+ gap) taken in the column
+                property bool leaving: false
                 width: stack.width
-                height: content.implicitHeight + 24
-                radius: Theme.size.radius
-                color: Theme.c.frame
-                border.width: 1
-                border.color: critical ? Theme.m.error : Theme.m.outlineVariant
-                clip: true
+                height: (fullH + 8) * room
 
-                // slide in from the right
-                transform: Translate { id: slide; x: 60 }
+                RRect {
+                    width: parent.width; height: card.fullH
+                    radius: Theme.size.radius; antialiasing: true
+                    color: Qt.alpha(Theme.m.container, 0.82)     // a bit see-through
+                }
+                // critical: red stripe on the left
+                Rectangle {
+                    visible: card.critical
+                    x: 6; y: 14; width: 3; height: card.fullH - 28; radius: 1.5
+                    color: Theme.m.error
+                }
+
+                transform: Translate { id: slide; x: 90 }
                 opacity: 0
                 Component.onCompleted: enter.start()
                 ParallelAnimation {
                     id: enter
-                    NumberAnimation { target: slide; property: "x"; to: 0; duration: Theme.anim.normal; easing.type: Easing.OutCubic }
-                    NumberAnimation { target: card; property: "opacity"; to: 1; duration: Theme.anim.normal }
+                    NumberAnimation { target: card; property: "room"; to: 1; duration: Theme.anim.normal; easing.type: Easing.OutCubic }
+                    NumberAnimation { target: slide; property: "x"; to: 0; duration: Theme.anim.slow; easing.type: Easing.OutBack; easing.overshoot: 1.1 }
+                    NumberAnimation { target: card; property: "opacity"; to: 1; duration: Theme.anim.normal; easing.type: Easing.OutCubic }
+                }
+                // dismiss = clicked/closed by the user, otherwise expired
+                function close(dismiss) {
+                    if (leaving) return;
+                    leaving = true;
+                    enter.stop();
+                    countdown.stop();
+                    exit.dismiss = dismiss;
+                    exit.start();
+                }
+                SequentialAnimation {
+                    id: exit
+                    property bool dismiss
+                    ParallelAnimation {
+                        NumberAnimation { target: slide; property: "x"; to: 90; duration: Theme.anim.normal; easing.type: Easing.InCubic }
+                        NumberAnimation { target: card; property: "opacity"; to: 0; duration: Theme.anim.normal; easing.type: Easing.InCubic }
+                    }
+                    NumberAnimation { target: card; property: "room"; to: 0; duration: Theme.anim.normal; easing.type: Easing.InOutCubic }
+                    ScriptAction { script: exit.dismiss ? card.n.dismiss() : card.n.expire() }
                 }
 
                 // time on screen (pauses on hover)
                 NumberAnimation on remaining {
                     id: countdown
                     running: card.timeout > 0
-                    paused: hover.hovered
+                    paused: running && hover.hovered      // pausing a stopped animation only logs warnings
                     from: 1; to: 0
                     duration: Math.max(1, card.timeout)
                     // critical ones (timeout 0) never expire: a 0-duration animation would "finish" instantly
-                    onFinished: if (card.timeout > 0) card.n.expire()
+                    onFinished: if (card.timeout > 0 && !card.leaving) card.close(false)
                 }
                 HoverHandler { id: hover }
-                TapHandler { onTapped: card.n.dismiss() }
+                TapHandler { onTapped: card.close(true) }
 
                 RowLayout {
                     id: content
-                    x: 14; y: 12
-                    width: parent.width - 28
+                    x: 14; y: 13
+                    width: parent.width - x - 14
                     spacing: 12
 
-                    // app icon (or notification image)
-                    RRect {
-                        Layout.alignment: Qt.AlignTop
-                        Layout.preferredWidth: 36; Layout.preferredHeight: 36
-                        radius: 8
-                        color: Theme.m.container
-                        IconImage {
-                            anchors.centerIn: parent
-                            implicitSize: card.n.image ? 36 : 24
-                            source: card.icon
+                    // icon or image, bare (no box), vertically centered: corners rounded so covers and avatars look tidy
+                    Item {
+                        Layout.alignment: Qt.AlignVCenter
+                        implicitWidth: 40; implicitHeight: 40
+                        Image {
                             visible: card.icon !== ""
+                            anchors.centerIn: parent
+                            width: 40; height: 40
+                            sourceSize: Qt.size(width, height)
+                            fillMode: Image.PreserveAspectCrop      // wide images (screenshots, covers) cropped square
+                            source: card.icon
                             asynchronous: true
                         }
-                        MIcon { anchors.centerIn: parent; visible: card.icon === ""; text: "notifications"; filled: true; color: Theme.m.fgVariant }
+                        // covers the image corners with the card color (the software renderer can't clip round)
+                        Shape {
+                            visible: card.icon !== ""
+                            anchors.fill: parent
+                            preferredRendererType: Shape.CurveRenderer
+                            ShapePath {
+                                fillColor: Theme.m.container
+                                strokeColor: "transparent"
+                                fillRule: ShapePath.OddEvenFill
+                                PathSvg { path: "M-1,-1 H41 V41 H-1 Z M8,0 H32 A8,8 0 0 1 40,8 V32 A8,8 0 0 1 32,40 H8 A8,8 0 0 1 0,32 V8 A8,8 0 0 1 8,0 Z" }
+                            }
+                        }
+                        MIcon {
+                            anchors.centerIn: parent; visible: card.icon === ""
+                            text: "notifications"; filled: true
+                            color: Theme.m.fgVariant
+                        }
                     }
 
                     ColumnLayout {
@@ -100,11 +149,11 @@ PanelWindow {
                         spacing: 3
                         RowLayout {
                             Layout.fillWidth: true
-                            Txt { text: card.n.appName || "Notification"; color: card.critical ? Theme.c.red : Theme.c.muted; font.pixelSize: Theme.font.small; elide: Text.ElideRight; Layout.fillWidth: true }
+                            Txt { text: card.n.appName || "Notification"; color: Theme.c.muted; font.pixelSize: Theme.font.small; elide: Text.ElideRight; Layout.fillWidth: true }
                             MIcon {
                                 text: "close"; font.pixelSize: 16; color: closeArea.containsMouse ? Theme.m.fg : Theme.m.outline
                                 opacity: hover.hovered ? 1 : 0
-                                MouseArea { id: closeArea; anchors.fill: parent; anchors.margins: -4; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: card.n.dismiss() }
+                                MouseArea { id: closeArea; anchors.fill: parent; anchors.margins: -4; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: card.close(true) }
                             }
                         }
                         Txt { text: card.n.summary; font.bold: true; wrapMode: Text.Wrap; maximumLineCount: 2; elide: Text.ElideRight; Layout.fillWidth: true; visible: text !== "" }
@@ -134,14 +183,12 @@ PanelWindow {
                     }
                 }
 
-                // time left
+                // time left: thin line inside the card, clear of the rounded corners
                 Rectangle {
                     visible: card.timeout > 0
-                    anchors.bottom: parent.bottom
-                    x: 16; height: 2; radius: 1
-                    width: (parent.width - 32) * card.remaining
-                    color: card.critical ? Theme.m.error : Theme.m.primary
-                    opacity: 0.8
+                    x: Theme.size.radius; y: card.fullH - 6
+                    width: (parent.width - 2 * Theme.size.radius) * card.remaining; height: 2; radius: 1
+                    color: Theme.m.primary; opacity: 0.55
                 }
             }
         }
