@@ -97,7 +97,11 @@ Singleton {
 
     IpcHandler {
         target: "shell"
-        function toggle(): void { root.toggle("peek"); }
+        // empty workspace: the desktop is already visible, nothing to peek at (it only closes an open panel)
+        function toggle(): void {
+            if (root.panel !== "peek" && (Hyprland.focusedWorkspace?.toplevels.values.length ?? 1) === 0) root.close();
+            else root.toggle("peek");
+        }
         function panel(name: string): void { root.toggle(name); }
         function close(): void { root.close(); }
         // launcher: apps | clipboard | wallpapers | keys (same mode twice = close)

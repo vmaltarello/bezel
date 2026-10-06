@@ -1,4 +1,4 @@
-// Peek at the desktop (SUPER alone or click on the bar clock): windows fade away, widgets show.
+// Peek at the desktop (SUPER alone, not on an empty workspace): windows fade away, widgets show.
 // Actually the wallpaper + widgets fade in above the windows; bar and frame stay.
 // Click, any key or SUPER again: back to the windows.
 import QtQuick
