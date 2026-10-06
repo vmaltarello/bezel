@@ -66,7 +66,8 @@ Singleton {
     Timer { id: closing; interval: Theme.anim.slow + 60; onTriggered: if (!root.panel) root.shown = "" }
 
     // overview: first a capture of every window (grim -T: works for covered windows and other
-    // workspaces too, ~0.1 s each, in parallel), then it opens. Files in $XDG_RUNTIME_DIR/quickshell-overview/<stableId>.png
+    // workspaces too, ~60 ms each, in parallel), then it opens. Files in $XDG_RUNTIME_DIR/quickshell-overview/<stableId>.ppm
+    // (ppm: uncompressed, written and decoded faster than png)
     readonly property string overviewDir: Quickshell.env("XDG_RUNTIME_DIR") + "/quickshell-overview"
     property int overviewStamp: 0
     // windows read at the same time as the captures: "0xaddress" -> { at, size, visible, id }
@@ -77,7 +78,7 @@ Singleton {
             dir="$1"; rm -rf "$dir"; mkdir -p "$dir"
             clients=$(hyprctl -j clients)
             jq -r '.[] | select(.mapped and .workspace.id > 0) | .stableId' <<<"$clients" \
-                | xargs -P 8 -I{} grim -l 0 -T {} "$dir/{}.png" 2>/dev/null
+                | xargs -P 8 -I{} grim -t ppm -T {} "$dir/{}.ppm" 2>/dev/null
             printf '%s' "$clients"`, "quickshell-overview", overviewDir];
         overviewShot.running = true;
     }

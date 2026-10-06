@@ -24,6 +24,7 @@ PanelWindow {
     property bool ready: false
     Timer { running: true; interval: 16; onTriggered: win.ready = true }
     readonly property bool open: ready && Ui.panel === "overview"
+    readonly property bool closing: ready && !open
     Component.onCompleted: { Hyprland.refreshToplevels(); current = Math.max(0, wins.findIndex(t => t.activated)); }
 
     readonly property var mon: Hyprland.focusedMonitor
@@ -54,7 +55,7 @@ PanelWindow {
     // window capture taken on opening ("" if missing)
     function shot(t) {
         const id = Ui.overviewGeo[addr(t)]?.id;
-        return id ? "file://" + Ui.overviewDir + "/" + id + ".png?" + Ui.overviewStamp : "";
+        return id ? "file://" + Ui.overviewDir + "/" + id + ".ppm?" + Ui.overviewStamp : "";
     }
     function addr(t) { return (t.address.startsWith("0x") ? "" : "0x") + t.address; }
     // workspace change: first release the keyboard while still visible (on release Hyprland gives focus back
@@ -278,9 +279,18 @@ PanelWindow {
             Behavior on width { NumberAnimation { duration: Theme.anim.slow - 100; easing.type: Easing.OutCubic } }
             Behavior on height { NumberAnimation { duration: Theme.anim.slow - 100; easing.type: Easing.OutCubic } }
 
+            // on close the capture fades out as it reaches the real window: it is stale and scaled,
+            // so it shouldn't stay on screen over the live window
             Item {
                 anchors.fill: parent
                 clip: true
+                opacity: win.closing ? 0 : 1
+                Behavior on opacity {
+                    SequentialAnimation {
+                        PauseAnimation { duration: win.closing ? Theme.anim.fast : 0 }
+                        NumberAnimation { duration: Theme.anim.fast }
+                    }
+                }
                 RRect { anchors.fill: parent; radius: 6; antialiasing: true; color: Theme.c.cell }
                 // window capture taken on opening (Ui.openOverview)
                 Image {
@@ -288,7 +298,9 @@ PanelWindow {
                     readonly property bool hasContent: status === Image.Ready
                     anchors.fill: parent
                     source: win.shot(tile.modelData)
-                    sourceSize.width: 900          // decode downscaled: captures are full resolution
+                    // decoded once at the size it has in the grid (logical px, Qt applies the scale):
+                    // the software renderer scales without mipmaps, so a bigger or smaller source looks grainy or blurry
+                    sourceSize.width: Math.ceil(tile.to.width)
                     cache: false
                     smooth: true
                     asynchronous: true
