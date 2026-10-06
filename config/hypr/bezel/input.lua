@@ -18,8 +18,6 @@ return function(o)
     -- 3 fingers up/down: Mission Control style overview (Quickshell)
     hl.gesture({ fingers = 3, direction = "up",   action = function() hl.exec_cmd("quickshell ipc call shell overview open") end })
     hl.gesture({ fingers = 3, direction = "down", action = function() hl.exec_cmd("quickshell ipc call shell overview close") end })
-    -- 4 fingers down/up: scratchpad (like SUPER+S)
-    hl.gesture({ fingers = 4, direction = "vertical", action = "special", workspace_name = "magic" })
     -- SUPER + pinch: zoom at the cursor (without SUPER the pinch goes to the app, e.g. the browser)
     hl.gesture({ fingers = 2, direction = "pinch", mods = "SUPER", action = "cursor_zoom", zoom_level = 1, mode = "live" })
 end

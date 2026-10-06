@@ -62,6 +62,77 @@ return function(o)
     bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }), "Maximize (bar visible)")
     bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }), "Fullscreen")
 
+    -- Sizing presets for tiled windows: no more resizing by trial and error.
+    local function xy(v) return v.x or v[1], v.y or v[2] end
+    local function tiledOn(ws)
+        local out = {}
+        for _, t in ipairs(hl.get_workspace_windows(ws) or {}) do
+            if t.mapped and not t.hidden and not t.floating then out[#out + 1] = t end
+        end
+        return out
+    end
+
+    -- SUPER+R: the active window takes 1/2 → 2/3 → 1/3 of the tiled area (width if it has a
+    -- neighbour on its side, height otherwise)
+    local shares = { 1 / 2, 2 / 3, 1 / 3 }
+    local function cycleSize()
+        local w = hl.get_active_window()
+        if not w or w.floating or w.fullscreen ~= 0 or not w.workspace then return end
+        local tiled = tiledOn(w.workspace.id)
+        if #tiled < 2 then return end
+        local x0, y0, x1, y1 = math.huge, math.huge, -math.huge, -math.huge
+        for _, t in ipairs(tiled) do
+            local ax, ay = xy(t.at)
+            local sx, sy = xy(t.size)
+            x0, y0 = math.min(x0, ax), math.min(y0, ay)
+            x1, y1 = math.max(x1, ax + sx), math.max(y1, ay + sy)
+        end
+        local gap = 8   -- gaps_in on both sides
+        local sw, sh = xy(w.size)
+        local horizontal = sw < (x1 - x0) - 1
+        local span = horizontal and (x1 - x0) or (y1 - y0)
+        local cur = ((horizontal and sw or sh) + gap / 2) / span
+        local nextShare = shares[1]
+        for i, s in ipairs(shares) do
+            if math.abs(cur - s) < 0.04 then nextShare = shares[i % #shares + 1] end
+        end
+        local delta = math.floor(nextShare * span - gap / 2) - (horizontal and sw or sh)
+        -- a tiled resize moves the shared edge as if the window were on the left/top:
+        -- for a window on the right/bottom the delta is inverted
+        local ax, ay = xy(w.at)
+        if (horizontal and ax > x0 + 1) or (not horizontal and ay > y0 + 1) then delta = -delta end
+        hl.dispatch(hl.dsp.window.resize(horizontal and { x = delta, y = 0, relative = true }
+                                                     or { x = 0, y = delta, relative = true }))
+    end
+    bind(mainMod .. " + R", cycleSize, "Cycle window size (1/2, 2/3, 1/3)")
+
+    -- SUPER+ENTER: the active window swaps places with the largest one; pressed again on the
+    -- promoted window, the two go back where they were
+    local lastPromoted = {}   -- address of the promoted window -> address of the one it replaced
+    local function promote()
+        local w = hl.get_active_window()
+        if not w or w.floating or w.fullscreen ~= 0 or not w.workspace then return end
+        local function area(t) local sx, sy = xy(t.size) return sx * sy end
+        local biggest, others = nil, {}
+        for _, t in ipairs(tiledOn(w.workspace.id)) do
+            if t.address ~= w.address then
+                others[t.address] = true
+                if not biggest or area(t) > area(biggest) then biggest = t end
+            end
+        end
+        if not biggest then return end
+        local target = biggest.address
+        if area(w) >= area(biggest) then
+            target = lastPromoted[w.address]
+            if not (target and others[target]) then return end
+            lastPromoted[w.address] = nil
+        else
+            lastPromoted[w.address] = target
+        end
+        hl.dispatch(hl.dsp.window.swap({ target = "address:" .. target }))
+    end
+    bind(mainMod .. " + RETURN", promote, "Promote window (swap with the largest)")
+
     -- Resize the active window with mainMod + CTRL + arrow keys
     bind(mainMod .. " + CTRL + left",  hl.dsp.window.resize({ x = -50, y = 0,   relative = true }), "Resize window", { repeating = true })
     bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ x = 50,  y = 0,   relative = true }), "Resize window", { repeating = true })
@@ -87,12 +158,6 @@ return function(o)
         bind(mainMod .. " + " .. i,         hl.dsp.focus({ workspace = i }),       "Go to workspace")
         bind(mainMod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }), "Move window to workspace")
     end
-
-    -- Special workspace (scratchpad)
-    bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"),              "Toggle scratchpad")
-    bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), "Move window to scratchpad")
-    -- empty scratchpad? SUPER+S opens a drop-down terminal (own class, not the shared instance)
-    hl.workspace_rule({ workspace = "special:magic", on_created_empty = "kitty -1 --class kitty-scratch" })
 
     -- Scroll through existing workspaces with mainMod + scroll
     bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), "Next/previous workspace")

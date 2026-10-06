@@ -151,7 +151,8 @@ including GTK settings and the previous display manager. Packages are kept unles
 | `SUPER+Q` | Close window |
 | `SUPER+Z` | Focus mode (large centered window, rest dimmed) |
 | `SUPER+F` / `SUPER+Shift+F` | Maximize / fullscreen |
-| `SUPER+S` | Scratchpad terminal |
+| `SUPER+R` | Cycle window size: 1/2, 2/3, 1/3 |
+| `SUPER+Enter` | Swap window with the largest one |
 | `SUPER+1…5` / `SUPER+Shift+1…5` | Go to / move window to workspace |
 | `SUPER+N` | Do not disturb |
 | `SUPER+L` | Lock |

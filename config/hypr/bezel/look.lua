@@ -27,7 +27,6 @@ return function(o)
             inactive_opacity = 1.0,
             dim_inactive     = true,
             dim_strength     = 0.28,   -- the focused window is the one that is not dimmed (no borders, no glow)
-            dim_special      = 0.45,   -- scratchpad (SUPER+S): dimmed background, focus on the popup
 
             -- short, sharp shadow to lift windows off the wallpaper
             shadow = {
