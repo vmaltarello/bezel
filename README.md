@@ -59,7 +59,7 @@ Pick one of the two channels:
 A tagged version, tested before release. The newest one is on the [Releases](https://github.com/vmaltarello/bezel-hyprland/releases) page.
 
 ```sh
-git clone --branch v0.1.1 https://github.com/vmaltarello/bezel-hyprland.git bezel
+git clone --branch v0.2.0 https://github.com/vmaltarello/bezel-hyprland.git bezel
 cd bezel
 ./install.sh
 ```
