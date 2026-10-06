@@ -21,6 +21,8 @@ Singleton {
     readonly property int tempCritical: 85
     readonly property int batteryWarning: 25
     readonly property int batteryCritical: 12
+    // on battery, at this percent the power saver profile turns on by itself (back to the previous one when plugged in)
+    readonly property int batterySaver: 20
 
     // CPU temperature: first hwmon whose driver name is in this list (AMD, Intel, ARM boards)
     readonly property var tempSensors: ["k10temp", "zenpower", "coretemp", "cpu_thermal"]
