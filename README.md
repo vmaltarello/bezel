@@ -42,7 +42,7 @@ and one amber accent marks what matters. Every dependency comes from the officia
 - **Lock and login screens** — the same design for both (the login screen is optional).
 - **Notifications, OSD, do not disturb, caffeine** — built into the shell, no extra daemons.
 - **One palette everywhere** — kitty, GTK and Qt apps, yazi, btop, lazygit, starship, zathura, imv, Zed and neovim.
-- **Light on resources** — the shell renders in software (~180 MB RAM) and stops refreshing what you can't see.
+- **Light on resources** — the shell renders in software and stops refreshing what you can't see.
 
 ## Requirements
 
