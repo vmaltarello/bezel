@@ -41,7 +41,9 @@ Singleton {
     function launch(e) {
         counts[e.id] = (counts[e.id] ?? 0) + 1;
         store.setText(JSON.stringify(counts));
-        e.execute();
+        // execute() ignores Terminal=true: btop, nvim... would start with no window and exit
+        if (e.runInTerminal) Quickshell.execDetached({ command: ["kitty", "-1", "-e", ...e.command], workingDirectory: e.workingDirectory || Quickshell.env("HOME") });
+        else e.execute();
     }
 
     Process { running: true; command: ["mkdir", "-p", Quickshell.env("HOME") + "/.local/state/quickshell"] }
