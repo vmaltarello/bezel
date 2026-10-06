@@ -17,6 +17,8 @@ satty
 libnotify
 jq
 xdg-utils
+# launcher file search
+fd
 # hardware services shown in the bar
 brightnessctl
 pipewire

@@ -1,6 +1,8 @@
 // Launcher (Spotlight style): a search line centered in the upper part of the screen, results below.
-// Modes: Apps · Clipboard · Wallpapers · Keys (Tab to switch; windows are in the overview, SUPER+TAB). Prefixes: "=" calculator, ">" command.
-// Keys: ↑↓ (←→ for wallpapers) select · Enter open · Shift+Enter command in terminal · Shift+Del delete from clipboard · Esc close.
+// Modes: Apps · Clipboard · Wallpapers · Keys (Tab to switch; windows are in the overview, SUPER+TAB).
+// Prefixes: "=" calculator, ">" command, "/" files and folders in the home (fd), "?" web search (default browser).
+// In apps mode the last row is always a web search for what was typed.
+// Keys: ↑↓ (←→ for wallpapers) select · Enter open · Shift+Enter command in terminal / file's folder · Shift+Del delete from clipboard · Esc close.
 // The window covers the whole screen (transparent): a click outside the panel closes it
 // even with exclusive keyboard focus, which is needed to type right away.
 // The QML window is never destroyed: when closed it is unmapped, but only after the close animation
@@ -51,12 +53,13 @@ PanelWindow {
     readonly property var modes: [["apps", "Apps"], ["clipboard", "Clipboard"], ["wallpapers", "Wallpapers"], ["keys", "Keys"]]
     readonly property string mode: Ui.launcherMode
     property string query: ""          // written by the search field in LauncherPanel
-    // effective mode: the "=" and ">" prefixes win
-    readonly property string kind: query.startsWith("=") ? "calc" : query.startsWith(">") ? "cmd" : mode
+    // effective mode: the "=" ">" "/" "?" prefixes win
+    readonly property string kind: query.startsWith("=") ? "calc" : query.startsWith(">") ? "cmd"
+                                 : query.startsWith("/") ? "files" : query.startsWith("?") ? "web" : mode
     property int current: 0
 
     onModeChanged: { query = ""; current = 0; if (mode === "clipboard") Clip.refresh(); if (mode === "keys") bindsProc.running = true; }
-    onQueryChanged: current = 0
+    onQueryChanged: { current = 0; if (query.startsWith("/")) filesDelay.restart(); }
     // every opening starts clean and refreshes the data of the current mode
     onOpenChanged: {
         if (!open) { settle.restart(); return; }
@@ -82,9 +85,28 @@ PanelWindow {
         ["restart_alt", "Reboot", ["hyprshutdown", "-t", "Rebooting...", "-p", "systemctl reboot"]],
         ["power_settings_new", "Shut down", ["hyprshutdown", "-t", "Shutting down...", "-p", "systemctl poweroff"]]
     ]
+    function webRow(text) {
+        return { sym: "travel_explore", title: text, sub: "Search the web", run: () => Quickshell.execDetached(["xdg-open", Config.webSearch.replace("%s", encodeURIComponent(text))]) };
+    }
     readonly property var results: {
         if (!active) return [];      // closed: no list, so no delegates or icons kept in memory
         const q = query.trim().toLowerCase();
+        if (kind === "web") {
+            const t = query.slice(1).trim();
+            return [t ? webRow(t) : { sym: "travel_explore", title: "…", sub: "Type what to search on the web", run: () => {} }];
+        }
+        if (kind === "files") {
+            const t = query.slice(1).trim();
+            if (!t) return [{ sym: "folder_open", title: "…", sub: "Type a file or folder name", run: () => {} }];
+            if (filesMissing) return [{ sym: "error", title: "fd is not installed", sub: "sudo pacman -S fd", run: () => {} }];
+            // while typing the previous results stay until the new ones arrive (no flicker)
+            return files.list.map(p => {
+                const dir = p.endsWith("/"), path = dir ? p.slice(0, -1) : p;
+                const cut = path.lastIndexOf("/"), parent = path.slice(0, cut) || "/";
+                return { sym: dir ? "folder" : "description", title: path.slice(cut + 1), sub: parent.replace(home, "~"),
+                         run: shift => Quickshell.execDetached(["xdg-open", shift ? parent : path]) };
+            });
+        }
         if (kind === "calc") {
             const r = calc(query);
             return [{ sym: "calculate", title: r ?? "…", sub: r ? "Enter to copy" : "Type an expression, e.g. =12*7", run: () => { if (r) Quickshell.execDetached(["wl-copy", r]); } }];
@@ -109,7 +131,38 @@ PanelWindow {
         const apps = Apps.search(q, 40).map(e => ({ icon: Quickshell.iconPath(e.icon, true), title: e.name, sub: e.genericName || e.comment || "", run: () => Apps.launch(e) }));
         const sys = q ? system.filter(s => s[1].toLowerCase().includes(q)).map(s => ({ sym: s[0], title: s[1], sub: "System", run: () => Quickshell.execDetached(s[2]) })) : [];
         const r = calc(q);
-        return (r !== null ? [{ sym: "calculate", title: r, sub: "Enter to copy", run: () => Quickshell.execDetached(["wl-copy", r]) }] : []).concat(sys, apps);
+        return (r !== null ? [{ sym: "calculate", title: r, sub: "Enter to copy", run: () => Quickshell.execDetached(["wl-copy", r]) }] : [])
+            .concat(sys, apps, q ? [webRow(query.trim())] : []);
+    }
+
+    // ---------- file search ("/"): fd in the home, names only, respects .gitignore, skips hidden ----------
+    readonly property string home: Quickshell.env("HOME")
+    property var files: ({ q: "", list: [] })    // results of the last search, with its query
+    property bool filesMissing: false
+    Timer {
+        id: filesDelay; interval: 120       // wait for a pause in typing
+        onTriggered: {
+            const t = win.query.slice(1).trim();
+            if (win.kind !== "files" || !t) return;
+            filesProc.q = t;
+            filesProc.exec({ command: ["sh", "-c",
+                'command -v fd >/dev/null || exit 127; fd --fixed-strings --ignore-case --max-results 200 --absolute-path -- "$1" "$2"',
+                "sh", t, win.home] });
+        }
+    }
+    Process {
+        id: filesProc
+        property string q                    // query of the running search
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const q = filesProc.q.toLowerCase(), name = p => p.replace(/\/$/, "").split("/").pop().toLowerCase();
+                // names starting with the query first, then the shallowest paths
+                const list = text.split("\n").filter(l => l).sort((a, b) =>
+                    (name(b).startsWith(q) - name(a).startsWith(q)) || (a.split("/").length - b.split("/").length) || a.localeCompare(b));
+                win.files = { q: filesProc.q, list: list.slice(0, 40) };
+            }
+        }
+        onExited: code => win.filesMissing = code === 127
     }
 
     function activate(i, shift) {

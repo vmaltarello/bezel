@@ -28,6 +28,9 @@ Singleton {
     readonly property var tempSensors: ["k10temp", "zenpower", "coretemp", "cpu_thermal"]
 
 
+    // launcher web search ("?" prefix, and the last row of every app search): %s = what was typed
+    readonly property string webSearch: "https://www.google.com/search?q=%s"
+
     // commands launched from the bar
     readonly property QtObject cmd: QtObject {
         readonly property string monitor: "kitty -1 --class kitty-float -e btop"

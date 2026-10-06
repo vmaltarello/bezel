@@ -48,11 +48,11 @@ Item {
         // ---------- search line ----------
         Item {
             width: parent.width; height: 58
-            // shell-like prompt: ❯ search · = calc · $ command
+            // shell-like prompt: ❯ search · = calc · $ command · / files · ? web
             Txt {
                 id: prompt
                 x: 20; anchors.verticalCenter: parent.verticalCenter
-                text: win.kind === "calc" ? "=" : win.kind === "cmd" ? "$" : "❯"
+                text: ({ calc: "=", cmd: "$", files: "/", web: "?" })[win.kind] ?? "❯"
                 color: Theme.m.primary; font.pixelSize: 22; font.bold: true
             }
             TextInput {
@@ -217,7 +217,8 @@ Item {
                 x: 16; anchors.verticalCenter: parent.verticalCenter
                 text: win.mode === "clipboard" ? "↵ copy   ⇧del remove   tab mode   esc close"
                     : win.kind === "cmd" ? "↵ run   ⇧↵ in terminal   esc close"
-                    : "↵ open   = calc   > command   tab mode   esc close"
+                    : win.kind === "files" ? "↵ open   ⇧↵ open folder   esc close"
+                    : "↵ open   = calc   > command   / files   ? web   tab mode   esc close"
                 color: Theme.m.outline; font.pixelSize: 11
             }
             Txt {
