@@ -98,6 +98,7 @@ if [ -f "$STATE/services" ] && ask "Disable the services the installer enabled (
     xargs sudo systemctl disable --now < "$STATE/services" || true
 fi
 if [ -f "$STATE/packages" ]; then
+    # shellcheck disable=SC2046  # package names, split on purpose
     pkgs=$(pacman -Qq $(cat "$STATE/packages") 2>/dev/null | xargs || true)
     if [ -n "$pkgs" ]; then
         step "Packages"

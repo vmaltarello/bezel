@@ -1,0 +1,2 @@
+# `A= B=` is used on purpose to start several variables empty
+disable=SC1007

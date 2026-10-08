@@ -1,4 +1,5 @@
 # bezel — shared helpers for install.sh and uninstall.sh (sourced, not executed)
+# shellcheck shell=bash disable=SC2034  # the variables are used by the scripts that source this
 
 REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 CONFIG_SRC="$REPO/config"

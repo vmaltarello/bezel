@@ -1,0 +1,28 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    steps:
+      - name: Install tools
+        run: pacman -Syu --noconfirm --needed git shellcheck lua qt6-declarative
+
+      - uses: actions/checkout@v4
+
+      - name: Shell scripts (shellcheck)
+        run: |
+          git config --global --add safe.directory "$PWD"
+          shellcheck -S warning $(git ls-files '*.sh')
+
+      - name: Lua syntax (luac)
+        run: for f in $(git ls-files '*.lua'); do luac -p -o /dev/null "$f"; done
+
+      # syntax errors only: the qs.* imports exist only inside a running Quickshell
+      - name: QML syntax (qmllint)
+        run: /usr/lib/qt6/bin/qmllint $(git ls-files '*.qml') > /dev/null
