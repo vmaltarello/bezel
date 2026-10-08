@@ -35,6 +35,7 @@ pacman-contrib
 kitty
 ttf-jetbrains-mono-nerd
 ttf-material-symbols-variable
+ttf-ibm-plex
 inter-font
 capitaine-cursors
 adw-gtk-theme

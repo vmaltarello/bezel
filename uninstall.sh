@@ -55,6 +55,8 @@ while read -r kind rel; do
         cache)
             rm -rf "${CACHE_DST:?}/$rel"
             rmdir -p "$(dirname "$CACHE_DST/$rel")" 2>/dev/null || true ;;
+        data)
+            rm -rf "${XDG_DATA_HOME:-$HOME/.local/share}/${rel:?}" ;;
     esac
 done < <(tac "$MANIFEST")
 # remove folders left empty, deepest first

@@ -6,7 +6,7 @@ CONFIG_SRC="$REPO/config"
 CONFIG_DST="${XDG_CONFIG_HOME:-$HOME/.config}"
 CACHE_DST="${XDG_CACHE_HOME:-$HOME/.cache}"
 STATE="${XDG_STATE_HOME:-$HOME/.local/state}/bezel"
-MANIFEST="$STATE/manifest"        # one line per installed item: "file <rel>", "dir <rel>" or "cache <rel>"
+MANIFEST="$STATE/manifest"        # one line per installed item: "file <rel>", "dir <rel>", "cache <rel>" or "data <rel>"
 BACKUP="$STATE/backup"            # what was there before, same layout as ~/.config
 
 # ---------- output ----------

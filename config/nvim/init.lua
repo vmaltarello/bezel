@@ -3,20 +3,20 @@
 
 vim.pack.add({ "https://github.com/rebelot/kanagawa.nvim" })
 
--- "Default Dark" palette: same names as kanagawa.nvim, colors of the system (petrol surfaces, amber accent)
+-- "Default Dark" palette: same names as kanagawa.nvim, colors of the system (night-blue surfaces, sunset-orange accent)
 local palette = {
-    sumiInk0 = "#0b1012", sumiInk1 = "#0d1214", sumiInk2 = "#12181a", sumiInk3 = "#0f1416",
-    sumiInk4 = "#232c2e", sumiInk5 = "#2e3739", sumiInk6 = "#4f5a5c",
-    waveBlue1 = "#1a2a30", waveBlue2 = "#1f3640",
-    winterGreen = "#1d2b22", winterYellow = "#2e2a1c", winterRed = "#3a1f22", winterBlue = "#1a2224",
-    autumnGreen = "#87b35a", autumnRed = "#d95757", autumnYellow = "#e6b450",
-    samuraiRed = "#f07178", roninYellow = "#ff9e64", waveAqua1 = "#7fbbb3", dragonBlue = "#7fbbb3",
-    fujiWhite = "#dfe4e5", oldWhite = "#b9c3c5", fujiGray = "#899395", katanaGray = "#899395",
-    oniViolet = "#d2a6ff", oniViolet2 = "#c8b8e0", crystalBlue = "#9fd3dc",
-    springViolet1 = "#c39ff0", springViolet2 = "#c5ced0", springBlue = "#95e6cb", lightBlue = "#a9d6dc",
-    waveAqua2 = "#8fd1bd", springGreen = "#9ece6a", boatYellow1 = "#c9a35a", boatYellow2 = "#d6a443",
-    carpYellow = "#e6b450", sakuraPink = "#e08f96", waveRed = "#d95757", peachRed = "#f07178",
-    surimiOrange = "#ff9e64",
+    sumiInk0 = "#0a0f1c", sumiInk1 = "#0b1120", sumiInk2 = "#0d1424", sumiInk3 = "#0f1628",
+    sumiInk4 = "#202c48", sumiInk5 = "#2a3756", sumiInk6 = "#4a5675",
+    waveBlue1 = "#1c2b45", waveBlue2 = "#2a3756",
+    winterGreen = "#1d2b22", winterYellow = "#3a2117", winterRed = "#3a1f22", winterBlue = "#18223a",
+    autumnGreen = "#7fbf6e", autumnRed = "#d95757", autumnYellow = "#ff7a3d",
+    samuraiRed = "#ff5a5f", roninYellow = "#ffb46b", waveAqua1 = "#74b8b0", dragonBlue = "#74b8b0",
+    fujiWhite = "#f4f2ec", oldWhite = "#c4c7d1", fujiGray = "#8b91a3", katanaGray = "#8b91a3",
+    oniViolet = "#d2a6ff", oniViolet2 = "#c8b8e0", crystalBlue = "#8fd0e0",
+    springViolet1 = "#c39ff0", springViolet2 = "#cdd0d9", springBlue = "#7fd3c8", lightBlue = "#a9c9e6",
+    waveAqua2 = "#7fc9bd", springGreen = "#9bd48a", boatYellow1 = "#d9824f", boatYellow2 = "#e8692e",
+    carpYellow = "#ff7a3d", sakuraPink = "#e08f96", waveRed = "#d95757", peachRed = "#ff5a5f",
+    surimiOrange = "#ffb46b",
 }
 
 require("kanagawa").setup({

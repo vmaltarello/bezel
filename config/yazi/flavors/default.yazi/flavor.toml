@@ -1,41 +1,41 @@
 ## Color palette
 ## Check https://github.com/rebelot/kanagawa.nvim for more details
-# sumiInk0      "#0b1012" dark bg
-# sumiInk3      "#0f1416" bg
-# sumiInk4      "#232c2e"
-# sumiInk6      "#4f5a5c"
-# fujiWhite     "#dfe4e5" fg
-# oldWhite      "#b9c3c5" dark fg
-# fujiGray      "#899395"
-# peachRed      "#f07178"
+# sumiInk0      "#0a0f1c" dark bg
+# sumiInk3      "#0f1628" bg
+# sumiInk4      "#202c48"
+# sumiInk6      "#4a5675"
+# fujiWhite     "#f4f2ec" fg
+# oldWhite      "#c4c7d1" dark fg
+# fujiGray      "#8b91a3"
+# peachRed      "#ff5a5f"
 # autumnRed     "#d95757"
-# crystalBlue   "#e6b450"
+# crystalBlue   "#ff7a3d"
 # waveRed       "#c96b72"
-# carpYellow    "#9fd3dc"
-# springGreen   "#9ece6a"
-# autumnGreen   "#87b35a"
-# oniViolet     "#9fd3dc"
-# waveAqua1     "#7fbbb3"
-# surimiOrange  "#ff9e64"
-# waveAqua2     "#8fd1bd"
+# carpYellow    "#8fd0e0"
+# springGreen   "#9bd48a"
+# autumnGreen   "#7fbf6e"
+# oniViolet     "#8fd0e0"
+# waveAqua1     "#74b8b0"
+# surimiOrange  "#ffb46b"
+# waveAqua2     "#7fc9bd"
 
 [mgr]
-marker_copied = { fg = "#9ece6a", bg = "#9ece6a" }
+marker_copied = { fg = "#9bd48a", bg = "#9bd48a" }
 marker_cut = { fg = "#c96b72", bg = "#c96b72" }
-marker_marked = { fg = "#9fd3dc", bg = "#9fd3dc" }
-marker_selected = { fg = "#ff9e64", bg = "#ff9e64" }
+marker_marked = { fg = "#8fd0e0", bg = "#8fd0e0" }
+marker_selected = { fg = "#ffb46b", bg = "#ffb46b" }
 
-cwd = { fg = "#dfe4e5", bold = true }
+cwd = { fg = "#f4f2ec", bold = true }
 
-find_keyword = { fg = "#ff9e64", bg = "#0f1416" }
+find_keyword = { fg = "#ffb46b", bg = "#0f1628" }
 find_position = {}
 
-count_copied = { fg = "#0f1416", bg = "#9ece6a" }
-count_cut = { fg = "#0f1416", bg = "#c96b72" }
-count_selected = { fg = "#0f1416", bg = "#ff9e64" }
+count_copied = { fg = "#0f1628", bg = "#9bd48a" }
+count_cut = { fg = "#0f1628", bg = "#c96b72" }
+count_selected = { fg = "#0f1628", bg = "#ffb46b" }
 
 border_symbol = "│"
-border_style = { fg = "#4f5a5c" }
+border_style = { fg = "#4a5675" }
 
 [indicator]
 parent = { reversed = true }
@@ -43,101 +43,101 @@ current = { reversed = true }
 preview = { reversed = true }
 
 [tabs]
-active = { fg = "#0f1416", bg = "#e6b450" }
-inactive = { fg = "#e6b450", bg = "#232c2e" }
+active = { fg = "#0f1628", bg = "#ff7a3d" }
+inactive = { fg = "#ff7a3d", bg = "#202c48" }
 
 sep_inner = { open = "", close = "" }
 sep_outer = { open = "", close = "" }
 
 
 [mode]
-normal_main = { fg = "#0f1416", bg = "#e6b450" }
-normal_alt = { fg = "#e6b450", bg = "#232c2e" }
-select_main = { fg = "#0f1416", bg = "#9fd3dc" }
-select_alt = { fg = "#9fd3dc", bg = "#232c2e" }
-unset_main = { fg = "#0f1416", bg = "#9fd3dc" }
-unset_alt = { fg = "#9fd3dc", bg = "#232c2e" }
+normal_main = { fg = "#0f1628", bg = "#ff7a3d" }
+normal_alt = { fg = "#ff7a3d", bg = "#202c48" }
+select_main = { fg = "#0f1628", bg = "#8fd0e0" }
+select_alt = { fg = "#8fd0e0", bg = "#202c48" }
+unset_main = { fg = "#0f1628", bg = "#8fd0e0" }
+unset_alt = { fg = "#8fd0e0", bg = "#202c48" }
 
 
 [status]
 sep_left = { open = "", close = "" }
 sep_right = { open = "", close = "" }
-overall = { fg = "#b9c3c5", bg = "#0f1416" }
+overall = { fg = "#c4c7d1", bg = "#0f1628" }
 
-progress_label = { fg = "#e6b450", bold = true }
-progress_normal = { fg = "#232c2e", bg = "#0f1416" }
-progress_error = { fg = "#232c2e", bg = "#0f1416" }
+progress_label = { fg = "#ff7a3d", bold = true }
+progress_normal = { fg = "#202c48", bg = "#0f1628" }
+progress_error = { fg = "#202c48", bg = "#0f1628" }
 
-perm_type = { fg = "#9ece6a" }
-perm_read = { fg = "#9fd3dc" }
-perm_write = { fg = "#f07178" }
-perm_exec = { fg = "#8fd1bd" }
-perm_sep = { fg = "#9fd3dc" }
+perm_type = { fg = "#9bd48a" }
+perm_read = { fg = "#8fd0e0" }
+perm_write = { fg = "#ff5a5f" }
+perm_exec = { fg = "#7fc9bd" }
+perm_sep = { fg = "#8fd0e0" }
 
 
 [pick]
-border = { fg = "#95e6cb" }
-active = { fg = "#9fd3dc", bold = true }
+border = { fg = "#7fd3c8" }
+active = { fg = "#8fd0e0", bold = true }
 inactive = {}
 
 [input]
-border = { fg = "#95e6cb" }
+border = { fg = "#7fd3c8" }
 title = {}
 value = {}
 selected = { reversed = true }
 
 [completion]
-border = { fg = "#95e6cb" }
+border = { fg = "#7fd3c8" }
 active = { reversed = true }
 inactive = {}
 
 [tasks]
-border = { fg = "#95e6cb" }
+border = { fg = "#7fd3c8" }
 title = {}
-hovered = { fg = "#9fd3dc" }
+hovered = { fg = "#8fd0e0" }
 
 [which]
 cols = 2
 separator = " - "
-separator_style = { fg = "#899395" }
-mask = { bg = "#0b1012" }
-rest = { fg = "#899395" }
-cand = { fg = "#e6b450" }
-desc = { fg = "#4f5a5c" }
+separator_style = { fg = "#8b91a3" }
+mask = { bg = "#0a0f1c" }
+rest = { fg = "#8b91a3" }
+cand = { fg = "#ff7a3d" }
+desc = { fg = "#4a5675" }
 
 [help]
-on = { fg = "#8fd1bd" }
-run = { fg = "#9fd3dc" }
+on = { fg = "#7fc9bd" }
+run = { fg = "#8fd0e0" }
 desc = {}
 hovered = { reversed = true, bold = true }
-footer = { fg = "#0f1416", bg = "#dfe4e5" }
+footer = { fg = "#0f1628", bg = "#f4f2ec" }
 
 [notify]
-title_info = { fg = "#9ece6a" }
-title_warn = { fg = "#9fd3dc" }
-title_error = { fg = "#f07178" }
+title_info = { fg = "#9bd48a" }
+title_warn = { fg = "#8fd0e0" }
+title_error = { fg = "#ff5a5f" }
 
 [filetype]
 rules = [
     # images
-    { mime = "image/*", fg = "#9fd3dc" },
+    { mime = "image/*", fg = "#8fd0e0" },
 
     # media
-    { mime = "{audio,video}/*", fg = "#9fd3dc" },
+    { mime = "{audio,video}/*", fg = "#8fd0e0" },
 
     # archives
     { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#c96b72" },
 
     # documents
-    { mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#7fbbb3" },
+    { mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#74b8b0" },
 
     # broken links
     { url = "*", is = "orphan", fg = "#d95757" },
 
     # executables
-    { url = "*", is = "exec", fg = "#87b35a" },
+    { url = "*", is = "exec", fg = "#7fbf6e" },
 
     # fallback
-    { url = "*", fg = "#dfe4e5" },
-    { url = "*/", fg = "#e6b450" },
+    { url = "*", fg = "#f4f2ec" },
+    { url = "*/", fg = "#ff7a3d" },
 ]

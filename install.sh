@@ -190,6 +190,11 @@ if [[ " ${CHOSEN[*]} " == *" yazi "* ]] && command -v ya >/dev/null; then
     ya pkg install >/dev/null 2>&1 && info "yazi plugins" || warn "yazi plugins: run 'ya pkg install' later (needs network)"
 fi
 
+# ---------- icons: Papirus-Dark with folders in the accent colour (a user theme, no root) ----------
+if [ -d /usr/share/icons/Papirus ]; then
+    "$REPO/lib/folder-icons.sh" orange && manifest_add "data icons/Papirus-Dark-Bezel"
+fi
+
 # ---------- GTK settings (GNOME/libadwaita apps read them from dconf) ----------
 if command -v gsettings >/dev/null; then
     step "GTK settings"
@@ -198,13 +203,13 @@ if command -v gsettings >/dev/null; then
         for k in $keys; do echo "$k $(gsettings get org.gnome.desktop.interface "$k")"; done > "$STATE/gsettings"
     fi
     gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
-    gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
+    gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark-Bezel'
     gsettings set org.gnome.desktop.interface cursor-theme 'capitaine-cursors-light'
     gsettings set org.gnome.desktop.interface cursor-size 32
-    gsettings set org.gnome.desktop.interface font-name 'Inter 11'
+    gsettings set org.gnome.desktop.interface font-name 'IBM Plex Sans 11'
     gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 11'
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-    info "dark theme, Papirus icons, Capitaine cursor, Inter font"
+    info "dark theme, Papirus icons with orange folders, Capitaine cursor, IBM Plex Sans"
 fi
 
 # ---------- login screen ----------
