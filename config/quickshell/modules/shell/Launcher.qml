@@ -35,7 +35,7 @@ PanelWindow {
     // open, or still animating closed
     property bool active: false
     // close fade, then a couple of frames to commit the now transparent panel, then keyboard and input are released
-    readonly property int closeMs: 200
+    readonly property int closeMs: Theme.anim.slow   // same as the bar menus going back into the bar
     Timer { id: settle; interval: win.closeMs + 60; onTriggered: win.active = false }
     // the window has grown to the whole screen and the compositor shows it at full size:
     // only now the panel may appear (otherwise it slides while the window grows)
@@ -216,30 +216,40 @@ PanelWindow {
     Rectangle { anchors.fill: parent; color: "transparent" }
     MouseArea { anchors.fill: parent; onPressed: Ui.close() }
 
-    // ---------- panel (Spotlight style): centered, upper part of the screen ----------
-    // macOS Spotlight style: opening = quick fade + zoom from 94% with a slight bounce, anchored at
-    // the search line; closing = soft fade + slight shrink. Keyboard and input are kept until the
-    // close animation ends (see settle), so it runs to the end instead of freezing.
+    // ---------- panel: comes down from the top edge of the frame ----------
+    // Same colour as the frame, a plain block straight out of the top edge, like the bar menus.
+    // Opening: the panel grows down from the edge with a small overshoot, the content stays at the
+    // top so the search line shows first. Closing, like the bar menus: the content fades at once and
+    // the empty panel goes back into the edge. Keyboard and input are kept until the close animation
+    // ends (see settle). Only opening and closing animate: while typing the height follows the results.
     Item {
         id: box
+        readonly property int hidden: 40             // extra panel above the screen: the overshoot never detaches it
         x: Math.round(Theme.size.barWidth + (win.width - Theme.size.barWidth - Theme.size.frame - width) / 2)
-        y: Math.round(win.height * 0.2)
-        width: panel.width; height: panel.implicitHeight
-        visible: win.sized
-        transformOrigin: Item.Top
-        opacity: win.shown ? 1 : 0
-        scale: win.shown ? 1 : (win.open ? 0.94 : 0.96)
-        Behavior on opacity {
-            NumberAnimation { duration: win.shown ? 160 : win.closeMs; easing.type: win.shown ? Easing.OutCubic : Easing.OutQuad }
-        }
-        Behavior on scale {
+        y: -hidden
+        width: panel.width
+        property real reveal: win.shown ? 1 : 0
+        Behavior on reveal {
             NumberAnimation {
-                duration: win.shown ? 320 : win.closeMs
-                easing.type: win.shown ? Easing.OutBack : Easing.OutQuad
-                easing.overshoot: 1.1
+                duration: win.shown ? 380 : win.closeMs
+                easing.type: win.shown ? Easing.OutBack : Easing.OutCubic
+                easing.overshoot: 0.8
             }
         }
+        height: hidden + (panel.implicitHeight - hidden) * reveal
+        // part of the panel visible below the frame strip
+        readonly property real shownH: Math.max(0, height - hidden - Theme.size.frame)
+        visible: win.sized
+        clip: true
         MouseArea { anchors.fill: parent }    // clicks inside don't close
-        LauncherPanel { id: panel; win: win }
+        // square corners: the 45° cut is on the selected row inside
+        Rectangle { anchors.fill: parent; color: Theme.m.barGlass }
+        LauncherPanel {
+            id: panel; win: win; background: false
+            topPad: box.hidden + Theme.size.frame
+            // closing like the bar menus: the content fades out at once, the empty panel goes back into the edge
+            opacity: win.shown ? Math.min(1, box.reveal * 1.5) : 0
+            Behavior on opacity { enabled: !win.shown; NumberAnimation { duration: Theme.anim.normal } }
+        }
     }
 }

@@ -1,6 +1,6 @@
 // Left vertical bar ("Developer"): launcher, workspaces, clock, tray, status, power.
-// Status icons open the side menus. Groups sit in tonal containers with tight corners;
-// monospace text; the amber accent marks only the active workspace and the clock.
+// Status icons open the side menus. Groups sit in tonal containers with the cut top-left corner;
+// the orange accent marks the active workspace, the open menu and the clock.
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
@@ -48,18 +48,17 @@ PanelWindow {
         signal scrolled(int delta)
         width: bar.unit; height: bar.unit
         anchors.horizontalCenter: parent?.horizontalCenter
-        RRect {
+        Cut {
             anchors.fill: parent
-            radius: bb.open ? 6 : 10; antialiasing: true
-            color: bb.open ? Theme.m.secondaryContainer : area.containsMouse ? Theme.m.containerHigh : bb.background
+            cut: 8
+            color: bb.open ? Theme.m.primary : area.containsMouse ? Theme.m.containerHigh : bb.background
             Behavior on color { ColorAnimation { duration: Theme.anim.fast } }
-            Behavior on radius { NumberAnimation { duration: Theme.anim.normal; easing.type: Easing.OutBack } }
         }
         MIcon {
             anchors.centerIn: parent
             visible: bb.icon !== ""
             text: bb.icon; filled: bb.filled
-            color: bb.open ? Theme.m.fgSecondaryContainer : bb.iconColor
+            color: bb.open ? Theme.m.fgPrimary : bb.iconColor
         }
         Item { id: extra; anchors.fill: parent }
         MouseArea {
@@ -79,11 +78,11 @@ PanelWindow {
     }
 
     // tonal container for a group of buttons
-    component Group: RRect {
+    component Group: Cut {
         default property alias items: col.data
         anchors.horizontalCenter: parent.horizontalCenter
         width: bar.unit; height: col.implicitHeight
-        radius: 12; antialiasing: true
+        cut: 10
         color: Theme.m.barGroup
         Column { id: col; width: parent.width }
     }
@@ -102,7 +101,7 @@ PanelWindow {
         }
 
         // workspaces: up to 3 icons of the apps inside (one per app), "+n" for more, the number when empty.
-        // Active: amber bar on the left edge + light tonal background.
+        // Active: a solid orange tile with the cut corner.
         Group {
             Item { width: 1; height: 4 }
             Repeater {
@@ -126,21 +125,12 @@ PanelWindow {
                     height: Math.max(34, shown * iconSize + (shown - 1) * 4 + 16)
                     Behavior on height { NumberAnimation { duration: Theme.anim.fast; easing.type: Easing.OutCubic } }
 
-                    RRect {
+                    Cut {
                         id: tag
                         anchors { fill: parent; leftMargin: 4; rightMargin: 4; topMargin: 2; bottomMargin: 2 }
-                        radius: 8; antialiasing: true
-                        color: ws.on ? Theme.m.containerHighest : wsArea.containsMouse ? Theme.m.containerHigh : "transparent"
+                        cut: 7
+                        color: ws.on ? Theme.m.primary : wsArea.containsMouse ? Theme.m.containerHigh : "transparent"
                         Behavior on color { ColorAnimation { duration: Theme.anim.fast } }
-                    }
-                    // active marker: amber bar on the left edge, grows in when the workspace becomes active
-                    Rectangle {
-                        id: marker
-                        x: 1; width: 3; radius: 1.5
-                        anchors.verticalCenter: parent.verticalCenter
-                        height: ws.on ? parent.height - 14 : 0
-                        color: Theme.m.primary
-                        Behavior on height { NumberAnimation { duration: 220; easing.type: Easing.OutBack } }
                     }
                     Column {
                         anchors.centerIn: parent
@@ -165,19 +155,19 @@ PanelWindow {
                                     visible: parent.src === "" && !parent.more
                                     text: parent.modelData.slice(0, 1).toUpperCase()
                                     font.pixelSize: 12; font.bold: true
-                                    color: ws.on ? Theme.m.primary : Theme.m.fgVariant
+                                    color: ws.on ? Theme.m.fgPrimary : Theme.m.fgVariant
                                 }
                                 Txt {
                                     anchors.centerIn: parent
                                     visible: parent.more
                                     text: "+" + (ws.apps.length - 2)
                                     font.pixelSize: 10; font.bold: true
-                                    color: ws.on ? Theme.m.primary : Theme.m.fgVariant
+                                    color: ws.on ? Theme.m.fgPrimary : Theme.m.fgVariant
                                 }
                             }
                         }
                     }
-                    // empty workspace: its number in mono, muted (amber when active)
+                    // empty workspace: its number, muted (accent when active)
                     Txt {
                         anchors.centerIn: parent
                         visible: ws.apps.length === 0
@@ -185,7 +175,7 @@ PanelWindow {
                         font.family: Theme.font.family
                         font.pixelSize: 13
                         font.weight: ws.on ? Font.Bold : Font.Medium
-                        color: ws.on ? Theme.m.primary : wsArea.containsMouse || ws.full ? Theme.m.fgVariant : Theme.m.outline
+                        color: ws.on ? Theme.m.fgPrimary : wsArea.containsMouse || ws.full ? Theme.m.fgVariant : Theme.m.outline
                         Behavior on color { ColorAnimation { duration: Theme.anim.fast } }
                     }
                     MouseArea {
@@ -204,11 +194,11 @@ PanelWindow {
     }
 
     // ---------- center: clock ----------
-    RRect {
+    Cut {
         id: clock
         anchors.centerIn: parent
         width: bar.unit; height: clockCol.implicitHeight + 18
-        radius: 8; antialiasing: true
+        cut: 10
         color: Theme.m.primary
         Column {
             id: clockCol
@@ -220,7 +210,8 @@ PanelWindow {
                     required property string modelData
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: modelData
-                    font.pixelSize: 17; font.bold: true
+                    font.family: Theme.font.heavy
+                    font.pixelSize: 19; font.weight: Font.Black
                     color: Theme.m.fgPrimary
                 }
             }

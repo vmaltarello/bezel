@@ -55,10 +55,10 @@ Column {
     Card {
         Item {
             width: parent.width; height: clock.implicitHeight
-            Txt { id: clock; text: Time.time; font.pixelSize: 58; font.weight: Font.ExtraBold }
+            Txt { id: clock; text: Time.time; font.family: Theme.font.heavy; font.pixelSize: 62; font.weight: Font.Black }
             Txt {
                 anchors { right: parent.right; baseline: clock.baseline }
-                text: "week " + root.isoWeek(Time.now); color: Theme.c.muted; font.pixelSize: 12
+                text: "Week " + root.isoWeek(Time.now); color: Theme.c.muted; font.pixelSize: 12
             }
         }
         Txt {
@@ -122,7 +122,7 @@ Column {
         Rectangle { visible: Battery.present; width: parent.width; height: 1; color: Theme.c.ink4 }
         Line {
             visible: Battery.present
-            label: (Battery.charging ? "charging " : "battery ") + Battery.percent + "%"
+            label: (Battery.charging ? "Charging " : "Battery ") + Battery.percent + "%"
             value: [Battery.timeLeft, Battery.watts >= 0.1 ? Battery.watts.toFixed(1) + " W" : ""].filter(s => s).join(" · ")
                    || (Battery.plugged ? "plugged in" : "")
             valueColor: Theme.c.fg2

@@ -20,8 +20,10 @@ Item {
                                : count === 0 ? (win.query !== "" || win.mode !== "apps" ? 52 : 0)
                                : Math.min(count, maxRows) * rowH + 12
 
+    property int topPad: 0              // part of the panel hidden behind the frame strip
+    property bool background: true      // Launcher.qml draws its own (it grows while opening)
     width: 640
-    implicitHeight: col.implicitHeight
+    implicitHeight: col.implicitHeight + topPad
 
     // the window clears the search when the mode changes or the launcher opens
     Connections {
@@ -35,6 +37,7 @@ Item {
     }
 
     RRect {
+        visible: root.background
         anchors.fill: parent
         radius: Theme.size.radius; antialiasing: true
         color: Theme.c.frame
@@ -43,17 +46,19 @@ Item {
 
     Column {
         id: col
+        y: root.topPad
         width: parent.width
 
         // ---------- search line ----------
         Item {
             width: parent.width; height: 58
-            // shell-like prompt: ❯ search · $ command · / files · ? web
-            Txt {
+            // the icon says what Enter will do: search, run a command, open a file, search the web
+            MIcon {
                 id: prompt
                 x: 20; anchors.verticalCenter: parent.verticalCenter
-                text: ({ cmd: "$", files: "/", web: "?" })[win.kind] ?? "❯"
-                color: Theme.m.primary; font.pixelSize: 22; font.bold: true
+                text: ({ cmd: "terminal", files: "folder_open", web: "travel_explore",
+                         clipboard: "content_paste", wallpapers: "wallpaper", keys: "keyboard" })[win.kind] ?? "search"
+                color: Theme.m.primary; font.pixelSize: 22
             }
             TextInput {
                 id: input
@@ -86,7 +91,7 @@ Item {
                     event.accepted = true;
                 }
             }
-            // modes as text tabs (Tab cycles); the active one has an amber underline
+            // modes as tabs with their full names (Tab cycles); the active one is underlined
             Row {
                 id: tabs
                 anchors { right: parent.right; rightMargin: 16; verticalCenter: parent.verticalCenter }
@@ -101,7 +106,7 @@ Item {
                         Txt {
                             id: tl
                             anchors.centerIn: parent
-                            text: ({ apps: "apps", clipboard: "clip", wallpapers: "walls", keys: "keys" })[tab.modelData[0]]
+                            text: tab.modelData[1]
                             font.pixelSize: Theme.font.small; font.bold: tab.on
                             color: tab.on ? Theme.m.primary : tabArea.containsMouse ? Theme.m.fg : Theme.m.outline
                         }
@@ -135,15 +140,23 @@ Item {
                     required property var modelData
                     required property int index
                     readonly property bool sel: index === win.current
-                    width: list.width; height: root.rowH; radius: 6
-                    color: sel ? Theme.m.secondaryContainer : rowArea.containsMouse ? Theme.m.container : "transparent"
-                    // selected: amber bar on the left, like a cursor line
-                    Rectangle { visible: row.sel; x: 0; width: 3; height: parent.height - 16; anchors.verticalCenter: parent.verticalCenter; color: Theme.m.primary }
+                    width: list.width; height: root.rowH
+                    color: sel ? Theme.m.primary : rowArea.containsMouse ? Theme.m.container : "transparent"   // selected: solid orange
+                    // the 45° cut on the top-left corner: a triangle in the panel colour (the list clips
+                    // plain Rectangles, not vector shapes, so the cut is drawn this way)
+                    Rectangle {
+                        visible: row.sel || rowArea.containsMouse
+                        width: 13; height: 13; rotation: 45
+                        x: -width / 2; y: -height / 2
+                        color: Theme.m.barGlass
+                        antialiasing: true
+                    }
+                    // selected: a small dot on the left, like the light of a pressed key
                     Item {
                         id: ico
                         x: 12; width: 28; height: 28; anchors.verticalCenter: parent.verticalCenter
                         IconImage { anchors.fill: parent; source: row.modelData.icon ?? ""; visible: !!row.modelData.icon; asynchronous: true }
-                        MIcon { anchors.centerIn: parent; visible: !row.modelData.icon; text: row.modelData.sym ?? ""; filled: row.sel; color: row.sel ? Theme.m.primary : Theme.m.fgVariant; font.pixelSize: 22 }
+                        MIcon { anchors.centerIn: parent; visible: !row.modelData.icon; text: row.modelData.sym ?? ""; filled: row.sel; color: row.sel ? Theme.m.fgPrimary : Theme.m.fgVariant; font.pixelSize: 22 }
                     }
                     Txt {
                         id: ttl
@@ -151,15 +164,15 @@ Item {
                         width: Math.min(implicitWidth, parent.width - ico.width - 140)
                         text: row.modelData.title; elide: Text.ElideRight
                         font.pixelSize: Theme.font.small + 2; font.bold: row.sel
-                        color: row.sel ? Theme.m.fgSecondaryContainer : Theme.m.fg
+                        color: row.sel ? Theme.m.fgPrimary : Theme.m.fg
                     }
                     // subtitle on the same line, dimmer (Spotlight-like)
                     Txt {
                         anchors { left: ttl.right; leftMargin: 10; right: hint.left; rightMargin: 10; verticalCenter: parent.verticalCenter }
                         text: row.modelData.sub; elide: Text.ElideRight
-                        color: Theme.m.outline; font.pixelSize: Theme.font.small
+                        color: row.sel ? Theme.m.fgPrimary : Theme.m.outline; opacity: row.sel ? 0.7 : 1; font.pixelSize: Theme.font.small
                     }
-                    Txt { id: hint; anchors { right: parent.right; rightMargin: 14; verticalCenter: parent.verticalCenter } text: row.sel ? "↵" : ""; color: Theme.m.primary }
+                    Txt { id: hint; anchors { right: parent.right; rightMargin: 14; verticalCenter: parent.verticalCenter } text: row.sel ? "↵" : ""; color: Theme.m.fgPrimary }
                     MouseArea {
                         id: rowArea
                         anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
@@ -169,7 +182,7 @@ Item {
                 Txt {
                     anchors.centerIn: parent
                     visible: win.results.length === 0
-                    text: win.mode === "clipboard" && win.query === "" ? "clipboard is empty" : "no results"
+                    text: win.mode === "clipboard" && win.query === "" ? "The clipboard is empty" : "No results"
                     color: Theme.m.outline
                 }
             }
@@ -208,18 +221,35 @@ Item {
             }
         }
 
-        // ---------- key hints ----------
+        // ---------- key hints: drawn keys with a word next to each, like the legend of a keyboard ----------
         Rectangle { visible: root.bodyH > 0; width: parent.width; height: 1; color: Theme.m.outlineVariant }
         Item {
             visible: root.bodyH > 0
-            width: parent.width; height: 30
-            Txt {
+            width: parent.width; height: 34
+            component Key: Row {
+                property string key
+                property string label
+                spacing: 6
+                Rectangle {
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: Math.max(20, kt.implicitWidth + 10); height: 18; radius: 4
+                    color: Theme.m.containerHigh
+                    border.width: 1; border.color: Theme.m.outlineVariant
+                    Rectangle { anchors { left: parent.left; right: parent.right; bottom: parent.bottom } height: 2; radius: 4; color: Theme.m.outlineVariant }
+                    Txt { id: kt; anchors.centerIn: parent; anchors.verticalCenterOffset: -1; text: parent.parent.key; font.pixelSize: 10; font.bold: true; color: Theme.m.fgVariant }
+                }
+                Txt { anchors.verticalCenter: parent.verticalCenter; text: parent.label; font.pixelSize: 11; color: Theme.m.outline }
+            }
+            Row {
                 x: 16; anchors.verticalCenter: parent.verticalCenter
-                text: win.mode === "clipboard" ? "↵ copy   ⇧del remove   tab mode   esc close"
-                    : win.kind === "cmd" ? "↵ run   ⇧↵ in terminal   esc close"
-                    : win.kind === "files" ? "↵ open   ⇧↵ open folder   esc close"
-                    : "↵ open   > command   / files   ? web   tab mode   esc close"
-                color: Theme.m.outline; font.pixelSize: 11
+                spacing: 14
+                Key { key: "Enter"; label: win.mode === "clipboard" ? "Copy" : win.kind === "cmd" ? "Run" : "Open" }
+                Key { visible: win.kind === "cmd" || win.kind === "files"; key: "Shift Enter"; label: win.kind === "cmd" ? "In terminal" : "Open folder" }
+                Key { visible: win.mode === "clipboard"; key: "Shift Del"; label: "Remove" }
+                Key { visible: win.kind === "apps"; key: ">"; label: "Command" }
+                Key { visible: win.kind === "apps"; key: "/"; label: "Files" }
+                Key { visible: win.kind === "apps"; key: "?"; label: "Web" }
+                Key { key: "Tab"; label: "Mode" }
             }
             Txt {
                 anchors { right: parent.right; rightMargin: 16; verticalCenter: parent.verticalCenter }

@@ -19,7 +19,7 @@ Item {
         Column {
             anchors.verticalCenter: parent.verticalCenter
             spacing: 1
-            Txt { id: tt; font.bold: true; font.pixelSize: Theme.font.normal }
+            Txt { id: tt; font.family: Theme.font.heavy; font.weight: Font.Black; font.pixelSize: Theme.font.large + 1 }
             Txt { id: st; color: Theme.m.outline; font.pixelSize: Theme.font.small - 1; visible: text !== "" }
         }
         Item { id: slot; anchors { right: parent.right; verticalCenter: parent.verticalCenter } width: childrenRect.width; height: childrenRect.height }
@@ -39,7 +39,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 1
                 Txt { text: Battery.charging ? "Charging" : Battery.plugged ? "Plugged in" : "On battery"; font.bold: true; font.pixelSize: Theme.font.small + 1 }
-                Txt { text: Battery.timeLeft || (Battery.plugged ? "fully charged" : ""); color: Theme.m.outline; font.pixelSize: Theme.font.small }
+                Txt { text: Battery.timeLeft || (Battery.plugged ? "Fully charged" : ""); color: Theme.m.outline; font.pixelSize: Theme.font.small }
             }
         }
         // level bar
@@ -50,7 +50,7 @@ Item {
         Row {
             spacing: 16
             Txt { visible: Battery.watts > 0.1; text: Battery.watts.toFixed(1) + " W"; color: Theme.m.fgVariant; font.pixelSize: Theme.font.small }
-            Txt { visible: Battery.health > 0; text: "health " + Math.round(Battery.health) + "%"; color: Theme.m.fgVariant; font.pixelSize: Theme.font.small }
+            Txt { visible: Battery.health > 0; text: "Health " + Math.round(Battery.health) + "%"; color: Theme.m.fgVariant; font.pixelSize: Theme.font.small }
         }
         Section { text: "POWER PROFILE" }
         // segmented control: icon on top, short label below (fits the width)

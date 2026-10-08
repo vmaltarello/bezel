@@ -1,4 +1,6 @@
-// Rounded rectangle drawn as a vector shape.
+// Rectangle drawn as a vector shape, in bezel's "Vetta" style: only the top-left corner is cut at
+// 45° (its size follows the radius given), the other corners are square. cutCorner: false brings back
+// plain rounded corners where a round shape is really needed.
 // Used like Rectangle (color, radius, per-corner radii, border.width/border.color), but curved edges
 // stay smooth with the software renderer, which makes them jagged at scale 1.5.
 import QtQuick
@@ -8,6 +10,7 @@ Item {
     id: root
     property color color: "white"
     property real radius: 0
+    property bool cutCorner: true
     property real topLeftRadius: radius
     property real topRightRadius: radius
     property real bottomLeftRadius: radius
@@ -37,7 +40,10 @@ Item {
                 readonly property real tr: Math.min(root.topRightRadius, m)
                 readonly property real bl: Math.min(root.bottomLeftRadius, m)
                 readonly property real br: Math.min(root.bottomRightRadius, m)
-                path: `M${b + tl},${b} H${b + w - tr} A${tr},${tr} 0 0 1 ${b + w},${b + tr} V${b + h - br} A${br},${br} 0 0 1 ${b + w - br},${b + h} H${b + bl} A${bl},${bl} 0 0 1 ${b},${b + h - bl} V${b + tl} A${tl},${tl} 0 0 1 ${b + tl},${b} Z`
+                readonly property real c: Math.min(Math.max(root.topLeftRadius, root.topRightRadius, root.bottomLeftRadius, root.bottomRightRadius), m)
+                path: root.cutCorner
+                    ? `M${b + c},${b} H${b + w} V${b + h} H${b} V${b + c} Z`
+                    : `M${b + tl},${b} H${b + w - tr} A${tr},${tr} 0 0 1 ${b + w},${b + tr} V${b + h - br} A${br},${br} 0 0 1 ${b + w - br},${b + h} H${b + bl} A${bl},${bl} 0 0 1 ${b},${b + h - bl} V${b + tl} A${tl},${tl} 0 0 1 ${b + tl},${b} Z`
             }
         }
     }

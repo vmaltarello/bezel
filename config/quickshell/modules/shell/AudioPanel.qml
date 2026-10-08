@@ -22,7 +22,7 @@ Item {
         Column {
             anchors.verticalCenter: parent.verticalCenter
             spacing: 1
-            Txt { id: tt; font.bold: true; font.pixelSize: Theme.font.normal }
+            Txt { id: tt; font.family: Theme.font.heavy; font.weight: Font.Black; font.pixelSize: Theme.font.large + 1 }
             Txt { id: st; color: Theme.m.outline; font.pixelSize: Theme.font.small - 1; visible: text !== "" }
         }
         Item { id: slot; anchors { right: parent.right; verticalCenter: parent.verticalCenter } width: childrenRect.width; height: childrenRect.height }
@@ -41,7 +41,7 @@ Item {
         width: parent.width; spacing: 10
         Item {
             Layout.preferredWidth: 30; Layout.preferredHeight: 30
-            RRect { anchors.fill: parent; radius: 8; antialiasing: true; color: icArea.containsMouse ? Theme.m.containerHighest : Theme.m.containerHigh }
+            Cut { anchors.fill: parent; cut: 7; color: icArea.containsMouse ? Theme.m.containerHighest : Theme.m.containerHigh }
             MIcon { id: ic; anchors.centerIn: parent; filled: true; font.pixelSize: 18 }
             MouseArea { id: icArea; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: parent.parent.iconClicked() }
         }
@@ -57,7 +57,7 @@ Item {
             symbol: Audio.muted ? "volume_off" : Audio.headphones ? "headphones" : Audio.percent > 60 ? "volume_up" : "volume_down"
             iconColor: Audio.muted ? Theme.m.error : Theme.m.fg
             value: Audio.muted ? 0 : Math.min(1, Audio.volume)
-            label: Audio.muted ? "mute" : Audio.percent + "%"
+            label: Audio.muted ? "Muted" : Audio.percent + "%"
             onMoved: v => Audio.setVolume(v)
             onIconClicked: Audio.toggleMute()
         }
@@ -72,7 +72,7 @@ Item {
             width: parent.width; spacing: 10
             Item {
                 Layout.preferredWidth: 30; Layout.preferredHeight: 30
-                RRect { anchors.fill: parent; radius: 8; antialiasing: true; color: Theme.m.containerHigh }
+                Cut { anchors.fill: parent; cut: 7; color: Theme.m.containerHigh }
                 MIcon { anchors.centerIn: parent; text: Audio.micMuted ? "mic_off" : "mic"; filled: true; font.pixelSize: 18; color: Audio.micMuted ? Theme.m.error : Theme.m.fg }
             }
             Txt { text: Audio.micMuted ? "Microphone muted" : "Microphone on"; Layout.fillWidth: true; font.pixelSize: Theme.font.small + 1 }

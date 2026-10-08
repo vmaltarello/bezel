@@ -1,4 +1,4 @@
-// Volume / brightness / microphone: slides out of the right edge, half height, with two concave fillets.
+// Volume / brightness / microphone: slides out of the right edge, half height, as a plain block.
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
@@ -41,13 +41,13 @@ PanelWindow {
         height: parent.height
         Behavior on width { NumberAnimation { duration: Theme.anim.normal; easing.type: Easing.OutCubic } }
 
-        Fillet { anchors.right: parent.right; y: 0; corner: "br"; color: Theme.m.barGlass; opacity: shape.width > win.f ? 1 : 0 }
-        Fillet { anchors.right: parent.right; y: win.h + win.f; corner: "tr"; color: Theme.m.barGlass; opacity: shape.width > win.f ? 1 : 0 }
-        RRect {
+        // a plain block straight out of the right edge, like the bar menus
+        // attached to the right edge: only the top-left corner is cut at 45°
+        Cut {
             y: win.f
             width: parent.width; height: win.h
             color: Theme.m.barGlass
-            topLeftRadius: Theme.size.radius; bottomLeftRadius: Theme.size.radius
+            cutTL: 14
             clip: true
             Column {
                 anchors.centerIn: parent

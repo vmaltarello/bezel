@@ -11,8 +11,8 @@
 [![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=flat-square&logo=archlinux&logoColor=white)](https://archlinux.org)
 [![Stars](https://img.shields.io/github/stars/vmaltarello/bezel-hyprland?style=flat-square&logo=github&logoColor=white&color=yellow)](https://github.com/vmaltarello/bezel-hyprland/stargazers)
 
-A dark frame wraps the screen like a monitor bezel, a vertical bar holds everything you need,
-and one amber accent marks what matters. Every dependency comes from the official Arch repositories.
+A night-blue frame wraps the screen like a monitor bezel, a vertical bar holds everything you need,
+and one sunset-orange accent marks what matters; every element carries the same 45° cut on its top-left corner. Every dependency comes from the official Arch repositories.
 
 ![bezel in action](docs/highlights.webp)
 
@@ -35,7 +35,7 @@ and one amber accent marks what matters. Every dependency comes from the officia
 
 - **Screen frame** — a thin dark frame around the screen; only the window corners that touch the screen corners are rounded.
 - **Vertical bar** — workspaces with the icons of their apps, clock, tray, Wi-Fi, Bluetooth, audio, battery and session menus that grow out of the bar.
-- **Spotlight-style launcher** (`SUPER+Space`) — apps, shell commands (`>`), files and folders (`/`), web search (`?`), clipboard history, wallpapers and a searchable list of every shortcut.
+- **Launcher** (`SUPER+Space`) — comes down from the top edge of the frame: apps, shell commands (`>`), files and folders (`/`), web search (`?`), clipboard history, wallpapers and a searchable list of every shortcut.
 - **Overview** (`SUPER+Tab` or three fingers up) — all windows of the workspace, drag them to another workspace.
 - **Desktop widgets** (on empty workspaces) — calendar, CPU/RAM graphs, battery, now playing, available updates.
 - **Screenshots** (`Print`) — freeze the screen, then pick an area, a window or the whole screen; optional annotation with satty.

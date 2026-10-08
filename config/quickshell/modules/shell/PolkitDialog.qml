@@ -61,7 +61,7 @@ PanelWindow {
             Row {
                 spacing: 10
                 MIcon { anchors.verticalCenter: parent.verticalCenter; text: "shield_lock"; filled: true; color: Theme.m.primary; font.pixelSize: 20 }
-                Txt { text: "// authentication required"; color: Theme.m.outline; font.pixelSize: Theme.font.normal }
+                Txt { text: "Authentication required"; color: Theme.m.fgVariant; font.pixelSize: Theme.font.normal; font.bold: true }
             }
             Item { width: 1; height: 16 }
             Txt {
@@ -90,16 +90,18 @@ PanelWindow {
                                                  : win.busy ? Theme.m.fgSecondaryContainer
                                                  : input.text.length ? Theme.m.primary : Theme.m.outlineVariant
 
-                Txt {
+                // a padlock where you type: red on a wrong password
+                MIcon {
                     id: prompt
                     anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-                    text: "❯"; font.pixelSize: 20; font.bold: true
+                    text: "lock"; filled: true; font.pixelSize: 20
                     color: win.failedRecently ? Theme.m.error : Theme.m.primary
+                    Behavior on color { ColorAnimation { duration: Theme.anim.fast } }
                 }
                 Txt {
                     anchors { left: prompt.right; leftMargin: 12; verticalCenter: parent.verticalCenter }
                     visible: input.text.length === 0
-                    text: win.busy ? "checking…" : (win.flow?.inputPrompt ?? "").replace(/:\s*$/, "").toLowerCase() || "password"
+                    text: win.busy ? "Checking…" : (win.flow?.inputPrompt ?? "").replace(/:\s*$/, "") || "Password"
                     color: Theme.m.outline
                     font.pixelSize: Theme.font.normal
                 }
@@ -161,9 +163,9 @@ PanelWindow {
             Txt {
                 width: parent.width
                 readonly property string extra: win.flow?.supplementaryMessage ?? ""
-                text: win.failedRecently && !extra ? "error: authentication failed"
-                    : extra ? (win.flow.supplementaryIsError ? "error: " : "") + extra.toLowerCase()
-                    : "esc cancel · enter authenticate"
+                text: win.failedRecently && !extra ? "Wrong password, try again"
+                    : extra ? extra.charAt(0).toUpperCase() + extra.slice(1)
+                    : "Enter to confirm · Esc to cancel"
                 color: win.failedRecently || (extra && win.flow.supplementaryIsError) ? Theme.m.error : Theme.m.outline
                 elide: Text.ElideRight
                 font.pixelSize: Theme.font.small

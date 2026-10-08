@@ -20,7 +20,7 @@ Item {
         Column {
             anchors.verticalCenter: parent.verticalCenter
             spacing: 1
-            Txt { id: tt; font.bold: true; font.pixelSize: Theme.font.normal }
+            Txt { id: tt; font.family: Theme.font.heavy; font.weight: Font.Black; font.pixelSize: Theme.font.large + 1 }
             Txt { id: st; color: Theme.m.outline; font.pixelSize: Theme.font.small - 1; visible: text !== "" }
         }
         Item { id: slot; anchors { right: parent.right; verticalCenter: parent.verticalCenter } width: childrenRect.width; height: childrenRect.height }

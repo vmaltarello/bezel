@@ -5,60 +5,62 @@ import QtQuick
 import Quickshell
 
 Singleton {
-    // ---- colors: "Developer" palette. Old names kept so every module follows; values = the m palette below ----
+    // ---- colors: "Vetta" palette (night blue, sunset orange, snow-sand). Old names kept so every module follows ----
     readonly property QtObject c: QtObject {
-        readonly property color ink:    Qt.rgba(15 / 255, 20 / 255, 22 / 255, 0.88) // translucent surface
-        readonly property color pill:   Qt.rgba(35 / 255, 44 / 255, 46 / 255, 0.70) // inner pills
-        readonly property color ink0:   "#0b1012"   // deepest
-        readonly property color ink1:   "#151c1e"   // hover on surface
-        readonly property color ink4:   "#2e3739"   // tracks, borders, selected rows
-        readonly property color ink5:   "#3a4446"   // selection / hover on containers
-        readonly property color fg:     "#dfe4e5"
-        readonly property color fg2:    "#b9c3c5"
-        readonly property color muted:  "#899395"
-        readonly property color dim:    "#4f5a5c"
-        readonly property color blue:   "#e6b450"   // was the primary: now the amber accent
-        readonly property color violet: "#9fd3dc"   // secondary: cyan
-        readonly property color aqua:   "#95e6cb"
-        readonly property color warm:   "#e6b450"   // amber accent
-        readonly property color green:  "#9ece6a"
-        readonly property color orange: "#ff9e64"
-        readonly property color red:    "#f07178"
-        readonly property color frame:  "#0f1416"   // frame, bar and panels: one solid color, they read as one piece
-        readonly property color panel:  "#0f1416"
-        readonly property color cell:   "#1a2224"   // cards inside panels
-        readonly property color shade:  "#05080a"   // screen dim behind overlays
+        readonly property color ink:    Qt.rgba(15 / 255, 22 / 255, 40 / 255, 0.88) // translucent surface
+        readonly property color pill:   Qt.rgba(42 / 255, 55 / 255, 86 / 255, 0.70) // inner pills
+        readonly property color ink0:   "#0a0f1c"   // deepest
+        readonly property color ink1:   "#18223a"   // hover on surface
+        readonly property color ink4:   "#2a3756"   // tracks, borders, selected rows
+        readonly property color ink5:   "#34436a"   // selection / hover on containers
+        readonly property color fg:     "#f4f2ec"
+        readonly property color fg2:    "#c4c7d1"
+        readonly property color muted:  "#8b91a3"
+        readonly property color dim:    "#4a5675"
+        readonly property color blue:   "#ff7a3d"   // was the primary: now the amber accent
+        readonly property color violet: "#f0d9b5"   // secondary: cyan
+        readonly property color aqua:   "#f0d9b5"
+        readonly property color warm:   "#ff7a3d"   // amber accent
+        readonly property color green:  "#f0d9b5"
+        readonly property color orange: "#ffb46b"
+        readonly property color red:    "#ff5a5f"
+        readonly property color frame:  "#0f1628"   // frame, bar and panels: one solid color, they read as one piece
+        readonly property color panel:  "#0f1628"
+        readonly property color cell:   "#18223a"   // cards inside panels
+        readonly property color shade:  "#05080f"   // screen dim behind overlays
     }
 
-    // ---- "Developer" palette (role names from Material 3; hand-made, independent of the wallpaper) ----
+    // ---- "Vetta" palette (role names from Material 3) ----
     readonly property QtObject m: QtObject {
-        readonly property color surface:      "#0f1416"   // frame, bar and panels
-        readonly property color container:    "#1a2224"   // groups inside the bar, cards
-        readonly property color containerHigh: "#232c2e"  // hover
-        readonly property color containerHighest: "#2e3739"
-        readonly property color fg:    "#dfe4e5"
-        readonly property color fgVariant: "#b9c3c5"
-        readonly property color outline:      "#899395"
-        readonly property color outlineVariant: "#3a4446"
-        readonly property color primary:      "#e6b450"   // the one accent (terminal amber): active workspace, clock
-        readonly property color fgPrimary:    "#1a1405"
-        readonly property color primaryContainer: "#2b2616"
-        readonly property color fgPrimaryContainer: "#e6b450"
-        readonly property color secondaryContainer: "#1f3640" // open menu, toggles on
-        readonly property color fgSecondaryContainer: "#9fd3dc"
-        readonly property color tertiary:     "#9ece6a"   // battery ok (terminal green)
-        readonly property color error:        "#f07178"
-        readonly property color warning:      "#ff9e64"
+        readonly property color surface:      "#0f1628"   // frame, bar and panels
+        readonly property color container:    "#18223a"   // groups inside the bar, cards
+        readonly property color containerHigh: "#202c48"  // hover
+        readonly property color containerHighest: "#2a3756"
+        readonly property color fg:    "#f4f2ec"
+        readonly property color fgVariant: "#c4c7d1"
+        readonly property color outline:      "#8b91a3"
+        readonly property color outlineVariant: "#2a3756"
+        readonly property color primary:      "#ff7a3d"   // sunset orange: active workspace, clock, selection
+        readonly property color fgPrimary:    "#1f0b02"
+        readonly property color primaryContainer: "#3a2117"
+        readonly property color fgPrimaryContainer: "#ffa77a"
+        readonly property color secondaryContainer: "#2a3756" // open menu, toggles on
+        readonly property color fgSecondaryContainer: "#f4f2ec"
+        readonly property color tertiary:     "#f0d9b5"   // the second tone, snow-sand: secondary readings, battery ok
+        readonly property color error:        "#ff5a5f"
+        readonly property color warning:      "#ffb46b"
         readonly property color barGroup:     container   // tonal groups inside the bar
         // bar, frame and the panels attached to them: solid and darker than the windows (monitor-bezel look).
         // Not translucent: a thin frame and a wide bar over different parts of the wallpaper never match.
-        readonly property color barGlass:     "#080b0d"
-        readonly property color glass:        Qt.rgba(15 / 255, 20 / 255, 22 / 255, 0.50) // desktop widgets: surface you can see through
+        readonly property color barGlass:     "#0f1628"
+        readonly property color glass:        Qt.rgba(15 / 255, 22 / 255, 40 / 255, 0.6) // desktop widgets: surface you can see through
     }
 
     // ---- fonts ----
     readonly property QtObject font: QtObject {
-        readonly property string family: "JetBrainsMono Nerd Font"
+        readonly property string family: "IBM Plex Sans"             // the interface: technical but warm, pairs with JetBrains Mono
+        readonly property string mono: "JetBrainsMono Nerd Font"     // only digits that change (clocks, percentages): they don't jump
+        readonly property string heavy: "Inter Display"              // big heavy numbers (weight Black)
         readonly property string icons: "JetBrainsMono Nerd Font Propo"
         readonly property string symbols: "Material Symbols Rounded" // icons by ligature name, FILL axis = state
         readonly property int small:  13
@@ -72,6 +74,7 @@ Singleton {
         readonly property int barMargin: 8      // distance from the screen edge
         readonly property int sideMargin: 10
         readonly property int radius: 12        // groups
+        readonly property int cut: 9            // the 45° cut on the top-left corner: bezel's signature
         readonly property int pillHeight: 24
         readonly property int spacing: 6
         readonly property int frame: 8          // frame thickness top/right/bottom (0 = no frame; keep it even: scale 1.5)

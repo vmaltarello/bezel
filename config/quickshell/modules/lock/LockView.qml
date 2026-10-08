@@ -20,8 +20,17 @@ Item {
     readonly property bool manyUsers: (ctx.users?.length ?? 0) > 1
 
     readonly property int hour: Time.now.getHours()
-    readonly property string greeting: hour < 5 ? "still up" : hour < 12 ? "good morning"
-                                     : hour < 18 ? "good afternoon" : "good evening"
+    // the first name from the account (GECOS) if set, else the login
+    property string realName: ""
+    readonly property string name: realName !== "" ? realName.split(" ")[0] : user
+    // the greeting, followed by the name (its own element: in the greeter it switches between users)
+    readonly property string greeting: hour < 5 ? "Still up," : hour < 12 ? "Good morning,"
+                                     : hour < 18 ? "Good afternoon," : "Good evening,"
+    Process {
+        running: true
+        command: ["sh", "-c", "getent passwd \"$1\" | cut -d: -f5 | cut -d, -f1", "sh", root.user]
+        stdout: StdioCollector { onStreamFinished: root.realName = text.trim() }
+    }
     property bool caps: false
     property bool failedRecently: false
 
@@ -61,38 +70,49 @@ Item {
         }
         Timer { id: shown; property bool done: false; interval: 30; running: true; onTriggered: done = true }
 
-        // ---- left: the clock ----
+        // ---- the slab: a solid block with a slanted edge, like a slope at dusk, with a thin orange ridge ----
+        Item {
+            anchors.fill: parent
+            transform: Translate { x: clockShift.x * 2 }
+            Shape {
+                anchors.fill: parent
+                preferredRendererType: Shape.CurveRenderer
+                ShapePath {
+                    fillColor: Theme.m.barGlass; strokeColor: "transparent"; strokeWidth: -1
+                    PathSvg { path: `M0,0 L${root.width * 0.58},0 L${root.width * 0.44},${root.height} L0,${root.height} Z` }
+                }
+                ShapePath {
+                    fillColor: Theme.m.primary; strokeColor: "transparent"; strokeWidth: -1
+                    PathSvg { path: `M${root.width * 0.58},0 L${root.width * 0.58 + 7},0 L${root.width * 0.44 + 7},${root.height} L${root.width * 0.44},${root.height} Z` }
+                }
+            }
+        }
+
+        // ---- left, on the slab: the clock ----
         Column {
             id: clock
             anchors { left: parent.left; leftMargin: root.width * 0.07; verticalCenter: parent.verticalCenter }
             transform: Translate { id: clockShift; x: -root.width * 0.03 }     // slides in from the left
-            spacing: -root.big * 0.18
+            spacing: -root.big * 0.3
 
             Txt {
                 text: root.hh
+                font.family: Theme.font.heavy
                 font.pixelSize: root.big
-                font.weight: Font.ExtraBold
+                font.weight: Font.Black
                 font.letterSpacing: -root.big * 0.04
                 color: Theme.m.fg
                 renderType: Text.QtRendering
             }
-            // minutes: outline only (stroked text path)
-            Item {
-                width: mmMetrics.width; height: mmMetrics.height
-                TextMetrics { id: mmMetrics; font: mmShape.textFont; text: root.mm }
-                Shape {
-                    id: mmShape
-                    readonly property font textFont: Qt.font({ family: Theme.font.family, pixelSize: root.big, weight: Font.ExtraBold, letterSpacing: -root.big * 0.04 })
-                    anchors.fill: parent
-                    preferredRendererType: Shape.CurveRenderer
-                    ShapePath {
-                        strokeColor: Theme.m.primary
-                        strokeWidth: Math.max(2, root.big / 90)
-                        fillColor: "transparent"
-                        joinStyle: ShapePath.RoundJoin
-                        PathText { x: 0; y: 0; font: mmShape.textFont; text: root.mm }
-                    }
-                }
+            // minutes: solid orange
+            Txt {
+                text: root.mm
+                font.family: Theme.font.heavy
+                font.pixelSize: root.big
+                font.weight: Font.Black
+                font.letterSpacing: -root.big * 0.04
+                color: Theme.m.primary
+                renderType: Text.QtRendering
             }
         }
 
@@ -103,16 +123,16 @@ Item {
             width: Math.min(400, root.width * 0.3)
             spacing: 0
 
-            // greeting as a code comment (greeter with several users: ‹ name › to switch)
+            // greeting (greeter with several users: ‹ name › to switch)
             Row {
                 spacing: 8
-                Txt { text: "// " + (root.greeter ? "welcome" : root.greeting) + ","; color: Theme.m.outline; font.pixelSize: Theme.font.normal }
+                Txt { text: root.greeter ? "Welcome," : root.greeting; color: Theme.m.fgVariant; font.pixelSize: Theme.font.normal }
                 MIcon {
                     visible: root.manyUsers; anchors.verticalCenter: parent.verticalCenter
                     text: "chevron_left"; color: Theme.m.outline; font.pixelSize: 18
                     MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: root.ctx.cycleUser(-1) }
                 }
-                Txt { text: root.user; color: Theme.m.primary; font.pixelSize: Theme.font.normal; font.bold: true }
+                Txt { text: root.name + (!root.greeter && root.hour < 5 ? "?" : ""); color: Theme.m.primary; font.pixelSize: Theme.font.normal; font.bold: true }
                 MIcon {
                     visible: root.manyUsers; anchors.verticalCenter: parent.verticalCenter
                     text: "chevron_right"; color: Theme.m.outline; font.pixelSize: 18
@@ -143,16 +163,18 @@ Item {
                                                  : root.ctx.busy ? Theme.m.fgSecondaryContainer
                                                  : input.text.length ? Theme.m.primary : Theme.m.outlineVariant
 
-                Txt {
+                // a padlock where you type: it shakes and turns red on a wrong password, opens when you get in
+                MIcon {
                     id: prompt
                     anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-                    text: "❯"; font.pixelSize: 22; font.bold: true
+                    text: root.ctx.unlocking ? "lock_open" : "lock"; filled: true; font.pixelSize: 22
                     color: root.failedRecently ? Theme.m.error : Theme.m.primary
+                    Behavior on color { ColorAnimation { duration: Theme.anim.fast } }
                 }
                 Txt {
                     anchors { left: prompt.right; leftMargin: 14; verticalCenter: parent.verticalCenter }
                     visible: input.text.length === 0
-                    text: root.ctx.busy ? "checking…" : "password"
+                    text: root.ctx.busy ? "Checking…" : "Password"
                     color: Theme.m.outline
                     font.pixelSize: Theme.font.large
                 }
@@ -234,30 +256,39 @@ Item {
             // error or caps lock warning
             Txt {
                 height: 20
-                text: root.ctx.message !== "" ? "error: " + root.ctx.message.toLowerCase() : root.caps ? "warning: caps lock is on" : ""
+                // plain sentences: what happened, in normal case
+                readonly property string msg: root.ctx.message !== "" ? root.ctx.message.charAt(0).toUpperCase() + root.ctx.message.slice(1) : ""
+                text: msg !== "" ? (/fail|incorrect|wrong/i.test(msg) ? "Wrong password, try again" : msg) : root.caps ? "Caps Lock is on" : ""
                 color: root.ctx.message !== "" ? Theme.m.error : Theme.m.warning
                 font.pixelSize: Theme.font.small
             }
         }
 
-        // ---- bottom line: user@host · battery · (greeter) power buttons ----
+        // ---- bottom line: user and computer · battery · (greeter) power buttons, as small labels with icons ----
         Row {
             anchors { left: side.left; bottom: parent.bottom; bottomMargin: 34 }
             spacing: 18
-            Txt {
+            Row {
                 anchors.verticalCenter: parent.verticalCenter
-                text: root.user + "@" + host.text().trim()
-                color: Theme.m.outline
-                font.pixelSize: Theme.font.small
+                spacing: 6
+                MIcon { anchors.verticalCenter: parent.verticalCenter; text: "person"; filled: true; font.pixelSize: 16; color: Theme.m.outline }
+                Txt { anchors.verticalCenter: parent.verticalCenter; text: root.user; color: Theme.m.outline; font.pixelSize: Theme.font.small }
             }
-            Txt {
+            Row {
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 6
+                MIcon { anchors.verticalCenter: parent.verticalCenter; text: "computer"; filled: true; font.pixelSize: 16; color: Theme.m.outline }
+                Txt { anchors.verticalCenter: parent.verticalCenter; text: host.text().trim(); color: Theme.m.outline; font.pixelSize: Theme.font.small }
+            }
+            Row {
                 visible: Battery.present
                 anchors.verticalCenter: parent.verticalCenter
-                text: (Battery.charging ? "charging " : "bat ") + Battery.percent + "%"
-                color: Battery.charging ? Theme.m.tertiary
+                spacing: 6
+                readonly property color tone: Battery.charging ? Theme.m.tertiary
                      : Battery.percent <= Config.batteryCritical ? Theme.m.error
                      : Battery.percent <= Config.batteryWarning ? Theme.m.warning : Theme.m.outline
-                font.pixelSize: Theme.font.small
+                MIcon { anchors.verticalCenter: parent.verticalCenter; text: Battery.charging ? "battery_charging_full" : "battery_full"; filled: true; font.pixelSize: 16; color: parent.tone }
+                Txt { anchors.verticalCenter: parent.verticalCenter; text: Battery.percent + "%"; color: parent.tone; font.pixelSize: Theme.font.small; font.family: Theme.font.mono }
             }
             // greeter: suspend, reboot, shut down
             Repeater {

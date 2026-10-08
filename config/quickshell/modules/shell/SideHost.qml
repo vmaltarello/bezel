@@ -49,13 +49,13 @@ PanelWindow {
         Behavior on width { NumberAnimation { duration: Theme.anim.slow; easing.type: Easing.OutCubic } }
         HoverHandler { onHoveredChanged: Ui.hoverPanel = hovered }
 
-        Fillet { y: 0; corner: "bl"; color: Theme.m.barGlass; opacity: shape.width > win.f ? 1 : 0 }
-        Fillet { y: shape.height - win.f; corner: "tl"; color: Theme.m.barGlass; opacity: shape.width > win.f ? 1 : 0 }
-        RRect {
+        // a plain block straight out of the bar, like a tab: the 45° cut stays on the elements inside
+        // attached to the bar: the two corners away from it (on the right) are cut at 45°
+        Cut {
             y: win.f
             width: parent.width; height: parent.height - 2 * win.f
             color: Theme.m.barGlass
-            topRightRadius: Theme.size.radius; bottomRightRadius: Theme.size.radius
+            cutTL: 0; cutTR: 16; cutBR: 16
             clip: true
 
             Loader {
