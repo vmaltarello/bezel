@@ -213,7 +213,7 @@ Item {
                     onTextChanged: if (root.ctx.buffer !== text) root.ctx.buffer = text
                     Component.onCompleted: forceActiveFocus()
                     Keys.onPressed: event => {
-                        capsRead.running = true;
+                        capsRead.running = true; capsLate.restart();
                         if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) { root.ctx.submit(); event.accepted = true; }
                         else if (event.key === Qt.Key_Escape
                                  || (event.key === Qt.Key_U && (event.modifiers & Qt.ControlModifier))) { root.ctx.clear(); event.accepted = true; }
@@ -279,13 +279,14 @@ Item {
 
     FileView { id: host; path: "/etc/hostname" }
 
-    // caps lock: read the keyboard led (on every key and every second)
+    // caps lock: read the keyboard led when shown and on every key (again shortly after: the led lags the key)
     Process {
         id: capsRead
+        running: true
         command: ["sh", "-c", "cat /sys/class/leds/*::capslock/brightness 2>/dev/null | sort -r | head -1"]
         stdout: StdioCollector { onStreamFinished: root.caps = this.text.trim() === "1" }
     }
-    Timer { interval: 1000; running: true; repeat: true; onTriggered: capsRead.running = true }
+    Timer { id: capsLate; interval: 150; onTriggered: capsRead.running = true }
 
     Connections {
         target: root.ctx
