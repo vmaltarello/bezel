@@ -168,7 +168,7 @@ PanelWindow {
     function activate(i, shift) {
         if (kind === "wallpapers") {
             const p = walls.get(i, "filePath");
-            if (p) Quickshell.execDetached([Quickshell.env("HOME") + "/.config/hypr/scripts/wallpaper.sh", p]);
+            if (p) Quickshell.execDetached([(Quickshell.env("XDG_CONFIG_HOME") || Quickshell.env("HOME") + "/.config") + "/hypr/scripts/wallpaper.sh", p]);
             Ui.close();
             return;
         }

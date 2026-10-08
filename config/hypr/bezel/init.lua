@@ -18,6 +18,8 @@ function M.setup(opts)
     local o = {}
     for k, v in pairs(M.defaults) do o[k] = v end
     for k, v in pairs(opts or {}) do o[k] = v end
+    -- theme scripts, expanded by the shell when a command runs (follows $XDG_CONFIG_HOME)
+    o.scripts = '"${XDG_CONFIG_HOME:-$HOME/.config}/hypr/scripts"'
     M.opts = o
 
     require("bezel.env")(o)

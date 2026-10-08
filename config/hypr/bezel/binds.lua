@@ -169,19 +169,19 @@ return function(o)
 
     -- Wallpaper (scripts/wallpaper.sh, awww): circle growing from the cursor
     bind(mainMod .. " + W",         hl.dsp.exec_cmd("quickshell ipc call shell launcher wallpapers"), "Choose wallpaper")
-    bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper.sh next"), "Next wallpaper")
+    bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(o.scripts .. "/wallpaper.sh next"), "Next wallpaper")
 
     -- Screenshot (Quickshell): freezes the screen, then area / window / full screen -> clipboard + ~/Pictures/Screenshots
     bind("Print",                  hl.dsp.exec_cmd("quickshell ipc call shell screenshot"), "Screenshot")
     bind(mainMod .. " + ALT + S",  hl.dsp.exec_cmd("quickshell ipc call shell screenshot"), "Screenshot")
 
     -- Laptop multimedia keys for volume and LCD brightness
-    bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("~/.config/hypr/scripts/osd.sh vol-up"), "Volume", { locked = true, repeating = true })
-    bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("~/.config/hypr/scripts/osd.sh vol-down"),      "Volume", { locked = true, repeating = true })
-    bind("XF86AudioMute",        hl.dsp.exec_cmd("~/.config/hypr/scripts/osd.sh vol-mute"),     "Mute", { locked = true })
-    bind("XF86AudioMicMute",     hl.dsp.exec_cmd("~/.config/hypr/scripts/osd.sh mic-mute"),   "Mute microphone", { locked = true })
-    bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("~/.config/hypr/scripts/osd.sh br-up"),                  "Brightness", { locked = true, repeating = true })
-    bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("~/.config/hypr/scripts/osd.sh br-down"),                  "Brightness", { locked = true, repeating = true })
+    bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(o.scripts .. "/osd.sh vol-up"), "Volume", { locked = true, repeating = true })
+    bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(o.scripts .. "/osd.sh vol-down"),      "Volume", { locked = true, repeating = true })
+    bind("XF86AudioMute",        hl.dsp.exec_cmd(o.scripts .. "/osd.sh vol-mute"),     "Mute", { locked = true })
+    bind("XF86AudioMicMute",     hl.dsp.exec_cmd(o.scripts .. "/osd.sh mic-mute"),   "Mute microphone", { locked = true })
+    bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd(o.scripts .. "/osd.sh br-up"),                  "Brightness", { locked = true, repeating = true })
+    bind("XF86MonBrightnessDown",hl.dsp.exec_cmd(o.scripts .. "/osd.sh br-down"),                  "Brightness", { locked = true, repeating = true })
 
     -- Media keys: handled by Quickshell (quickshell ipc call shell media next|prev|toggle)
     bind("XF86AudioNext",  hl.dsp.exec_cmd("quickshell ipc call shell media next"),       "Next track", { locked = true })
