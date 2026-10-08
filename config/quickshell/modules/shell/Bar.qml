@@ -208,9 +208,8 @@ PanelWindow {
         id: clock
         anchors.centerIn: parent
         width: bar.unit; height: clockCol.implicitHeight + 18
-        radius: Ui.panel === "peek" ? 12 : 8; antialiasing: true
+        radius: 8; antialiasing: true
         color: Theme.m.primary
-        Behavior on radius { NumberAnimation { duration: Theme.anim.normal; easing.type: Easing.OutBack } }
         Column {
             id: clockCol
             anchors.centerIn: parent

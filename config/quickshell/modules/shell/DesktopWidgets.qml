@@ -1,5 +1,5 @@
 // Desktop widget column: today (time, date, month) · system · music · updates.
-// Used by Desktop.qml (above wallpaper, below windows) and Peek.qml (SUPER alone).
+// Used by Desktop.qml (above wallpaper, below windows: visible on empty workspaces).
 import QtQuick
 import Quickshell
 import qs.config

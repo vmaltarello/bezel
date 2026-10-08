@@ -37,7 +37,7 @@ and one amber accent marks what matters. Every dependency comes from the officia
 - **Vertical bar** — workspaces with the icons of their apps, clock, tray, Wi-Fi, Bluetooth, audio, battery and session menus that grow out of the bar.
 - **Spotlight-style launcher** (`SUPER+Space`) — apps, calculator (`=`), shell commands (`>`), files and folders (`/`), web search (`?`), clipboard history, wallpapers and a searchable list of every shortcut.
 - **Overview** (`SUPER+Tab` or three fingers up) — all windows of the workspace, drag them to another workspace.
-- **Peek at the desktop** (tap `SUPER`) — desktop widgets: calendar, CPU/RAM graphs, battery, now playing, available updates.
+- **Desktop widgets** (on empty workspaces) — calendar, CPU/RAM graphs, battery, now playing, available updates.
 - **Screenshots** (`Print`) — freeze the screen, then pick an area, a window or the whole screen; optional annotation with satty.
 - **Lock and login screens** — the same design for both (the login screen is optional).
 - **Notifications, OSD, do not disturb, caffeine** — built into the shell, no extra daemons.
@@ -139,7 +139,6 @@ including GTK settings and the previous display manager. Packages are kept unles
 
 | Keys | Action |
 |---|---|
-| `SUPER` (tap) | Peek at the desktop |
 | `SUPER+Space` | Launcher |
 | `SUPER+Tab` | Overview |
 | `SUPER+H` | List of all shortcuts |

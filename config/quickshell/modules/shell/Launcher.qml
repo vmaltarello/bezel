@@ -199,11 +199,8 @@ PanelWindow {
                     if (b.key.startsWith("XF86")) { combo = "Fn keys"; desc = "Volume · brightness · mic · media"; }
                     else {
                         const mods = MODS.filter(m => b.modmask & m[0]).map(m => m[1]);
-                        if (b.key === "SUPER_L") combo = "SUPER (alone)";
-                        else {
-                            const k = /^\d$/.test(b.key) ? "0-9" : ["left", "right", "up", "down"].includes(b.key) ? "arrows" : (KEYS[b.key] ?? b.key);
-                            combo = mods.concat([k]).join(" + ");
-                        }
+                        const k = /^\d$/.test(b.key) ? "0-9" : ["left", "right", "up", "down"].includes(b.key) ? "arrows" : (KEYS[b.key] ?? b.key);
+                        combo = mods.concat([k]).join(" + ");
                     }
                     if (seen[combo + desc]) continue;
                     seen[combo + desc] = true;

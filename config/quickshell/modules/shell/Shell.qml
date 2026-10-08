@@ -24,11 +24,10 @@ Scope {
         }
     }
 
-    LazyLoader { active: Ui.panel !== "" && Ui.panel !== "launcher" && Ui.panel !== "overview" && Ui.panel !== "peek"; ClickCatcher { screen: root.focused } }
+    LazyLoader { active: Ui.panel !== "" && Ui.panel !== "launcher" && Ui.panel !== "overview"; ClickCatcher { screen: root.focused } }
     // always alive (see Launcher.qml): no map/unmap, so no stale frame when it closes
     Launcher { screen: root.focused }
     LazyLoader { active: Ui.shown === "overview"; Overview { screen: root.focused } }
-    LazyLoader { active: Ui.shown === "peek"; Peek { screen: root.focused } }
     // one panel for all bar menus: it moves between icons instead of disappearing and reappearing
     LazyLoader { active: Ui.sidePanels.includes(Ui.shown); SideHost { screen: root.focused } }
     LazyLoader { active: Events.loaded; Osd { screen: root.focused } }

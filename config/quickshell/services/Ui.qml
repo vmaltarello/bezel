@@ -1,7 +1,6 @@
 pragma Singleton
-// Which panel is open: "" (none) | peek | overview | launcher | net | bt | audio | battery | power
+// Which panel is open: "" (none) | overview | launcher | net | bt | audio | battery | power
 // One panel at a time. Terminal commands and shortcuts:
-//   quickshell ipc call shell toggle            (SUPER alone: peek at desktop)
 //   quickshell ipc call shell panel <name>      (opens/closes a panel)
 //   quickshell ipc call shell close
 //   quickshell ipc call shell launcher apps|clipboard|wallpapers|keys
@@ -26,8 +25,8 @@ Singleton {
     signal launcherType(string text)    // IPC "search": text to put in the launcher field
     property string launcherMode: "apps"   // apps | clipboard | wallpapers | keys
     property real anchorY: 760          // y of the clicked bar icon (for the side menus)
-    // desktop widgets are visible: empty workspace, or peeking
-    readonly property bool desktopSeen: !locked && (panel === "peek" || (Hyprland.focusedWorkspace?.toplevels.values.length ?? 1) === 0)
+    // desktop widgets are visible: empty workspace
+    readonly property bool desktopSeen: !locked && (Hyprland.focusedWorkspace?.toplevels.values.length ?? 1) === 0
 
     function toggle(name) { byHover = false; panel = panel === name ? "" : name; }
 
@@ -97,11 +96,6 @@ Singleton {
 
     IpcHandler {
         target: "shell"
-        // empty workspace: the desktop is already visible, nothing to peek at (it only closes an open panel)
-        function toggle(): void {
-            if (root.panel !== "peek" && (Hyprland.focusedWorkspace?.toplevels.values.length ?? 1) === 0) root.close();
-            else root.toggle("peek");
-        }
         function panel(name: string): void { root.toggle(name); }
         function close(): void { root.close(); }
         // launcher: apps | clipboard | wallpapers | keys (same mode twice = close)

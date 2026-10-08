@@ -16,12 +16,12 @@
 | Volume OSD | Brightness OSD |
 | ![Tiling](screenshots/windows.webp) | ![Focus mode (`SUPER+Z`)](screenshots/focus-mode.webp) |
 | Tiling | Focus mode (`SUPER+Z`) |
-| ![Overview (`SUPER+Tab`)](screenshots/overview.webp) | ![Peek at the desktop (tap `SUPER`)](screenshots/peek.webp) |
-| Overview (`SUPER+Tab`) | Peek at the desktop (tap `SUPER`) |
-| ![Screenshot tool (`Print`)](screenshots/screenshot.webp) | ![Wallpaper transition](screenshots/wallpaper-change.webp) |
-| Screenshot tool (`Print`) | Wallpaper transition |
-| ![Lock screen](screenshots/lock.webp) | ![Login screen (optional)](screenshots/login.webp) |
-| Lock screen | Login screen (optional) |
+| ![Overview (`SUPER+Tab`)](screenshots/overview.webp) | ![Screenshot tool (`Print`)](screenshots/screenshot.webp) |
+| Overview (`SUPER+Tab`) | Screenshot tool (`Print`) |
+| ![Wallpaper transition](screenshots/wallpaper-change.webp) | ![Lock screen](screenshots/lock.webp) |
+| Wallpaper transition | Lock screen |
+| ![Login screen (optional)](screenshots/login.webp) | |
+| Login screen (optional) | |
 
 <sub>Wallpapers: "underwater" and "minimal landscape" from [D3Ext/aesthetic-wallpapers](https://github.com/D3Ext/aesthetic-wallpapers) — not included in bezel.</sub>
 
