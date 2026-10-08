@@ -1,6 +1,6 @@
 // Launcher (Spotlight style): a search line centered in the upper part of the screen, results below.
 // Modes: Apps · Clipboard · Wallpapers · Keys (Tab to switch; windows are in the overview, SUPER+TAB).
-// Prefixes: "=" calculator, ">" command, "/" files and folders in the home (fd), "?" web search (default browser).
+// Prefixes: ">" command, "/" files and folders in the home (fd), "?" web search (default browser).
 // In apps mode the last row is always a web search for what was typed.
 // Keys: ↑↓ (←→ for wallpapers) select · Enter open · Shift+Enter command in terminal / file's folder · Shift+Del delete from clipboard · Esc close.
 // The window covers the whole screen (transparent): a click outside the panel closes it
@@ -53,8 +53,8 @@ PanelWindow {
     readonly property var modes: [["apps", "Apps"], ["clipboard", "Clipboard"], ["wallpapers", "Wallpapers"], ["keys", "Keys"]]
     readonly property string mode: Ui.launcherMode
     property string query: ""          // written by the search field in LauncherPanel
-    // effective mode: the "=" ">" "/" "?" prefixes win
-    readonly property string kind: query.startsWith("=") ? "calc" : query.startsWith(">") ? "cmd"
+    // effective mode: the ">" "/" "?" prefixes win
+    readonly property string kind: query.startsWith(">") ? "cmd"
                                  : query.startsWith("/") ? "files" : query.startsWith("?") ? "web" : mode
     property int current: 0
 
@@ -70,14 +70,6 @@ PanelWindow {
     }
 
     // ---------- results ----------
-    function calc(q) {
-        const expr = q.replace(/^=/, "").replace(/,/g, ".").replace(/\^/g, "**").trim();
-        if (!expr || !/^[\d\s+\-*/().%*]+$/.test(expr)) return null;
-        try {
-            const v = Function('"use strict"; return (' + expr + ")")();
-            return Number.isFinite(v) ? String(Math.round(v * 1e10) / 1e10) : null;
-        } catch (e) { return null; }
-    }
     readonly property var system: [
         ["lock", "Lock", ["loginctl", "lock-session"]],
         ["bedtime", "Suspend", ["systemctl", "suspend"]],
@@ -107,10 +99,6 @@ PanelWindow {
                          run: shift => Quickshell.execDetached(["xdg-open", shift ? parent : path]) };
             });
         }
-        if (kind === "calc") {
-            const r = calc(query);
-            return [{ sym: "calculate", title: r ?? "…", sub: r ? "Enter to copy" : "Type an expression, e.g. =12*7", run: () => { if (r) Quickshell.execDetached(["wl-copy", r]); } }];
-        }
         if (kind === "cmd") {
             const c = query.slice(1).trim();
             return [{ sym: "terminal", title: c || "…", sub: c ? "Enter to run · Shift+Enter in terminal" : "Type a command", run: shift => {
@@ -130,9 +118,7 @@ PanelWindow {
         // apps (+ system commands when the query names them)
         const apps = Apps.search(q, 40).map(e => ({ icon: Quickshell.iconPath(e.icon, true), title: e.name, sub: e.genericName || e.comment || "", run: () => Apps.launch(e) }));
         const sys = q ? system.filter(s => s[1].toLowerCase().includes(q)).map(s => ({ sym: s[0], title: s[1], sub: "System", run: () => Quickshell.execDetached(s[2]) })) : [];
-        const r = calc(q);
-        return (r !== null ? [{ sym: "calculate", title: r, sub: "Enter to copy", run: () => Quickshell.execDetached(["wl-copy", r]) }] : [])
-            .concat(sys, apps, q ? [webRow(query.trim())] : []);
+        return sys.concat(apps, q ? [webRow(query.trim())] : []);
     }
 
     // ---------- file search ("/"): fd in the home, names only, respects .gitignore, skips hidden ----------

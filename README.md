@@ -35,7 +35,7 @@ and one amber accent marks what matters. Every dependency comes from the officia
 
 - **Screen frame** — a thin dark frame around the screen; only the window corners that touch the screen corners are rounded.
 - **Vertical bar** — workspaces with the icons of their apps, clock, tray, Wi-Fi, Bluetooth, audio, battery and session menus that grow out of the bar.
-- **Spotlight-style launcher** (`SUPER+Space`) — apps, calculator (`=`), shell commands (`>`), files and folders (`/`), web search (`?`), clipboard history, wallpapers and a searchable list of every shortcut.
+- **Spotlight-style launcher** (`SUPER+Space`) — apps, shell commands (`>`), files and folders (`/`), web search (`?`), clipboard history, wallpapers and a searchable list of every shortcut.
 - **Overview** (`SUPER+Tab` or three fingers up) — all windows of the workspace, drag them to another workspace.
 - **Desktop widgets** (on empty workspaces) — calendar, CPU/RAM graphs, battery, now playing, available updates.
 - **Screenshots** (`Print`) — freeze the screen, then pick an area, a window or the whole screen; optional annotation with satty.
@@ -143,7 +143,6 @@ including GTK settings and the previous display manager. Packages are kept unles
 | `SUPER+Tab` | Overview |
 | `SUPER+H` | List of all shortcuts |
 | `SUPER+T` / `SUPER+E` / `SUPER+B` | Terminal / file manager / browser |
-| `SUPER+C` | Calculator |
 | `SUPER+V` | Clipboard history |
 | `SUPER+W` / `SUPER+Shift+W` | Choose / next wallpaper |
 | `Print` | Screenshot |

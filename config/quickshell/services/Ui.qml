@@ -4,7 +4,7 @@ pragma Singleton
 //   quickshell ipc call shell panel <name>      (opens/closes a panel)
 //   quickshell ipc call shell close
 //   quickshell ipc call shell launcher apps|clipboard|wallpapers|keys
-//   quickshell ipc call shell search <text>    (launcher with text typed, e.g. "=" calculator)
+//   quickshell ipc call shell search <text>    (launcher with text typed, e.g. "/" to find files)
 //   quickshell ipc call shell lock              (lock screen, used by hypridle)
 //   quickshell ipc call shell dnd               (do not disturb on/off)
 //   quickshell ipc call shell overview toggle|open|close   (SUPER+TAB, 3 fingers up/down: overview)
@@ -104,7 +104,7 @@ Singleton {
             root.launcherMode = mode || "apps";
             root.panel = "launcher";
         }
-        // open the launcher with text already typed, e.g. "=" for the calculator
+        // open the launcher with text already typed, e.g. "/" to find files
         function search(text: string): void {
             if (root.panel !== "launcher") { root.launcherMode = "apps"; root.panel = "launcher"; }
             Qt.callLater(() => root.launcherType(text));
