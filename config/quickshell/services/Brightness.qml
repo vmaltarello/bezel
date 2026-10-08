@@ -28,8 +28,10 @@ Singleton {
     FileView { path: root.available ? root.dev + "/max_brightness" : ""; onLoaded: max = Number(text()) || 1 }
     // re-read when needed: brightness keys (osd.sh -> Events) and while the menus are open
     function reload() { cur.reload(); }
+    // "brightness" (the value we set), not "actual_brightness": on some panels (amdgpu) the latter
+    // follows a non-linear hardware curve, so 100% read back as 98% and 50% as 18%
     FileView {
-        id: cur; path: root.available ? root.dev + "/actual_brightness" : ""
+        id: cur; path: root.available ? root.dev + "/brightness" : ""
         onLoaded: raw = Number(text())
     }
     Timer { interval: 1000; running: root.available && Ui.panel === "audio"; repeat: true; onTriggered: cur.reload() }
