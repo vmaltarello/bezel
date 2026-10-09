@@ -3,7 +3,7 @@
 
 vim.pack.add({ "https://github.com/rebelot/kanagawa.nvim" })
 
--- "Default Dark" palette: same names as kanagawa.nvim, colors of the system (night-blue surfaces, sunset-orange accent)
+-- "Default Dark" palette: same names as kanagawa.nvim, colors of the system (night-blue surfaces, lavender accent)
 local palette = {
     sumiInk0 = "#0a0f1c", sumiInk1 = "#0b1120", sumiInk2 = "#0d1424", sumiInk3 = "#0f1628",
     sumiInk4 = "#202c48", sumiInk5 = "#2a3756", sumiInk6 = "#4a5675",
@@ -24,7 +24,7 @@ require("kanagawa").setup({
     dimInactive = true,
     colors = {
         palette = palette,
-        theme = { all = { ui = { bg_gutter = "none" } } },  -- colonna numeri senza fondo
+        theme = { all = { ui = { bg_gutter = "none" } } },  -- line numbers without a background
     },
 })
 vim.cmd.colorscheme("kanagawa-wave")
