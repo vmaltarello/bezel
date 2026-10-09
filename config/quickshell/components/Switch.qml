@@ -1,4 +1,4 @@
-// On/off switch with the cut corner, orange when on.
+// On/off switch with the cut corner, accent-coloured when on.
 import QtQuick
 import qs.config
 

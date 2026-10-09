@@ -1,4 +1,4 @@
-// Audio menu: volume, brightness, microphone, output device (click = use it), full mixer.
+// Audio menu: volume, microphone, output device (click = use it), full mixer.
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -60,13 +60,6 @@ Item {
             label: Audio.muted ? "Muted" : Audio.percent + "%"
             onMoved: v => Audio.setVolume(v)
             onIconClicked: Audio.toggleMute()
-        }
-        Level {
-            visible: Brightness.available
-            symbol: "light_mode"; iconColor: Theme.m.fg
-            value: Brightness.percent / 100; fill: Theme.m.fgVariant
-            label: Brightness.percent + "%"
-            onMoved: v => Brightness.set(v * 100)
         }
         RowLayout {
             width: parent.width; spacing: 10

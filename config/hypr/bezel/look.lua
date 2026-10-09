@@ -34,16 +34,16 @@ return function(o)
                 range        = 14,
                 render_power = 3,
                 offset       = "0 4",
-                color        = "rgba(0b0d12aa)",
-                color_inactive = "rgba(0b0d1266)",
+                color        = "rgba(0a0f1caa)",
+                color_inactive = "rgba(0a0f1c66)",
             },
 
-            -- faint amber glow around the focused window (off)
+            -- faint accent glow around the focused window (off)
             glow = {
                 enabled        = false,   -- the focused window is the one not dimmed
                 range          = 12,
                 render_power   = 3,
-                color          = "rgba(e6b4502a)",
+                color          = "rgba(a99cf02a)",
                 color_inactive = "rgba(00000000)",
             },
 

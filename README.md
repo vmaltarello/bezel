@@ -4,7 +4,7 @@
 
 **A Hyprland + Quickshell desktop for Arch Linux.**
 
-[![Release](https://img.shields.io/github/v/release/vmaltarello/bezel-hyprland?style=flat-square&logo=git&logoColor=white&color=e6b450)](https://github.com/vmaltarello/bezel-hyprland/releases)
+[![Release](https://img.shields.io/github/v/release/vmaltarello/bezel-hyprland?style=flat-square&logo=git&logoColor=white&color=a99cf0)](https://github.com/vmaltarello/bezel-hyprland/releases)
 [![License](https://img.shields.io/github/license/vmaltarello/bezel-hyprland?style=flat-square&logo=gnu&logoColor=white&color=blue)](LICENSE)
 [![Hyprland](https://img.shields.io/badge/Hyprland-0.56%2B-58E1FF?style=flat-square&logo=hyprland&logoColor=white)](https://hyprland.org)
 [![Quickshell](https://img.shields.io/badge/Quickshell-QML-41CD52?style=flat-square&logo=qt&logoColor=white)](https://quickshell.org)
@@ -12,7 +12,7 @@
 [![Stars](https://img.shields.io/github/stars/vmaltarello/bezel-hyprland?style=flat-square&logo=github&logoColor=white&color=yellow)](https://github.com/vmaltarello/bezel-hyprland/stargazers)
 
 A night-blue frame wraps the screen like a monitor bezel, a vertical bar holds everything you need,
-and one sunset-orange accent marks what matters; every element carries the same 45° cut on its top-left corner. Every dependency comes from the official Arch repositories.
+and one lavender accent marks what matters; every element carries the same 45° cut on its top-left corner. Every dependency comes from the official Arch repositories.
 
 ![bezel in action](docs/highlights.webp)
 

@@ -89,7 +89,7 @@ button.text.color=#f4f2ec
 disabled.text.color=#4a5675
 tooltip.text.color=#f4f2ec
 highlight.text.color=#f4f2ec
-link.color=#ff7a3d
+link.color=#a99cf0
 link.visited.color=#7fd3c8
 
 [ItemView]
@@ -273,7 +273,7 @@ frame.left=1
 frame.right=1
 frame.expansion=0
 text.normal.color=#f4f2ec
-text.focus.color=#ff7a3d
+text.focus.color=#a99cf0
 text.press.color=#f4f2ec
 text.toggle.color=#f4f2ec
 indicator.element=harrow
@@ -295,8 +295,8 @@ frame.left=4
 frame.right=4
 text.normal.color=#f4f2ec
 text.focus.color=#f4f2ec
-text.press.color=#ff7a3d
-text.toggle.color=#ff7a3d
+text.press.color=#a99cf0
+text.toggle.color=#a99cf0
 text.bold=false
 
 [MenuBar]

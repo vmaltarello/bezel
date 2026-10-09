@@ -1,6 +1,6 @@
 // Left vertical bar ("Developer"): launcher, workspaces, clock, tray, status, power.
 // Status icons open the side menus. Groups sit in tonal containers with the cut top-left corner;
-// the orange accent marks the active workspace, the open menu and the clock.
+// the solid lavender accent marks only the active workspace and the open menu; the clock is tonal.
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
@@ -101,7 +101,7 @@ PanelWindow {
         }
 
         // workspaces: up to 3 icons of the apps inside (one per app), "+n" for more, the number when empty.
-        // Active: a solid orange tile with the cut corner.
+        // Active: a solid lavender tile with the cut corner.
         Group {
             Item { width: 1; height: 4 }
             Repeater {
@@ -199,7 +199,7 @@ PanelWindow {
         anchors.centerIn: parent
         width: bar.unit; height: clockCol.implicitHeight + 18
         cut: 10
-        color: Theme.m.primary
+        color: Theme.m.primaryContainer   // tonal: the only solid accent in the bar is the active workspace
         Column {
             id: clockCol
             anchors.centerIn: parent
@@ -212,7 +212,7 @@ PanelWindow {
                     text: modelData
                     font.family: Theme.font.heavy
                     font.pixelSize: 19; font.weight: Font.Black
-                    color: Theme.m.fgPrimary
+                    color: Theme.m.primary
                 }
             }
         }
@@ -223,26 +223,36 @@ PanelWindow {
         anchors { bottom: parent.bottom; bottomMargin: 10; horizontalCenter: parent.horizontalCenter }
         spacing: 8
 
-        // background apps
-        Column {
-            anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 12; bottomPadding: 4
+        // background apps: in their own group like the rest of the bar, not loose icons
+        Group {
             visible: SystemTray.items.values.length > 0
             Repeater {
                 model: SystemTray.items.values
-                IconImage {
+                Item {
+                    id: trayItem
                     required property SystemTrayItem modelData
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    implicitSize: 18
-                    source: modelData.icon
+                    width: bar.unit; height: 34
+                    Cut {
+                        anchors { fill: parent; margins: 3 }
+                        cut: 7
+                        color: trayArea.containsMouse ? Theme.m.containerHigh : "transparent"
+                        Behavior on color { ColorAnimation { duration: Theme.anim.fast } }
+                    }
+                    IconImage {
+                        anchors.centerIn: parent
+                        implicitSize: 18
+                        source: trayItem.modelData.icon
+                    }
                     MouseArea {
+                        id: trayArea
                         anchors.fill: parent
+                        hoverEnabled: true
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         cursorShape: Qt.PointingHandCursor
                         onClicked: mouse => {
-                            const it = parent.modelData;
+                            const it = trayItem.modelData;
                             if (mouse.button === Qt.LeftButton && !it.onlyMenu) it.activate();
-                            else if (it.hasMenu) { const p = parent.mapToItem(null, parent.width + 12, 0); it.display(bar, p.x, p.y); }
+                            else if (it.hasMenu) { const p = trayItem.mapToItem(null, trayItem.width + 12, 0); it.display(bar, p.x, p.y); }
                         }
                     }
                 }
@@ -284,7 +294,8 @@ PanelWindow {
                 panel: "battery"
                 height: 58
                 readonly property color level: !Battery.plugged && Battery.percent <= Config.batteryCritical ? Theme.m.error
-                                              : !Battery.plugged && Battery.percent <= Config.batteryWarning ? Theme.m.warning : Theme.m.tertiary
+                                              : !Battery.plugged && Battery.percent <= Config.batteryWarning ? Theme.m.warning
+                                              : Battery.charging ? Theme.m.success : Theme.m.outline   // quiet unless something is up
                 RRect {
                     id: cell
                     anchors { horizontalCenter: parent.horizontalCenter; top: parent.top; topMargin: 9 }
@@ -294,7 +305,7 @@ PanelWindow {
                         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
                         height: Math.max(6, parent.height * Battery.percent / 100)
                         radius: 2; antialiasing: true
-                        color: batBtn.level
+                        color: batBtn.open ? Theme.m.fgPrimary : batBtn.level
                         Behavior on height { NumberAnimation { duration: Theme.anim.slow } }
                     }
                     MIcon {
@@ -308,7 +319,7 @@ PanelWindow {
                     anchors { horizontalCenter: parent.horizontalCenter; top: cell.bottom; topMargin: 3 }
                     text: Battery.percent
                     font.pixelSize: 11; font.bold: true
-                    color: Theme.m.fgVariant
+                    color: batBtn.open ? Theme.m.fgPrimary : Theme.m.fgVariant
                 }
             }
         }

@@ -5,7 +5,7 @@ import QtQuick
 import Quickshell
 
 Singleton {
-    // ---- colors: "Vetta" palette (night blue, sunset orange, snow-sand). Old names kept so every module follows ----
+    // ---- colors: "Vetta" palette (night blue, lavender, snow-sand). Old names kept so every module follows ----
     readonly property QtObject c: QtObject {
         readonly property color ink:    Qt.rgba(15 / 255, 22 / 255, 40 / 255, 0.88) // translucent surface
         readonly property color pill:   Qt.rgba(42 / 255, 55 / 255, 86 / 255, 0.70) // inner pills
@@ -17,11 +17,11 @@ Singleton {
         readonly property color fg2:    "#c4c7d1"
         readonly property color muted:  "#8b91a3"
         readonly property color dim:    "#4a5675"
-        readonly property color blue:   "#ff7a3d"   // was the primary: now the amber accent
-        readonly property color violet: "#f0d9b5"   // secondary: cyan
-        readonly property color aqua:   "#f0d9b5"
-        readonly property color warm:   "#ff7a3d"   // amber accent
-        readonly property color green:  "#f0d9b5"
+        readonly property color blue:   "#a99cf0"   // was the primary: now the lavender accent
+        readonly property color violet: "#f0d9b5"   // old name: the second tone, snow-sand
+        readonly property color aqua:   "#f0d9b5"   // old name: snow-sand
+        readonly property color warm:   "#a99cf0"   // lavender accent
+        readonly property color green:  "#9bd48a"   // success, same green as GTK, kitty and yazi
         readonly property color orange: "#ffb46b"
         readonly property color red:    "#ff5a5f"
         readonly property color frame:  "#0f1628"   // frame, bar and panels: one solid color, they read as one piece
@@ -40,14 +40,18 @@ Singleton {
         readonly property color fgVariant: "#c4c7d1"
         readonly property color outline:      "#8b91a3"
         readonly property color outlineVariant: "#2a3756"
-        readonly property color primary:      "#ff7a3d"   // sunset orange: active workspace, clock, selection
-        readonly property color fgPrimary:    "#1f0b02"
-        readonly property color primaryContainer: "#3a2117"
-        readonly property color fgPrimaryContainer: "#ffa77a"
+        readonly property color primary:      "#a99cf0"   // lavender: active workspace, clock, selection
+        readonly property color fgPrimary:    "#160f33"
+        readonly property color primaryContainer: "#29244d"
+        readonly property color fgPrimaryContainer: "#d2cbfb"
+        // selected rows (lists, launcher): tonal, not solid. The solid accent is for small marks only
+        readonly property color selection:    primaryContainer
+        readonly property color fgSelection:  fg
         readonly property color secondaryContainer: "#2a3756" // open menu, toggles on
         readonly property color fgSecondaryContainer: "#f4f2ec"
         readonly property color tertiary:     "#f0d9b5"   // the second tone, snow-sand: secondary readings, battery ok
         readonly property color error:        "#ff5a5f"
+        readonly property color success:      "#9bd48a"
         readonly property color warning:      "#ffb46b"
         readonly property color barGroup:     container   // tonal groups inside the bar
         // bar, frame and the panels attached to them: solid and darker than the windows (monitor-bezel look).

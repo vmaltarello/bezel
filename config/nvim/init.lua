@@ -8,14 +8,14 @@ local palette = {
     sumiInk0 = "#0a0f1c", sumiInk1 = "#0b1120", sumiInk2 = "#0d1424", sumiInk3 = "#0f1628",
     sumiInk4 = "#202c48", sumiInk5 = "#2a3756", sumiInk6 = "#4a5675",
     waveBlue1 = "#1c2b45", waveBlue2 = "#2a3756",
-    winterGreen = "#1d2b22", winterYellow = "#3a2117", winterRed = "#3a1f22", winterBlue = "#18223a",
-    autumnGreen = "#7fbf6e", autumnRed = "#d95757", autumnYellow = "#ff7a3d",
+    winterGreen = "#1d2b22", winterYellow = "#29244d", winterRed = "#3a1f22", winterBlue = "#18223a",
+    autumnGreen = "#7fbf6e", autumnRed = "#d95757", autumnYellow = "#a99cf0",
     samuraiRed = "#ff5a5f", roninYellow = "#ffb46b", waveAqua1 = "#74b8b0", dragonBlue = "#74b8b0",
     fujiWhite = "#f4f2ec", oldWhite = "#c4c7d1", fujiGray = "#8b91a3", katanaGray = "#8b91a3",
     oniViolet = "#d2a6ff", oniViolet2 = "#c8b8e0", crystalBlue = "#8fd0e0",
     springViolet1 = "#c39ff0", springViolet2 = "#cdd0d9", springBlue = "#7fd3c8", lightBlue = "#a9c9e6",
-    waveAqua2 = "#7fc9bd", springGreen = "#9bd48a", boatYellow1 = "#d9824f", boatYellow2 = "#e8692e",
-    carpYellow = "#ff7a3d", sakuraPink = "#e08f96", waveRed = "#d95757", peachRed = "#ff5a5f",
+    waveAqua2 = "#7fc9bd", springGreen = "#9bd48a", boatYellow1 = "#d9824f", boatYellow2 = "#8b7de0",
+    carpYellow = "#a99cf0", sakuraPink = "#e08f96", waveRed = "#d95757", peachRed = "#ff5a5f",
     surimiOrange = "#ffb46b",
 }
 

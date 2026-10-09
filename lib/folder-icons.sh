@@ -2,11 +2,11 @@
 # bezel — Papirus-Dark with folders in bezel's accent colour, for this user only.
 # Same idea as papirus-folders, without root: a tiny icon theme that inherits Papirus-Dark and
 # only re-points the folder icons (folder, folder-documents, user-home...) to another colour variant.
-#   lib/folder-icons.sh [colour]     (default: orange; any Papirus colour: grey, deeporange, ...)
+#   lib/folder-icons.sh [colour]     (default: violet; any Papirus colour: grey, deeporange, ...)
 set -euo pipefail
 src=/usr/share/icons/Papirus
 dst="${XDG_DATA_HOME:-$HOME/.local/share}/icons/Papirus-Dark-Bezel"
-colour=${1:-orange}
+colour=${1:-violet}
 [ -d "$src" ] || exit 0
 colours="adwaita|black|blue|bluegrey|breeze|brown|carmine|cyan|darkcyan|deeporange|green|grey|indigo|magenta|nordic|orange|palebrown|paleorange|pink|red|teal|violet|white|yaru|yellow"
 

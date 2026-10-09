@@ -9,7 +9,7 @@
 # fujiGray      "#8b91a3"
 # peachRed      "#ff5a5f"
 # autumnRed     "#d95757"
-# crystalBlue   "#ff7a3d"
+# crystalBlue   "#a99cf0"
 # waveRed       "#c96b72"
 # carpYellow    "#8fd0e0"
 # springGreen   "#9bd48a"
@@ -38,21 +38,21 @@ border_symbol = "│"
 border_style = { fg = "#4a5675" }
 
 [indicator]
-parent = { reversed = true }
-current = { reversed = true }
-preview = { reversed = true }
+parent = { bg = "#202c48" }
+current = { bg = "#29244d", bold = true }
+preview = { bg = "#202c48" }
 
 [tabs]
-active = { fg = "#0f1628", bg = "#ff7a3d" }
-inactive = { fg = "#ff7a3d", bg = "#202c48" }
+active = { fg = "#0f1628", bg = "#a99cf0" }
+inactive = { fg = "#a99cf0", bg = "#202c48" }
 
 sep_inner = { open = "", close = "" }
 sep_outer = { open = "", close = "" }
 
 
 [mode]
-normal_main = { fg = "#0f1628", bg = "#ff7a3d" }
-normal_alt = { fg = "#ff7a3d", bg = "#202c48" }
+normal_main = { fg = "#0f1628", bg = "#a99cf0" }
+normal_alt = { fg = "#a99cf0", bg = "#202c48" }
 select_main = { fg = "#0f1628", bg = "#8fd0e0" }
 select_alt = { fg = "#8fd0e0", bg = "#202c48" }
 unset_main = { fg = "#0f1628", bg = "#8fd0e0" }
@@ -64,7 +64,7 @@ sep_left = { open = "", close = "" }
 sep_right = { open = "", close = "" }
 overall = { fg = "#c4c7d1", bg = "#0f1628" }
 
-progress_label = { fg = "#ff7a3d", bold = true }
+progress_label = { fg = "#a99cf0", bold = true }
 progress_normal = { fg = "#202c48", bg = "#0f1628" }
 progress_error = { fg = "#202c48", bg = "#0f1628" }
 
@@ -102,7 +102,7 @@ separator = " - "
 separator_style = { fg = "#8b91a3" }
 mask = { bg = "#0a0f1c" }
 rest = { fg = "#8b91a3" }
-cand = { fg = "#ff7a3d" }
+cand = { fg = "#a99cf0" }
 desc = { fg = "#4a5675" }
 
 [help]
@@ -139,5 +139,5 @@ rules = [
 
     # fallback
     { url = "*", fg = "#f4f2ec" },
-    { url = "*/", fg = "#ff7a3d" },
+    { url = "*/", fg = "#a99cf0" },
 ]

@@ -1,5 +1,6 @@
-// Battery menu: percentage, time left, power draw, health, power profile.
+// Battery menu: percentage, time left, power draw, health, screen brightness, power profile.
 import QtQuick
+import QtQuick.Layouts
 import qs.config
 import qs.services
 import qs.components
@@ -27,14 +28,16 @@ Item {
     component Section: Txt { color: Theme.m.outline; font.pixelSize: 11; font.letterSpacing: 1.4; font.bold: true; topPadding: 6; bottomPadding: 2 }
 
     readonly property color level: !Battery.plugged && Battery.percent <= Config.batteryCritical ? Theme.m.error
-                                  : !Battery.plugged && Battery.percent <= Config.batteryWarning ? Theme.m.warning : Theme.m.tertiary
+                                  : !Battery.plugged && Battery.percent <= Config.batteryWarning ? Theme.m.warning
+                                  : Battery.charging ? Theme.m.success : Theme.m.outline   // same rule as the bar: quiet unless something is up
+    readonly property bool alert: Battery.charging || (!Battery.plugged && Battery.percent <= Config.batteryWarning)
 
     Column {
         width: parent.width
         spacing: 10
         Row {
             spacing: 12
-            Txt { text: Battery.percent + "%"; font.pixelSize: 36; font.bold: true; color: level }
+            Txt { text: Battery.percent + "%"; font.pixelSize: 36; font.bold: true; color: alert ? level : Theme.m.fg }
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 1
@@ -52,27 +55,38 @@ Item {
             Txt { visible: Battery.watts > 0.1; text: Battery.watts.toFixed(1) + " W"; color: Theme.m.fgVariant; font.pixelSize: Theme.font.small }
             Txt { visible: Battery.health > 0; text: "Health " + Math.round(Battery.health) + "%"; color: Theme.m.fgVariant; font.pixelSize: Theme.font.small }
         }
+        Section { visible: Brightness.available; text: "SCREEN" }
+        RowLayout {
+            visible: Brightness.available
+            width: parent.width; spacing: 10
+            Item {
+                Layout.preferredWidth: 30; Layout.preferredHeight: 30
+                Cut { anchors.fill: parent; cut: 7; color: Theme.m.containerHigh }
+                MIcon { anchors.centerIn: parent; text: "light_mode"; filled: true; font.pixelSize: 18; color: Theme.m.fg }
+            }
+            Slider { Layout.fillWidth: true; value: Brightness.percent / 100; fill: Theme.m.fgVariant; onMoved: v => Brightness.set(v * 100) }
+            Txt { text: Brightness.percent + "%"; color: Theme.m.fgVariant; font.pixelSize: Theme.font.small; Layout.preferredWidth: 38; horizontalAlignment: Text.AlignRight }
+        }
         Section { text: "POWER PROFILE" }
         // segmented control: icon on top, short label below (fits the width)
         Row {
             width: parent.width; spacing: 4
             Repeater {
                 model: [["energy_savings_leaf", "saver", 0], ["balance", "balanced", 1], ["speed", "performance", 2]]
-                RRect {
+                // cut corner like every other control; the active one is tonal, accent on its icon
+                Cut {
                     id: seg
                     required property var modelData
                     required property int index
                     readonly property bool on: Battery.profileName === (index === 0 ? "power saver" : modelData[1])
                     width: (parent.width - 8) / 3; height: 54
-                    radius: on ? 8 : 6; antialiasing: true
-                    topLeftRadius: index === 0 ? 10 : radius; bottomLeftRadius: index === 0 ? 10 : radius
-                    topRightRadius: index === 2 ? 10 : radius; bottomRightRadius: index === 2 ? 10 : radius
-                    color: on ? Theme.m.primary : segArea.containsMouse ? Theme.m.containerHighest : Theme.m.containerHigh
+                    cut: 8
+                    color: on ? Theme.m.selection : segArea.containsMouse ? Theme.m.containerHighest : Theme.m.containerHigh
                     Behavior on color { ColorAnimation { duration: Theme.anim.fast } }
                     Column {
                         anchors.centerIn: parent; spacing: 2
-                        MIcon { anchors.horizontalCenter: parent.horizontalCenter; text: seg.modelData[0]; filled: seg.on; font.pixelSize: 20; color: seg.on ? Theme.m.fgPrimary : Theme.m.fg }
-                        Txt { anchors.horizontalCenter: parent.horizontalCenter; text: seg.modelData[1]; font.pixelSize: 11; font.bold: seg.on; color: seg.on ? Theme.m.fgPrimary : Theme.m.fgVariant }
+                        MIcon { anchors.horizontalCenter: parent.horizontalCenter; text: seg.modelData[0]; filled: seg.on; font.pixelSize: 20; color: seg.on ? Theme.m.primary : Theme.m.fg }
+                        Txt { anchors.horizontalCenter: parent.horizontalCenter; text: seg.modelData[1]; font.pixelSize: 11; font.bold: seg.on; color: seg.on ? Theme.m.fgSelection : Theme.m.fgVariant }
                     }
                     MouseArea { id: segArea; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: Battery.setProfile(seg.modelData[2]) }
                 }

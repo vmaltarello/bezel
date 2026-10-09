@@ -141,7 +141,7 @@ Item {
                     required property int index
                     readonly property bool sel: index === win.current
                     width: list.width; height: root.rowH
-                    color: sel ? Theme.m.primary : rowArea.containsMouse ? Theme.m.container : "transparent"   // selected: solid orange
+                    color: sel ? Theme.m.selection : rowArea.containsMouse ? Theme.m.container : "transparent"   // selected: tonal, accent on the tick
                     // the 45° cut on the top-left corner: a triangle in the panel colour (the list clips
                     // plain Rectangles, not vector shapes, so the cut is drawn this way)
                     Rectangle {
@@ -151,12 +151,17 @@ Item {
                         color: Theme.m.barGlass
                         antialiasing: true
                     }
-                    // selected: a small dot on the left, like the light of a pressed key
+                    // selected: an accent tick on the left, like the light of a pressed key
+                    Rectangle {
+                        visible: row.sel
+                        x: 0; width: 3; height: 18; anchors.verticalCenter: parent.verticalCenter
+                        color: Theme.m.primary
+                    }
                     Item {
                         id: ico
                         x: 12; width: 28; height: 28; anchors.verticalCenter: parent.verticalCenter
                         IconImage { anchors.fill: parent; source: row.modelData.icon ?? ""; visible: !!row.modelData.icon; asynchronous: true }
-                        MIcon { anchors.centerIn: parent; visible: !row.modelData.icon; text: row.modelData.sym ?? ""; filled: row.sel; color: row.sel ? Theme.m.fgPrimary : Theme.m.fgVariant; font.pixelSize: 22 }
+                        MIcon { anchors.centerIn: parent; visible: !row.modelData.icon; text: row.modelData.sym ?? ""; filled: row.sel; color: row.sel ? Theme.m.primary : Theme.m.fgVariant; font.pixelSize: 22 }
                     }
                     Txt {
                         id: ttl
@@ -164,15 +169,15 @@ Item {
                         width: Math.min(implicitWidth, parent.width - ico.width - 140)
                         text: row.modelData.title; elide: Text.ElideRight
                         font.pixelSize: Theme.font.small + 2; font.bold: row.sel
-                        color: row.sel ? Theme.m.fgPrimary : Theme.m.fg
+                        color: row.sel ? Theme.m.fgSelection : Theme.m.fg
                     }
                     // subtitle on the same line, dimmer (Spotlight-like)
                     Txt {
                         anchors { left: ttl.right; leftMargin: 10; right: hint.left; rightMargin: 10; verticalCenter: parent.verticalCenter }
                         text: row.modelData.sub; elide: Text.ElideRight
-                        color: row.sel ? Theme.m.fgPrimary : Theme.m.outline; opacity: row.sel ? 0.7 : 1; font.pixelSize: Theme.font.small
+                        color: row.sel ? Theme.m.fgVariant : Theme.m.outline; font.pixelSize: Theme.font.small
                     }
-                    Txt { id: hint; anchors { right: parent.right; rightMargin: 14; verticalCenter: parent.verticalCenter } text: row.sel ? "↵" : ""; color: Theme.m.fgPrimary }
+                    Txt { id: hint; anchors { right: parent.right; rightMargin: 14; verticalCenter: parent.verticalCenter } text: row.sel ? "↵" : ""; color: Theme.m.primary }
                     MouseArea {
                         id: rowArea
                         anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor

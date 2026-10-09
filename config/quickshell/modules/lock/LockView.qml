@@ -70,7 +70,7 @@ Item {
         }
         Timer { id: shown; property bool done: false; interval: 30; running: true; onTriggered: done = true }
 
-        // ---- the slab: a solid block with a slanted edge, like a slope at dusk, with a thin orange ridge ----
+        // ---- the slab: a solid block with a slanted edge, like a slope at dusk, with a thin accent ridge ----
         Item {
             anchors.fill: parent
             transform: Translate { x: clockShift.x * 2 }
@@ -104,7 +104,7 @@ Item {
                 color: Theme.m.fg
                 renderType: Text.QtRendering
             }
-            // minutes: solid orange
+            // minutes: solid accent
             Txt {
                 text: root.mm
                 font.family: Theme.font.heavy

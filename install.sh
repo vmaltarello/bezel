@@ -192,7 +192,7 @@ fi
 
 # ---------- icons: Papirus-Dark with folders in the accent colour (a user theme, no root) ----------
 if [ -d /usr/share/icons/Papirus ]; then
-    "$REPO/lib/folder-icons.sh" orange && manifest_add "data icons/Papirus-Dark-Bezel"
+    "$REPO/lib/folder-icons.sh" violet && manifest_add "data icons/Papirus-Dark-Bezel"
 fi
 
 # ---------- GTK settings (GNOME/libadwaita apps read them from dconf) ----------
@@ -209,12 +209,20 @@ if command -v gsettings >/dev/null; then
     gsettings set org.gnome.desktop.interface font-name 'IBM Plex Sans 11'
     gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 11'
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-    info "dark theme, Papirus icons with orange folders, Capitaine cursor, IBM Plex Sans"
+    info "dark theme, Papirus icons with violet folders, Capitaine cursor, IBM Plex Sans"
 fi
 
 # ---------- login screen ----------
 if [ -n "$GREETER" ]; then
     step "Login screen (greetd)"
+fi
+# sudo needs a terminal for the password: without one, skip the greeter instead of aborting
+# the whole update (the reload below would never run)
+if [ -n "$GREETER" ] && [ ! -t 0 ] && ! sudo -n true 2>/dev/null; then
+    warn "skipped: sudo can't ask for the password here. Run ./install.sh from a terminal to update it"
+    GREETER=
+fi
+if [ -n "$GREETER" ]; then
     if [ ! -f "$STATE/greeter" ]; then
         # display manager enabled before bezel ("none" = console login)
         prev=none

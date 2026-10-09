@@ -3,10 +3,10 @@ gui:
   nerdFontsVersion: "3"
   border: rounded
   theme:
-    activeBorderColor: ["#ff7a3d", bold]
+    activeBorderColor: ["#a99cf0", bold]
     inactiveBorderColor: ["#4a5675"]
     searchingActiveBorderColor: ["#8fd0e0", bold]
-    optionsTextColor: ["#ff7a3d"]
+    optionsTextColor: ["#a99cf0"]
     selectedLineBgColor: ["#202c48"]
     inactiveViewSelectedLineBgColor: ["#1c2b45"]
     cherryPickedCommitFgColor: ["#7fd3c8"]
