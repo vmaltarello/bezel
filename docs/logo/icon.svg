@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>bezel</title>
+  <path d="M64 16 H240 V240 H16 V64 Z" fill="#0f1628" stroke="#2a3756" stroke-width="4"/>
+  <path d="M74 40 H216 V216 H40 V74 Z" fill="none" stroke="#2a3756" stroke-width="6"/>
+  <path d="M58 92 L66 84 H74 V198 H58 Z" fill="#a99cf0"/>
+  <rect x="96" y="84" width="100" height="10" fill="#c4c7d1" opacity=".55"/>
+  <rect x="96" y="106" width="64" height="10" fill="#c4c7d1" opacity=".3"/>
+</svg>

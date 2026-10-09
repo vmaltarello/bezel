@@ -1,6 +1,9 @@
 <div align="center">
 
-# bezel
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/logo/logo-dark.svg">
+  <img src="docs/logo/logo-light.svg" alt="bezel" height="96">
+</picture>
 
 **A Hyprland + Quickshell desktop for Arch Linux.**
 
