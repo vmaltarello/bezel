@@ -59,7 +59,7 @@ Pick one of the two channels:
 A tagged version, tested before release. The newest one is on the [Releases](https://github.com/vmaltarello/bezel-hyprland/releases) page.
 
 ```sh
-git clone --branch v0.2.0 https://github.com/vmaltarello/bezel-hyprland.git bezel
+git clone --branch v0.3.0 https://github.com/vmaltarello/bezel-hyprland.git bezel
 cd bezel
 ./install.sh
 ```
@@ -109,7 +109,7 @@ Run the command for the channel you installed from, inside the `bezel` folder:
 
 | Channel | Command |
 |---|---|
-| Stable release | `git fetch --tags && git checkout <new-tag> && ./install.sh` (e.g. `v0.2.0`) |
+| Stable release | `git fetch --tags && git checkout <new-tag> && ./install.sh` (e.g. `v0.3.0`) |
 | `main` | `git pull && ./install.sh` |
 
 To switch channel: `git checkout main` moves a release install to `main`, `git checkout <tag>` does the opposite.
