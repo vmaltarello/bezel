@@ -16,7 +16,7 @@ and one lavender accent marks what matters; every element carries the same 45° 
 
 ![bezel in action](docs/highlights.webp)
 
-[▶ Full demo video (100 s, 1440p 60 fps)](docs/demo.mp4)
+[▶ Full demo video (84 s, 1440p 60 fps)](docs/demo.mp4)
 
 </div>
 
