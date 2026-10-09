@@ -38,9 +38,11 @@ border_symbol = "│"
 border_style = { fg = "#4a5675" }
 
 [indicator]
+# the hovered row: tonal like bezel's selected rows; square ends (full blocks) instead of rounded caps
 parent = { bg = "#202c48" }
 current = { bg = "#29244d", bold = true }
 preview = { bg = "#202c48" }
+padding = { open = "█", close = "█" }
 
 [tabs]
 active = { fg = "#0f1628", bg = "#a99cf0" }
@@ -140,4 +142,15 @@ rules = [
     # fallback
     { url = "*", fg = "#f4f2ec" },
     { url = "*/", fg = "#a99cf0" },
+]
+
+[icon]
+# folder icons in the accent colour (the default icon set paints them blue)
+prepend_dirs = [
+    { name = ".git", text = "", fg = "#a99cf0" },
+    { name = ".github", text = "", fg = "#a99cf0" },
+    { name = ".config", text = "", fg = "#a99cf0" },
+]
+prepend_conds = [
+    { if = "dir", text = "", fg = "#a99cf0" },
 ]
