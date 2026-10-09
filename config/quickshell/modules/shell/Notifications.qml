@@ -52,10 +52,12 @@ PanelWindow {
                 width: stack.width
                 height: (fullH + 8) * room
 
-                RRect {
+                // solid like the bar and panels (see-through text over the desktop widgets was unreadable),
+                // with the 45° cut of every free-standing element
+                Cut {
                     width: parent.width; height: card.fullH
-                    radius: Theme.size.radius; antialiasing: true
-                    color: Qt.alpha(Theme.m.container, 0.82)     // a bit see-through
+                    cut: Theme.size.cut + 3
+                    color: Theme.m.container
                 }
                 // critical: red stripe on the left
                 Rectangle {
