@@ -119,14 +119,6 @@ Column {
             label: "disk"; valueColor: Theme.c.red
             value: [System.diskRoot >= 90 ? "/ " + System.diskRoot + "%" : "", System.diskHome >= 90 ? "/home " + System.diskHome + "%" : ""].filter(s => s).join(" · ") + " full"
         }
-        Rectangle { visible: Battery.present; width: parent.width; height: 1; color: Theme.c.ink4 }
-        Line {
-            visible: Battery.present
-            label: (Battery.charging ? "Charging " : "Battery ") + Battery.percent + "%"
-            value: [Battery.timeLeft, Battery.watts >= 0.1 ? Battery.watts.toFixed(1) + " W" : ""].filter(s => s).join(" · ")
-                   || (Battery.plugged ? "plugged in" : "")
-            valueColor: Theme.c.fg2
-        }
     }
 
     // ---- music: only when there is a track ----
