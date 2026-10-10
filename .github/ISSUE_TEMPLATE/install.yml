@@ -1,0 +1,52 @@
+name: Install, update or uninstall problem
+description: install.sh fails, leaves something behind, or the desktop doesn't start after it.
+labels: [bug]
+body:
+  - type: input
+    id: command
+    attributes:
+      label: The command you ran
+      placeholder: ./install.sh --greeter
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What you were doing
+      options:
+        - First install
+        - Update from an older bezel
+        - Uninstall
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: bezel version, and the old one for an update
+      description: "`git -C <your bezel clone> describe --tags`"
+      placeholder: v0.3.0, updating from v0.2.0
+    validations:
+      required: true
+  - type: input
+    id: distro
+    attributes:
+      label: Distribution
+      placeholder: Arch Linux, EndeavourOS, CachyOS…
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output of the installer
+      description: The whole output, or at least from the first warning or error to the end.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: after
+    attributes:
+      label: What happened after it
+      description: Does Hyprland start? Is the bar there? Anything missing or left behind?
+  - type: markdown
+    attributes:
+      value: Please remove personal data (network names, paths with your name, tokens) before posting.

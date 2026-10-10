@@ -1,0 +1,68 @@
+name: Something doesn't work
+description: A part of the desktop (bar, launcher, menus, lock screen, notifications, widgets, keybindings) misbehaves.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens
+      description: What you did and what went wrong. A screenshot or a short clip helps a lot.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the launcher with SUPER
+        2. Type ...
+  - type: input
+    id: distro
+    attributes:
+      label: Distribution
+      placeholder: Arch Linux, EndeavourOS, CachyOS…
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: "Output of `hyprctl version | head -2` and `pacman -Q quickshell hyprland`, and the bezel version (`git -C <your bezel clone> describe --tags`)."
+      render: text
+    validations:
+      required: true
+  - type: dropdown
+    id: gpu
+    attributes:
+      label: GPU
+      options: [AMD, Intel, NVIDIA, Other or more than one]
+    validations:
+      required: true
+  - type: dropdown
+    id: machine
+    attributes:
+      label: Laptop or desktop
+      options: [Laptop, Desktop]
+    validations:
+      required: true
+  - type: textarea
+    id: shell-log
+    attributes:
+      label: Shell log
+      description: "`quickshell log | tail -50`"
+      render: text
+  - type: textarea
+    id: verify
+    attributes:
+      label: Hyprland config check
+      description: "`Hyprland --verify-config -c ~/.config/hypr/hyprland.lua` (if keybindings, windows or monitors are involved)"
+      render: text
+  - type: markdown
+    attributes:
+      value: Please remove personal data (network names, paths with your name, tokens) before posting.

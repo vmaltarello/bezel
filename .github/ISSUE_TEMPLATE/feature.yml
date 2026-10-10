@@ -1,0 +1,27 @@
+name: Idea or change
+description: Suggest something new, or a different way for something to work.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How it could work. Mockups or references to other desktops are welcome.
+    validations:
+      required: true
+  - type: checkboxes
+    id: fits
+    attributes:
+      label: Fits the project?
+      description: bezel stays small on purpose; ideas that don't fit these are less likely to be taken.
+      options:
+        - label: It needs only packages from the official Arch repositories
+        - label: It doesn't add continuous CPU or memory use at idle
+        - label: It follows the existing look (one palette, one accent)
